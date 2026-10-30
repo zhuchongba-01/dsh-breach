@@ -1,7 +1,16 @@
 {
-  "name": "dsh-happy",
+  "name": "dsh-happy-pj",
   "version": "1.0.24",
   "description": "DeepSeek Harness dsh-happy 插件，不同模型可换不同提示词；默认提示词面向国模「小码酱」。Jailbreak for every model — swap prompts per model.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhuchongba-01/dsh-happy.git"
+  },
+  "homepage": "https://github.com/zhuchongba-01/dsh-happy#readme",
+  "bugs": {
+    "url": "https://github.com/zhuchongba-01/dsh-happy/issues"
+  },
   "type": "module",
   "main": "lib/index.js",
   "exports": {
