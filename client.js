@@ -1,4 +1,4 @@
-window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
+window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 
 		var module = { exports: {} };
 		var exports = module.exports;
@@ -7,7 +7,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 		const h = react.createElement;
 		const { useState, useEffect, useCallback, useRef, Component } = react;
 
-		const name = "dsh-happy";
+		const name = "dsh-happy-pj";
 		const inject = ["slots", "locale"];
 		const NS = "settings.dsh-happy";
 		let translate = (key) => key;
@@ -3165,7 +3165,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			},
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
 					h("b", null, "dsh-happy"),
-					h("span", { className: "dshp-dock-ver" }, "1.0.24"),
+					h("span", { className: "dshp-dock-ver" }, "1.0.25"),
 					h("span", { style: { flex: 1 } }),
 					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
 				),

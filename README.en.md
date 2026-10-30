@@ -90,7 +90,7 @@ Either install source works (`registry.npmmirror.com` has synced this package).
 {
   "dependencies": {
     // from npm:
-    "dsh-happy-pj": "^1.0.24"
+    "dsh-happy-pj": "^1.0.25"
     // or from a local directory (use your own path):
     // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
   },
