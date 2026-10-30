@@ -90,7 +90,7 @@ dsh-happy-pj
 {
   "dependencies": {
     // 从 npm 装：
-    "dsh-happy-pj": "^1.0.25"
+    "dsh-happy-pj": "^1.0.26"
     // 或从本地目录装（改成你自己的路径）：
     // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
   },

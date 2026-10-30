@@ -43,14 +43,14 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		function apiTimeoutMs(p, init) {
 			const path = String(p || "");
 			const method = String((init && init.method) || "GET").toUpperCase();
-			if (path.indexOf("/dsh-happy/update") !== -1) return method === "POST" ? 180000 : 45000;
-			if (path.indexOf("/dsh-happy/uninstall") !== -1) return 90000;
-			if (path.indexOf("/dsh-happy/skill") !== -1) return method === "POST" ? 120000 : 20000;
+			if (path.indexOf("/dsh-happy-pj/update") !== -1) return method === "POST" ? 180000 : 45000;
+			if (path.indexOf("/dsh-happy-pj/uninstall") !== -1) return 90000;
+			if (path.indexOf("/dsh-happy-pj/skill") !== -1) return method === "POST" ? 120000 : 20000;
 			// status 会在"应用"期间被后端的同步落盘阻塞，默认 20s 必然被 abort，界面只会显示"读取失败: timeout"。
-			if (path.indexOf("/dsh-happy/status") !== -1) return 60000;
-			if (path.indexOf("/dsh-happy/apply") !== -1) return 240000;
-			if (path.indexOf("/dsh-happy/revert") !== -1) return 120000;
-			if (path.indexOf("/dsh-happy/restart") !== -1) return 60000;
+			if (path.indexOf("/dsh-happy-pj/status") !== -1) return 60000;
+			if (path.indexOf("/dsh-happy-pj/apply") !== -1) return 240000;
+			if (path.indexOf("/dsh-happy-pj/revert") !== -1) return 120000;
+			if (path.indexOf("/dsh-happy-pj/restart") !== -1) return 60000;
 			return 20000;
 		}
 		function isAbortError(e) {
@@ -100,7 +100,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		}
 
 		function rulesApi(op, extra) {
-			return apiJson("/dsh-happy/rules", {
+			return apiJson("/dsh-happy-pj/rules", {
 				method: "POST",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
@@ -117,9 +117,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
 			};
-			return apiJson("/dsh-happy/skills", init).catch((e) => {
+			return apiJson("/dsh-happy-pj/skills", init).catch((e) => {
 				if (!skillsRouteMissing(e)) throw e;
-				return apiJson("/dsh-happy/skill", init);
+				return apiJson("/dsh-happy-pj/skill", init);
 			});
 		}
 
@@ -1272,7 +1272,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			const [busy, setBusy] = useState(false);
 
 			useEffect(() => {
-				apiJson("/dsh-happy/hooks-deny")
+				apiJson("/dsh-happy-pj/hooks-deny")
 					.then((d) => { if (d && d.ok) setCfg({ hooksDenyBypass: d.hooksDenyBypass !== false }); })
 					.catch(() => {});
 			}, []);
@@ -1281,7 +1281,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (!cfg || busy) return;
 				setCfg({ hooksDenyBypass });
 				setBusy(true);
-				apiJson("/dsh-happy/hooks-deny", {
+				apiJson("/dsh-happy-pj/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass }),
@@ -1327,7 +1327,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			const [busy, setBusy] = useState(false);
 
 			useEffect(() => {
-				apiJson("/dsh-happy/continue/settings")
+				apiJson("/dsh-happy-pj/continue/settings")
 					.then((d) => { if (d && d.ok) setCfg(d); })
 					.catch(() => {});
 			}, []);
@@ -1339,7 +1339,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (next.autoContinue && !(Number(next.continueMax) > 0)) next.continueMax = 3;
 				setCfg(next);
 				setBusy(true);
-				apiJson("/dsh-happy/continue/settings", {
+				apiJson("/dsh-happy-pj/continue/settings", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify(next),
@@ -1458,7 +1458,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			// 必须先看到旧进程掉线，再等新进程就绪；否则同进程立刻 200 会被当成「重启成功」又弹重启。
 			let sawDown = false;
 			const ping = () => {
-				fetch("/dsh-happy/status", { cache: "no-store", credentials: "same-origin" })
+				fetch("/dsh-happy-pj/status", { cache: "no-store", credentials: "same-origin" })
 					.then((r) => (r.ok ? r.json() : Promise.reject()))
 					.then((d) => {
 						if (!sawDown) {
@@ -1503,7 +1503,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (sawDrop) return;
 				stop("");
 			}, 25000);
-			fetch("/dsh-happy/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
+			fetch("/dsh-happy-pj/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
 				.then((r) => r.json())
 				.then((d) => {
 					if (!d.ok) throw new Error(d.error || "restart failed");
@@ -1559,7 +1559,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 
 		/* ── 概览面板（P 方案 · 暖米） ─────────────────────────────────────
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
-		   应用与还原来回复用同一套接口，所有数据来自 /dsh-happy/status。 */
+		   应用与还原来回复用同一套接口，所有数据来自 /dsh-happy-pj/status。 */
 		const OVERVIEW_CSS = `
 .dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#EDE7DA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
 body[data-ds-dark-theme] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#748B6F;--ov-red:#F85149}
@@ -1633,7 +1633,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const open = !!(props && props.detail);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
+				apiJson("/dsh-happy-pj/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
 			}, []);
 
 			useEffect(() => {
@@ -1685,15 +1685,15 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				setBusy(action);
 				setNote("");
 				const go = action === "apply"
-					? apiJson("/dsh-happy/override").then((o) => {
+					? apiJson("/dsh-happy-pj/override").then((o) => {
 						const content = (o && (o.content || o.defaultContent)) || "";
-						return fetch("/dsh-happy/apply", {
+						return fetch("/dsh-happy-pj/apply", {
 							method: "POST",
 							headers: { "content-type": "application/json" },
 							body: JSON.stringify({ content }),
 						}).then((r) => r.json());
 					})
-					: fetch("/dsh-happy/revert", {
+					: fetch("/dsh-happy-pj/revert", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: "{}",
@@ -1780,14 +1780,14 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [hooksBusy, setHooksBusy] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy/status")
+				apiJson("/dsh-happy-pj/status")
 					.then((d) => { if (d && d.ok) setSt(d); })
 					.catch(() => {});
 			}, []);
 
 			useEffect(() => {
 				load();
-				apiJson("/dsh-happy/hooks-deny")
+				apiJson("/dsh-happy-pj/hooks-deny")
 					.then((d) => { if (d && d.ok) setHooksOn(d.hooksDenyBypass !== false); })
 					.catch(() => {});
 				const timer = window.setInterval(load, 15000);
@@ -1799,7 +1799,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				const prev = hooksOn;
 				setHooksBusy(true);
 				setHooksOn(next);
-				apiJson("/dsh-happy/hooks-deny", {
+				apiJson("/dsh-happy-pj/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass: next }),
@@ -1920,7 +1920,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [open, setOpen] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy/override").then((d) => {
+				apiJson("/dsh-happy-pj/override").then((d) => {
 					if (!d || !d.ok) return;
 					setData(d);
 					setText(typeof d.content === "string" && d.content ? d.content : (d.defaultContent || ""));
@@ -1930,7 +1930,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 
 			const writeContent = (content, okText) => {
 				setBusy(true); setNote("");
-				fetch("/dsh-happy/override", {
+				fetch("/dsh-happy-pj/override", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ content }),
@@ -2485,7 +2485,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				clearStoredDraft(sessionId);
 				stopped = true;
 			};
-			apiJson("/dsh-happy/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
+			apiJson("/dsh-happy-pj/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
 				if (stopped) return;
 				last = String(data?.text || "").trim();
 				if (!last || isPluginDraft(last)) return;
@@ -2574,7 +2574,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 							const sessionId = currentSessionId(rewindSessions);
 							if (!sessionId) return;
 							try {
-								const data = await apiJson("/dsh-happy/continue", {
+								const data = await apiJson("/dsh-happy-pj/continue", {
 									method: "POST",
 									headers: { "content-type": "application/json" },
 									body: JSON.stringify({ sessionId, force: true }),
@@ -2605,7 +2605,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				}
 				let cancelled = false;
 				const tick = () => {
-					apiJson("/dsh-happy/continue?sessionId=" + encodeURIComponent(sessionId))
+					apiJson("/dsh-happy-pj/continue?sessionId=" + encodeURIComponent(sessionId))
 						.then((data) => { if (!cancelled && data && data.ok) setInfo(data); })
 						.catch(() => {});
 				};
@@ -2624,7 +2624,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				setBusy(true);
 				setNotice("");
 				try {
-					const data = await apiJson("/dsh-happy/continue", {
+					const data = await apiJson("/dsh-happy-pj/continue", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: JSON.stringify({ sessionId }),
@@ -2724,7 +2724,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				const sessionId = this.props.sessionId || currentSessionId(rewindSessions);
 				if (!sessionId || this.state.busy) return;
 				this.setState({ busy: true, menu: false, notice: "" });
-				apiJson("/dsh-happy/rewind", {
+				apiJson("/dsh-happy-pj/rewind", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ sessionId, mode }),
@@ -2810,7 +2810,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				setMenu(false);
 				setNotice("");
 				try {
-					const data = await apiJson("/dsh-happy/rewind", {
+					const data = await apiJson("/dsh-happy-pj/rewind", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: JSON.stringify({ sessionId, mode }),
@@ -2886,7 +2886,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			if (!sessions) return () => {};
 			const tick = async () => {
 				try {
-					const data = await apiJson("/dsh-happy/rewind");
+					const data = await apiJson("/dsh-happy-pj/rewind");
 					if (!data || !data.sessionId || !data.at || data.at <= rewindSeenAt) return;
 					rewindSeenAt = data.at;
 					const current = currentSessionId(sessions);
@@ -3165,7 +3165,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			},
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
 					h("b", null, "dsh-happy"),
-					h("span", { className: "dshp-dock-ver" }, "1.0.25"),
+					h("span", { className: "dshp-dock-ver" }, "1.0.26"),
 					h("span", { style: { flex: 1 } }),
 					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
 				),
