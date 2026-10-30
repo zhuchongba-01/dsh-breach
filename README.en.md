@@ -74,36 +74,52 @@ Only same-origin requests are accepted: cross-site `sec-fetch-site`, `Origin: nu
 
 ## Install
 
-### From npm
+### Option 1 — from the DSH UI (recommended)
 
-```bash
-dsh plugin --profile desktop add dsh-happy-pj
+Open DSH → Plugins → **Add plugin**, paste the package name:
+
+```
+dsh-happy-pj
 ```
 
-### From a local directory
+Either install source works (`registry.npmmirror.com` has synced this package).
 
-```bash
-dsh plugin --profile desktop add .
-```
+### Option 2 — edit the profile's `package.json` by hand
 
-Or edit the profile's `package.json` by hand:
-
-```json
+```jsonc
 {
-  "dependencies": { "dsh-happy-pj": "link:D:/dsh/dsh-happy" },
+  "dependencies": {
+    // from npm:
+    "dsh-happy-pj": "^1.0.24"
+    // or from a local directory (use your own path):
+    // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
+  },
   "dsh": { "profile": { "bundles": ["dsh-happy-pj"] } }
 }
 ```
 
 then run `pnpm install` inside that profile directory.
 
-Restart the host afterwards and verify:
+### Verify
 
-```bash
-curl http://127.0.0.1:52034/dsh-happy/status
+Restart the host and open:
+
+```
+http://127.0.0.1:<DSH_PORT>/dsh-happy/status
 ```
 
-`{"ok":true,...}` means it loaded.
+`<DSH_PORT>` is the port of your DSH web UI (for example `52034` on this machine). `{"ok":true,...}` means it loaded.
+
+### About the `dsh` command
+
+Subcommands like `dsh plugin ...` depend on a CLI shipped by the host — **some installations (e.g. the desktop build) do not provide a `dsh` command**. Check first:
+
+```bash
+# only if the dsh command exists
+dsh plugin --profile desktop add dsh-happy-pj
+```
+
+Otherwise use one of the two options above. The plugin's own CLI is `dsh-happy` (lands in the profile's `node_modules/.bin`); run `dsh-happy --help`.
 
 ---
 
@@ -157,11 +173,20 @@ You only need `embed-prompt` after editing the default prompt text; the runtime 
 
 ## Uninstall
 
-```bash
-dsh plugin --profile desktop remove dsh-happy-pj
-```
+Revert the patches first (`happy_revert`, or the revert button in the UI), then remove the package:
 
-Or `happy_revert` first, then remove the package. Keep `$DSH_HOME/dsh-happy/` until you've confirmed the host is healthy.
+- In the UI: plugin list → `dsh-happy-pj` → uninstall
+- Or inside the profile directory:
+
+  ```bash
+  pnpm remove dsh-happy-pj
+  ```
+
+  and drop it from `dsh.profile.bundles` in the profile's `package.json`.
+
+If your host ships a CLI, `dsh plugin --profile desktop remove dsh-happy-pj` also works.
+
+Keep `$DSH_HOME/dsh-happy/` until you've confirmed the host is healthy.
 
 ## License
 

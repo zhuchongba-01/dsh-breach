@@ -74,36 +74,53 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 
 ## 安装
 
-### 从 npm 装
+### 方式一：DSH 界面里装（推荐）
 
-```bash
-dsh plugin --profile desktop add dsh-happy-pj
+打开 DSH → 插件 → **添加插件**，在输入框里粘贴包名：
+
+```
+dsh-happy-pj
 ```
 
-### 从本地目录装
+安装源选「中国大陆镜像源」或官方源都行（`registry.npmmirror.com` 已同步该包）。
 
-```bash
-dsh plugin --profile desktop add .
-```
+### 方式二：手工写进 profile 的 `package.json`
 
-或者手工写进 profile 的 `package.json`：
-
-```json
+```jsonc
 {
-  "dependencies": { "dsh-happy-pj": "link:D:/dsh/dsh-happy" },
+  "dependencies": {
+    // 从 npm 装：
+    "dsh-happy-pj": "^1.0.24"
+    // 或从本地目录装（改成你自己的路径）：
+    // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
+  },
   "dsh": { "profile": { "bundles": ["dsh-happy-pj"] } }
 }
 ```
 
 然后在该 profile 目录下 `pnpm install`。
 
-装完重启宿主。验证：
+### 验证
 
-```bash
-curl http://127.0.0.1:52034/dsh-happy/status
+装完重启宿主，打开：
+
+```
+http://127.0.0.1:<DSH 端口>/dsh-happy/status
 ```
 
-返回 `{"ok":true,...}` 即成功。
+`<DSH 端口>` 就是 DSH Web 界面的端口（本机示例是 `52034`）。返回 `{"ok":true,...}` 即加载成功。
+
+### 关于命令行
+
+`dsh plugin ...` 这类子命令依赖宿主提供的 CLI——**部分安装（如桌面版）并不带 `dsh` 命令**。你自己的目录里可以先看有没有：
+
+```bash
+# 有 dsh 命令才用这条
+dsh plugin --profile desktop add dsh-happy-pj
+```
+
+没有就用上面两种方式。插件自带的 CLI 是 `dsh-happy`（装完后在 profile 的 `node_modules/.bin` 里），跑 `dsh-happy --help`。
+
 
 ---
 
@@ -157,11 +174,20 @@ node --check lib/index.js
 
 ## 卸载
 
-```bash
-dsh plugin --profile desktop remove dsh-happy-pj
-```
+先回滚补丁（`happy_revert`，或界面上点「回滚」），再删包：
 
-或先 `happy_revert` 回滚补丁，再删包。`$DSH_HOME/dsh-happy/` 里的备份建议留着，直到确认宿主正常。
+- 界面里：插件列表 → `dsh-happy-pj` → 卸载
+- 或在 profile 目录里：
+
+  ```bash
+  pnpm remove dsh-happy-pj
+  ```
+
+  并把它从 profile `package.json` 的 `dsh.profile.bundles` 数组里删掉。
+
+宿主带了 CLI 的话，也可以 `dsh plugin --profile desktop remove dsh-happy-pj`。
+
+`$DSH_HOME/dsh-happy/` 里的备份建议留着，直到确认宿主正常。
 
 ## 许可
 
