@@ -1,0 +1,56 @@
+# dsh-happy bundle patch
+#
+# 本版只保留「清洗」功能；演练台（红队模式）已从插件移除。
+# 下面的 disabled 条目用于屏蔽旧版独立红队包，保留以防历史安装残留。
+
+# 关掉旧的独立红队包行（若用户以前装过 dsh-redteam-mode）
+- id: redteam-store
+  name: dsh-redteam-store
+  disabled: true
+
+- id: redteam-ui
+  name: dsh-redteam-ui
+  disabled: true
+
+- id: redteam-mode
+  name: dsh-redteam-mode
+  disabled: true
+
+- id: redteam-mode-store
+  name: dsh-redteam-mode/store
+  disabled: true
+
+- id: redteam-mode-ui
+  name: dsh-redteam-mode/ui
+  disabled: true
+
+- id: system-prompt
+  config:
+    includeHarnessIdentity: false
+    personaPrefix: ""
+    personaSuffix: Your working directory is {{cwd}}.
+
+- id: dsh-happy
+  inject: [systemPrompt, tools]
+
+- insert:
+    - id: dsh-happy
+      name: 'dsh-happy'
+      inject: [systemPrompt, tools]
+      config:
+        enabled: true
+        autoApplyOnStart: false
+        autoUpdateOnStart: false
+        autoRevertOnMissing: false
+        injectOnce: false
+        stripMnemon: true
+        verbose: false
+        postPrompt: ""
+        postPromptOrder: 5100
+        autoRetry: true
+        retryMax: 3
+        autoContinue: false
+        continueMax: 3
+        continueText: "继续"
+        capabilityProtocol: true
+        hooksDenyBypass: true

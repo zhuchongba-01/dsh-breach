@@ -1,0 +1,68 @@
+{
+  "name": "dsh-happy",
+  "version": "1.0.24",
+  "description": "DeepSeek Harness dsh-happy 插件，不同模型可换不同提示词；默认提示词面向国模「小码酱」。Jailbreak for every model — swap prompts per model.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "dsh-happy": "bin/dsh-purge.js"
+  },
+  "files": [
+    "lib",
+    "!lib/default-prompt-inject.md",
+    "bin",
+    "scripts",
+    "client.js",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "embed-prompt": "node scripts/embed-default-prompt.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-plugins",
+    "网络安全",
+    "红队评测",
+    "llm-security",
+    "harness-security",
+    "deepseek-harness",
+    "red-team",
+    "instructions",
+    "rules",
+    "prompt-eval",
+    "agent"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dshTarget": "0.2.1-rc.5"
+}
