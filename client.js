@@ -43,14 +43,14 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 		function apiTimeoutMs(p, init) {
 			const path = String(p || "");
 			const method = String((init && init.method) || "GET").toUpperCase();
-			if (path.indexOf("/dsh-purge/update") !== -1) return method === "POST" ? 180000 : 45000;
-			if (path.indexOf("/dsh-purge/uninstall") !== -1) return 90000;
-			if (path.indexOf("/dsh-purge/skill") !== -1) return method === "POST" ? 120000 : 20000;
+			if (path.indexOf("/dsh-happy/update") !== -1) return method === "POST" ? 180000 : 45000;
+			if (path.indexOf("/dsh-happy/uninstall") !== -1) return 90000;
+			if (path.indexOf("/dsh-happy/skill") !== -1) return method === "POST" ? 120000 : 20000;
 			// status 会在"应用"期间被后端的同步落盘阻塞，默认 20s 必然被 abort，界面只会显示"读取失败: timeout"。
-			if (path.indexOf("/dsh-purge/status") !== -1) return 60000;
-			if (path.indexOf("/dsh-purge/apply") !== -1) return 240000;
-			if (path.indexOf("/dsh-purge/revert") !== -1) return 120000;
-			if (path.indexOf("/dsh-purge/restart") !== -1) return 60000;
+			if (path.indexOf("/dsh-happy/status") !== -1) return 60000;
+			if (path.indexOf("/dsh-happy/apply") !== -1) return 240000;
+			if (path.indexOf("/dsh-happy/revert") !== -1) return 120000;
+			if (path.indexOf("/dsh-happy/restart") !== -1) return 60000;
 			return 20000;
 		}
 		function isAbortError(e) {
@@ -100,7 +100,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 		}
 
 		function rulesApi(op, extra) {
-			return apiJson("/dsh-purge/rules", {
+			return apiJson("/dsh-happy/rules", {
 				method: "POST",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
@@ -117,9 +117,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
 			};
-			return apiJson("/dsh-purge/skills", init).catch((e) => {
+			return apiJson("/dsh-happy/skills", init).catch((e) => {
 				if (!skillsRouteMissing(e)) throw e;
-				return apiJson("/dsh-purge/skill", init);
+				return apiJson("/dsh-happy/skill", init);
 			});
 		}
 
@@ -138,7 +138,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"welcome.lead": "首次安装本插件时请阅读以下说明。确认后本窗不再弹出。",
 			"welcome.warn": "本插件免费开源。任何背着作者私自售卖、付费倒卖或借本项目盈利的行为，作者将依法追究法律责任。",
 			"welcome.body": "dsh-happy 是 DeepSeek Harness 的本机网络安全红队评测与清洗插件：在受控本机环境中调整提示词与补丁。项目免费、非营利。",
-			"welcome.repo": "https://github.com/zhuchongba-01/dsh-purge",
+			"welcome.repo": "https://github.com/zhuchongba-01/dsh-happy",
 			"welcome.ban1": "禁止将本项目用于未授权的网络攻击、入侵、窃取数据、破坏系统或任何违法犯罪。",
 			"welcome.ban2": "禁止商业售卖、付费倒卖、黑灰产牟利，以及隐瞒作者的营利性再分发。",
 			"welcome.ban3": "使用者须自行遵守所在地法律法规与平台规范；违法后果由行为人自行承担，与作者无关。",
@@ -148,15 +148,15 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"theme.aria": "外观",
 			"theme.white": "白",
 			"theme.ink": "墨",
-			"purge.title": "补丁",
+			"happy.title": "补丁",
 			"override.title": "提示词",
 			"own.title": "自己的服务器",
 			"own.hint": "每行一个 IP 或完整主机名。可以写成 账号@主机，账号只用来认出这种写法。主机名会连同它当时解析出的地址一起放行。不要写密钥、密码、网段。",
 			"own.save": "保存名单",
 			"saved.own": "已保存自己的服务器",
 			"saved.own.dropped": "已保存。有 {n} 行不是单个 IP 或主机名，已丢掉",
-			"metric.purged": "已写入",
-			"metric.purged.skip": "已写入。跳过 {n} 项，本机没有这些文件",
+			"metric.happyd": "已写入",
+			"metric.happyd.skip": "已写入。跳过 {n} 项，本机没有这些文件",
 			"metric.pendingShort": "待处理 {n}",
 			"metric.unmatchedShort": "没对上 {n}",
 			"metric.skipShort": "跳过 {n}",
@@ -358,7 +358,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"patch.24": "preset fetch 启用",
 			"patch.25": "去掉官方默认身份（功能提示词不动）",
 			"patch.26": "minimal：去掉默认身份并打开 inject",
-			"patch.28": "dsh-liangshen（梁神）：phase-1 保留 dsh-purge / dshpg 段",
+			"patch.28": "dsh-liangshen（梁神）：phase-1 保留 dsh-happy / dshhappy 段",
 			"patch.70": "极简模式终端不再禁止网络",
 			"patch.71": "梁神去掉官方身份句",
 			"patch.29": "dsh-tool-web：外部 untrusted 拦截→可执行",
@@ -464,7 +464,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"welcome.lead": "Please read this on first install. After you confirm, it will not appear again.",
 			"welcome.warn": "This plugin is free and open source. Anyone who sells, resells, or profits from it behind the author's back may face legal action.",
 			"welcome.body": "dsh-happy is a local DeepSeek Harness plugin for security evaluation and cleaning: adjust prompts and patches on a machine you control. Free and non-profit.",
-			"welcome.repo": "https://github.com/YuJunZhiXue/dsh-purge",
+			"welcome.repo": "https://github.com/YuJunZhiXue/dsh-happy",
 			"welcome.ban1": "Do not use this project for unauthorized attacks, intrusion, data theft, sabotage, or any illegal activity.",
 			"welcome.ban2": "Do not commercially sell, resell, or profit from gray-market use, or redistribute for profit without the author.",
 			"welcome.ban3": "You must follow local law and platform rules; illegal use is solely your responsibility.",
@@ -474,15 +474,15 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"theme.aria": "Appearance",
 			"theme.white": "Light",
 			"theme.ink": "Ink",
-			"purge.title": "Patches",
+			"happy.title": "Patches",
 			"override.title": "Prompt",
 			"own.title": "Own servers",
 			"own.hint": "One IP or exact hostname per line. account@host is accepted; the account only identifies that host. A hostname also allows the addresses it resolves to. Do not enter a key, a password, or a range.",
 			"own.save": "Save list",
 			"saved.own": "Own servers saved",
 			"saved.own.dropped": "Saved. {n} lines were not a single IP or hostname and were dropped",
-			"metric.purged": "Written",
-			"metric.purged.skip": "Written. Skipped {n}; those files are not on this install",
+			"metric.happyd": "Written",
+			"metric.happyd.skip": "Written. Skipped {n}; those files are not on this install",
 			"metric.pendingShort": "Pending {n}",
 			"metric.unmatchedShort": "No match {n}",
 			"metric.skipShort": "Skipped {n}",
@@ -516,7 +516,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"btn.revert": "Restore",
 			"btn.uninstall": "Uninstall",
 			"btn.uninstall.busy": "Uninstalling…",
-			"uninstall.title": "Uninstall dsh-purge",
+			"uninstall.title": "Uninstall dsh-happy",
 			"uninstall.body": "Uninstall? This restores the original Harness and removes this plugin completely.",
 			"uninstall.confirm": "Uninstall",
 			"uninstall.cancel": "Cancel",
@@ -684,7 +684,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"patch.24": "preset fetch on",
 			"patch.25": "Strip official default identity (keep feature prompts)",
 			"patch.26": "minimal: strip identity, open inject",
-			"patch.28": "dsh-liangshen: keep dsh-purge / dshpg in phase-1",
+			"patch.28": "dsh-liangshen: keep dsh-happy / dshhappy in phase-1",
 			"patch.70": "Minimal shell drops the no-network line",
 			"patch.71": "Liangshen drops the stock identity line",
 			"patch.29": "dsh-tool-web: untrusted framing → usable data",
@@ -777,7 +777,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy", factory: (require) => {
 			"continue.fail": "Continue failed: {error}",
 		};
 
-		const PURGE_CSS = `
+		const HAPPY_CSS = `
 .dshp-root{--dshp-display:"Songti SC","Noto Serif SC","Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;--dshp-sans:"Yu Gothic UI","Hiragino Sans GB","Source Han Sans SC",system-ui,sans-serif;--dshp-mono:"Cascadia Mono","Sarasa Mono SC",ui-monospace,monospace;--dshp-ease:cubic-bezier(.16,1,.3,1);max-width:920px;display:flex;flex-direction:column;gap:18px;padding:16px;border-radius:12px;background:var(--dshp-bg);color:var(--dshp-ink);font-family:var(--dshp-sans)}
 .dshp-root{--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f6f4ef) 74%,transparent);--dshp-ink:var(--dsw-alias-label-primary,#1a1916);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#1a1916) 74%,var(--dsw-alias-label-secondary,#5c564c));--dshp-line:color-mix(in srgb,var(--dsw-alias-border-l1,#c8c2b6) 78%,transparent);--dshp-fill:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 14%,transparent);--dshp-accent:var(--dsw-alias-brand-primary,#748B6F);--dshp-accent-soft:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);--dshp-ok:#748B6F;--dshp-warn:#8a5a12;--dshp-bad:#9a3434}
 .dshp-root[data-theme="white"]{color-scheme:light;background:#FFFDF9;--dshp-paper:#FBF7EF;--dshp-line:#EDE6D9}
@@ -1018,13 +1018,13 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-dock[data-theme="white"] .dshp-dock-body .rt-err{color:#9a3434!important}
 .dshp-dock[data-theme="dusk"] .dshp-dock-body .rt-err{color:#f0b4b4!important}
 .dshp-dock-body .rt-rep-http,.dshp-dock-body pre{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 84%,transparent)!important;color:var(--dshp-ink)!important;border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,#888) 60%,transparent)!important}
-/* [dsh-purge] 面板外壳改实心暖米，去掉毛玻璃。
+/* [dsh-happy] 面板外壳改实心暖米，去掉毛玻璃。
    注意：上面 .dshp-dock[data-theme=...] 那条也带 !important 且权重更高，
    所以这里必须用同样带 data-theme 的选择器，并放在它之后，才能压过。 */
 .dshp-dock[data-theme="white"]{background:#FFFDF9!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #E7DFD0!important;box-shadow:0 18px 48px rgba(60,48,30,.16),0 2px 8px rgba(60,48,30,.06)!important}
 .dshp-dock[data-theme="dusk"]{background:#211F1C!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #332F29!important;box-shadow:0 18px 48px rgba(0,0,0,.45)!important}
 .dshp-dock-ver{font-size:10.5px;font-weight:500;color:var(--dshp-mute,#6b6862);opacity:.75;letter-spacing:.02em}
-/* [dsh-purge] 明细面板（新设计） */
+/* [dsh-happy] 明细面板（新设计） */
 .dshp-dt{margin-top:14px;padding-top:12px;border-top:1px solid #EFE9DD}
 .dshp-dt-head{display:flex;align-items:center;gap:7px;margin-bottom:10px}
 .dshp-dt-title{font-size:12.5px;font-weight:650;color:#1F1E1C}
@@ -1060,7 +1060,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
   padding:8px;border:1px dashed #E7DFD0;border-radius:9px;font-size:11.5px;color:#6B6862;
   cursor:pointer;user-select:none;background:transparent;width:100%;font-family:inherit}
 .dshp-dt-more:hover{background:#FAF6EE;color:#1F1E1C}
-/* [dsh-purge] 提示词 / 规则集 / Skill 卡片 */
+/* [dsh-happy] 提示词 / 规则集 / Skill 卡片 */
 .dshp-cd{border:1px solid #EDE6D9;border-radius:11px;padding:12px 14px;margin-top:12px;background:#FCFAF5}
 .dshp-cd-head{display:flex;align-items:center;gap:8px}
 .dshp-cd-name{font-size:12.5px;font-weight:650;color:#1F1E1C}
@@ -1272,7 +1272,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			const [busy, setBusy] = useState(false);
 
 			useEffect(() => {
-				apiJson("/dsh-purge/hooks-deny")
+				apiJson("/dsh-happy/hooks-deny")
 					.then((d) => { if (d && d.ok) setCfg({ hooksDenyBypass: d.hooksDenyBypass !== false }); })
 					.catch(() => {});
 			}, []);
@@ -1281,7 +1281,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (!cfg || busy) return;
 				setCfg({ hooksDenyBypass });
 				setBusy(true);
-				apiJson("/dsh-purge/hooks-deny", {
+				apiJson("/dsh-happy/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass }),
@@ -1327,7 +1327,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			const [busy, setBusy] = useState(false);
 
 			useEffect(() => {
-				apiJson("/dsh-purge/continue/settings")
+				apiJson("/dsh-happy/continue/settings")
 					.then((d) => { if (d && d.ok) setCfg(d); })
 					.catch(() => {});
 			}, []);
@@ -1339,7 +1339,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (next.autoContinue && !(Number(next.continueMax) > 0)) next.continueMax = 3;
 				setCfg(next);
 				setBusy(true);
-				apiJson("/dsh-purge/continue/settings", {
+				apiJson("/dsh-happy/continue/settings", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify(next),
@@ -1458,7 +1458,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			// 必须先看到旧进程掉线，再等新进程就绪；否则同进程立刻 200 会被当成「重启成功」又弹重启。
 			let sawDown = false;
 			const ping = () => {
-				fetch("/dsh-purge/status", { cache: "no-store", credentials: "same-origin" })
+				fetch("/dsh-happy/status", { cache: "no-store", credentials: "same-origin" })
 					.then((r) => (r.ok ? r.json() : Promise.reject()))
 					.then((d) => {
 						if (!sawDown) {
@@ -1503,7 +1503,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (sawDrop) return;
 				stop("");
 			}, 25000);
-			fetch("/dsh-purge/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
+			fetch("/dsh-happy/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
 				.then((r) => r.json())
 				.then((d) => {
 					if (!d.ok) throw new Error(d.error || "restart failed");
@@ -1559,7 +1559,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 
 		/* ── 概览面板（P 方案 · 暖米） ─────────────────────────────────────
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
-		   应用与还原来回复用同一套接口，所有数据来自 /dsh-purge/status。 */
+		   应用与还原来回复用同一套接口，所有数据来自 /dsh-happy/status。 */
 		const OVERVIEW_CSS = `
 .dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#EDE7DA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
 body[data-ds-dark-theme] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#748B6F;--ov-red:#F85149}
@@ -1633,7 +1633,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const open = !!(props && props.detail);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-purge/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
+				apiJson("/dsh-happy/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
 			}, []);
 
 			useEffect(() => {
@@ -1685,15 +1685,15 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				setBusy(action);
 				setNote("");
 				const go = action === "apply"
-					? apiJson("/dsh-purge/override").then((o) => {
+					? apiJson("/dsh-happy/override").then((o) => {
 						const content = (o && (o.content || o.defaultContent)) || "";
-						return fetch("/dsh-purge/apply", {
+						return fetch("/dsh-happy/apply", {
 							method: "POST",
 							headers: { "content-type": "application/json" },
 							body: JSON.stringify({ content }),
 						}).then((r) => r.json());
 					})
-					: fetch("/dsh-purge/revert", {
+					: fetch("/dsh-happy/revert", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: "{}",
@@ -1780,14 +1780,14 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [hooksBusy, setHooksBusy] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-purge/status")
+				apiJson("/dsh-happy/status")
 					.then((d) => { if (d && d.ok) setSt(d); })
 					.catch(() => {});
 			}, []);
 
 			useEffect(() => {
 				load();
-				apiJson("/dsh-purge/hooks-deny")
+				apiJson("/dsh-happy/hooks-deny")
 					.then((d) => { if (d && d.ok) setHooksOn(d.hooksDenyBypass !== false); })
 					.catch(() => {});
 				const timer = window.setInterval(load, 15000);
@@ -1799,7 +1799,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				const prev = hooksOn;
 				setHooksBusy(true);
 				setHooksOn(next);
-				apiJson("/dsh-purge/hooks-deny", {
+				apiJson("/dsh-happy/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass: next }),
@@ -1920,7 +1920,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [open, setOpen] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-purge/override").then((d) => {
+				apiJson("/dsh-happy/override").then((d) => {
 					if (!d || !d.ok) return;
 					setData(d);
 					setText(typeof d.content === "string" && d.content ? d.content : (d.defaultContent || ""));
@@ -1930,7 +1930,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 
 			const writeContent = (content, okText) => {
 				setBusy(true); setNote("");
-				fetch("/dsh-purge/override", {
+				fetch("/dsh-happy/override", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ content }),
@@ -2251,7 +2251,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			translate = t;
 			const [detail, setDetail] = useState(false);
 			return h("div", { className: "dshp-root", "data-theme": theme },
-				h("style", null, PURGE_CSS),
+				h("style", null, HAPPY_CSS),
 				h("style", null, OVERVIEW_CSS),
 				h(OverviewSection, { detail, onToggleDetail: () => setDetail((v) => !v) }),
 				detail ? h(DetailPanel, null) : null,
@@ -2485,7 +2485,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				clearStoredDraft(sessionId);
 				stopped = true;
 			};
-			apiJson("/dsh-purge/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
+			apiJson("/dsh-happy/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
 				if (stopped) return;
 				last = String(data?.text || "").trim();
 				if (!last || isPluginDraft(last)) return;
@@ -2552,7 +2552,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		class RewindSafe extends Component {
 			constructor(p) { super(p); this.state = { failed: false }; }
 			static getDerivedStateFromError() { return { failed: true }; }
-			componentDidCatch(error) { try { console.error("[dsh-purge] rewind slot:", error); } catch { /* ignore */ } }
+			componentDidCatch(error) { try { console.error("[dsh-happy] rewind slot:", error); } catch { /* ignore */ } }
 			render() {
 				if (this.state.failed) return h(RewindFallback, this.props);
 				return h(RewindButton, this.props);
@@ -2562,7 +2562,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		class ContinueSafe extends Component {
 			constructor(p) { super(p); this.state = { failed: false }; }
 			static getDerivedStateFromError() { return { failed: true }; }
-			componentDidCatch(error) { try { console.error("[dsh-purge] continue slot:", error); } catch { /* ignore */ } }
+			componentDidCatch(error) { try { console.error("[dsh-happy] continue slot:", error); } catch { /* ignore */ } }
 			render() {
 				if (this.state.failed) {
 					return h("button", {
@@ -2574,7 +2574,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 							const sessionId = currentSessionId(rewindSessions);
 							if (!sessionId) return;
 							try {
-								const data = await apiJson("/dsh-purge/continue", {
+								const data = await apiJson("/dsh-happy/continue", {
 									method: "POST",
 									headers: { "content-type": "application/json" },
 									body: JSON.stringify({ sessionId, force: true }),
@@ -2605,7 +2605,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				}
 				let cancelled = false;
 				const tick = () => {
-					apiJson("/dsh-purge/continue?sessionId=" + encodeURIComponent(sessionId))
+					apiJson("/dsh-happy/continue?sessionId=" + encodeURIComponent(sessionId))
 						.then((data) => { if (!cancelled && data && data.ok) setInfo(data); })
 						.catch(() => {});
 				};
@@ -2624,7 +2624,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				setBusy(true);
 				setNotice("");
 				try {
-					const data = await apiJson("/dsh-purge/continue", {
+					const data = await apiJson("/dsh-happy/continue", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: JSON.stringify({ sessionId }),
@@ -2724,7 +2724,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				const sessionId = this.props.sessionId || currentSessionId(rewindSessions);
 				if (!sessionId || this.state.busy) return;
 				this.setState({ busy: true, menu: false, notice: "" });
-				apiJson("/dsh-purge/rewind", {
+				apiJson("/dsh-happy/rewind", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ sessionId, mode }),
@@ -2810,7 +2810,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				setMenu(false);
 				setNotice("");
 				try {
-					const data = await apiJson("/dsh-purge/rewind", {
+					const data = await apiJson("/dsh-happy/rewind", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: JSON.stringify({ sessionId, mode }),
@@ -2886,7 +2886,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			if (!sessions) return () => {};
 			const tick = async () => {
 				try {
-					const data = await apiJson("/dsh-purge/rewind");
+					const data = await apiJson("/dsh-happy/rewind");
 					if (!data || !data.sessionId || !data.at || data.at <= rewindSeenAt) return;
 					rewindSeenAt = data.at;
 					const current = currentSessionId(sessions);
@@ -2927,7 +2927,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			else openDockClean();
 		}
 
-		const DOCK_GEOM_KEY = "dsh-purge-dock-geom-v5";
+		const DOCK_GEOM_KEY = "dsh-happy-dock-geom-v5";
 		/* 默认停在右上，底边留在输入框上面。拖动之后停在用户松开的位置，只保证不拖出窗口。 */
 		const DOCK_COMPOSER_CLEAR = 172;
 		function defaultDockGeom() {
@@ -2958,7 +2958,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			try { window.localStorage.setItem(DOCK_GEOM_KEY, JSON.stringify(clampDockGeom(g))); } catch { /* ignore */ }
 		}
 
-		const WELCOME_KEY = "dsh-purge-user-notice-v1";
+		const WELCOME_KEY = "dsh-happy-user-notice-v1";
 		function readWelcomeAck() {
 			try { return window.localStorage.getItem(WELCOME_KEY) === "1"; } catch { return false; }
 		}
@@ -3025,7 +3025,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			return node;
 		}
 
-		function PurgeDock() {
+		function HappyDock() {
 			const t = useT();
 			const st = useDock();
 			const [geom, setGeom] = useState(() => loadDockGeom());
@@ -3040,26 +3040,26 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				return () => { obs.disconnect(); window.clearInterval(timer); };
 			}, []);
 			useEffect(() => {
-				let uiTag = document.querySelector('style[data-dsh-purge-ui="1"]');
+				let uiTag = document.querySelector('style[data-dsh-happy-ui="1"]');
 				if (!uiTag) {
 					uiTag = document.createElement("style");
-					uiTag.setAttribute("data-dsh-purge-ui", "1");
-					uiTag.textContent = PURGE_CSS;
+					uiTag.setAttribute("data-dsh-happy-ui", "1");
+					uiTag.textContent = HAPPY_CSS;
 					document.head.append(uiTag);
 				}
 				const styleTag = document.createElement("style");
-				styleTag.setAttribute("data-dsh-purge-drill", "1");
+				styleTag.setAttribute("data-dsh-happy-drill", "1");
 				styleTag.style.display = "none";
 				document.head.append(styleTag);
 				const widthTag = document.createElement("style");
-				widthTag.setAttribute("data-dsh-purge-dock-w", "1");
+				widthTag.setAttribute("data-dsh-happy-dock-w", "1");
 				widthTag.textContent = ":root{--dshp-dock-w:" + geom.w + "px;--dshp-dock-h:" + geom.h + "px}";
 				document.head.append(widthTag);
 				return () => { styleTag.remove(); widthTag.remove(); };
 			}, []);
 			useEffect(() => {
 				saveDockGeom(geom);
-				const tag = document.querySelector('style[data-dsh-purge-dock-w="1"]');
+				const tag = document.querySelector('style[data-dsh-happy-dock-w="1"]');
 				if (tag) tag.textContent = ":root{--dshp-dock-w:" + geom.w + "px;--dshp-dock-h:" + geom.h + "px}";
 			}, [geom]);
 			useEffect(() => {
@@ -3192,13 +3192,13 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 
 		/* 判断插件入口是否真的渲染出来了。
 		   注意：必须查「按钮」而不是「挂载容器」。
-		   HeroNewSessionMount / TabRowPurgeMount 会先往宿主锚点插一个空的 div 容器，
+		   HeroNewSessionMount / TabRowHappyMount 会先往宿主锚点插一个空的 div 容器，
 		   再靠 react-dom 的 createPortal 把按钮渲染进去。宿主没暴露 react-dom 时，
 		   容器在、按钮不在——若按容器判断就会误以为「入口已经有了」，
 		   于是浮动按钮自我隐藏，页面上一个入口都看不到。 */
-		function hasInlinePurgeEntry() {
+		function hasInlineHappyEntry() {
 			if (typeof document === "undefined") return false;
-			if (document.querySelector("[data-testid='dsh-purge-hero-chip'], [data-testid='dsh-purge-tab-chip']")) return true;
+			if (document.querySelector("[data-testid='dsh-happy-hero-chip'], [data-testid='dsh-happy-tab-chip']")) return true;
 			const nodes = document.querySelectorAll("button, [role='tab'], [role='button'], [class*='chip']");
 			for (let i = 0; i < nodes.length; i += 1) {
 				const el = nodes[i];
@@ -3209,12 +3209,12 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			return false;
 		}
 
-		function PurgeLauncher() {
+		function HappyLauncher() {
 			const t = useT();
 			const st = useDock();
-			const [hide, setHide] = useState(hasInlinePurgeEntry);
+			const [hide, setHide] = useState(hasInlineHappyEntry);
 			useEffect(() => {
-				const sync = () => setHide(hasInlinePurgeEntry());
+				const sync = () => setHide(hasInlineHappyEntry());
 				sync();
 				const obs = typeof MutationObserver !== "undefined"
 					? new MutationObserver(sync)
@@ -3232,13 +3232,13 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				className: "dshp-launch",
 				"data-open": "0",
 				"data-hide": "0",
-				"data-testid": "dsh-purge-launch",
+				"data-testid": "dsh-happy-launch",
 				title: t("dock.newSession"),
 				onClick: () => toggleDock(),
 			}, t("dock.newSession"));
 		}
 
-		/** 首页：模式旁挂「dsh-purge」→ 打开插件。红队模式走模式下拉（registry 声明）。 */
+		/** 首页：模式旁挂「dsh-happy」→ 打开插件。红队模式走模式下拉（registry 声明）。 */
 		function HeroNewSessionMount() {
 			const t = useT();
 			const st = useDock();
@@ -3257,7 +3257,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!row) {
 						if (!warnedMiss) {
 							warnedMiss = true;
-							try { console.warn("[dsh-purge] HeroNewSessionMount: anchor row missing (host 可能改版)"); } catch { /* ignore */ }
+							try { console.warn("[dsh-happy] HeroNewSessionMount: anchor row missing (host 可能改版)"); } catch { /* ignore */ }
 						}
 						setHost((prev) => (prev ? null : prev));
 						return;
@@ -3267,7 +3267,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!el) {
 						el = document.createElement("div");
 						el.className = "dshp-hero-chip";
-						el.setAttribute("data-testid", "dsh-purge-hero-chip");
+						el.setAttribute("data-testid", "dsh-happy-hero-chip");
 						row.appendChild(el);
 					}
 					setHost((prev) => (prev === el ? prev : el));
@@ -3302,7 +3302,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		}
 
 		/** 挂在「对话 / 轨迹 / 上下文」这一排，紧挨上下文。 */
-		function TabRowPurgeMount() {
+		function TabRowHappyMount() {
 			const t = useT();
 			const st = useDock();
 			const [host, setHost] = useState(null);
@@ -3320,7 +3320,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!row) {
 						if (!warnedMiss) {
 							warnedMiss = true;
-							try { console.warn("[dsh-purge] TabRowPurgeMount: tab row anchor missing"); } catch { /* ignore */ }
+							try { console.warn("[dsh-happy] TabRowHappyMount: tab row anchor missing"); } catch { /* ignore */ }
 						}
 						setHost((prev) => (prev ? null : prev));
 						return;
@@ -3330,7 +3330,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!el) {
 						el = document.createElement("div");
 						el.className = "dshp-tab-chip";
-						el.setAttribute("data-testid", "dsh-purge-tab-chip");
+						el.setAttribute("data-testid", "dsh-happy-tab-chip");
 						row.appendChild(el);
 					}
 					setHost((prev) => (prev === el ? prev : el));
@@ -3369,7 +3369,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			rewindConversation = ctx.conversation || null;
 			ctx.slots.inject("conversation.input.right", () => ctx.slots.register({
 				name: "conversation.input.right",
-				id: "dsh-purge-rewind",
+				id: "dsh-happy-rewind",
 				order: 20,
 				inject: (sessionId) => ({
 					sessionId,
@@ -3378,27 +3378,27 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			}, RewindSafe));
 			// ctx.slots.inject("conversation.input.right", () => ctx.slots.register({
 			// 	name: "conversation.input.right",
-			// 	id: "dsh-purge-continue",
+			// 	id: "dsh-happy-continue",
 			// 	order: 21,
 			// 	inject: (sessionId) => ({
 			// 		sessionId,
 			// 		t: ctx.locale.bind(NS),
 			// 	}),
 			// }, ContinueSafe));
-			ctx.effect(() => installRewindWatch(ctx), "dsh-purge: rewind watch");
+			ctx.effect(() => installRewindWatch(ctx), "dsh-happy: rewind watch");
 		}
 
 		function apply(ctx) {
-			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "dsh-purge: dictionaries");
+			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "dsh-happy: dictionaries");
 			const t = ctx.locale.bind(NS);
 			translate = t;
 			// 红队门禁的依赖已随演练台删除，不能再挂到共享 overlay，
 			// 否则其 effect 抛错会让宿主卸载同组的入口和设置面板。
 			ctx.slots.inject("shell.overlay", () => ctx.slots.register({
 				name: "shell.overlay",
-				id: "dsh-purge-dock",
+				id: "dsh-happy-dock",
 				order: 50,
-			}, () => h(react.Fragment, null, h(WelcomeNotice), h(PurgeLauncher), h(PurgeDock), h(HeroNewSessionMount), h(TabRowPurgeMount))));
+			}, () => h(react.Fragment, null, h(WelcomeNotice), h(HappyLauncher), h(HappyDock), h(HeroNewSessionMount), h(TabRowHappyMount))));
 			try {
 				if (typeof ctx.inject === "function") {
 					ctx.inject(["sessions", "uiWorkspace", "workspaces", "conversation"], (host) => installRewindUi(host));
@@ -3411,7 +3411,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 						ctx.inject(["sessions", "uiWorkspace", "conversation"], (host) => installRewindUi(host));
 					}
 				} catch (e2) {
-					try { console.warn("[dsh-purge] rewind ui skipped:", e2 || e); } catch { /* ignore */ }
+					try { console.warn("[dsh-happy] rewind ui skipped:", e2 || e); } catch { /* ignore */ }
 				}
 			}
 		}

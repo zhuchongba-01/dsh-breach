@@ -38,7 +38,7 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 | `hooks_deny` | hooks deny → allow |
 | `hooks_steer` | Stop / UserPromptSubmit 不再假插话或整轮 reject |
 
-- 每条补丁有唯一 id，改动前写 `.dshpurge.bak` 备份，记录在 `$DSH_HOME/dsh-purge/applied.json`。
+- 每条补丁有唯一 id，改动前写 `.dshhappy.bak` 备份，记录在 `$DSH_HOME/dsh-happy/applied.json`。
 - 宿主升级后可以重放（reapply），也可以整批回滚。
 - 不认识的宿主版本会跳过，不会硬改坏。
 
@@ -46,9 +46,9 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 
 | 工具 | 作用 |
 |---|---|
-| `purge_status` | 看当前打了哪些补丁、哪些失败、备份在哪 |
-| `purge_apply` | 打补丁 / 重放 |
-| `purge_revert` | 按备份回滚 |
+| `happy_status` | 看当前打了哪些补丁、哪些失败、备份在哪 |
+| `happy_apply` | 打补丁 / 重放 |
+| `happy_revert` | 按备份回滚 |
 
 ### 4. 区域与敏感操作门
 
@@ -62,7 +62,7 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 
 ### 5. Web 面板
 
-插件在自己的 Web 表面注册了 `/dsh-purge/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、Skill、规则、覆盖等）。
+插件在自己的 Web 表面注册了 `/dsh-happy/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、Skill、规则、覆盖等）。
 只接受同源请求：跨站 `sec-fetch-site`、`Origin: null`、`Origin` 与 `Host` 不一致的一律拒绝。
 
 ### 6. Skill / 规则 / rewind
@@ -100,7 +100,7 @@ dsh plugin --profile desktop add .
 装完重启宿主。验证：
 
 ```bash
-curl http://127.0.0.1:52034/dsh-purge/status
+curl http://127.0.0.1:52034/dsh-happy/status
 ```
 
 返回 `{"ok":true,...}` 即成功。
@@ -124,14 +124,14 @@ lib/
   rewind.js           会话回退
   update.js           自更新（默认关闭）
 bin/
-  dsh-purge.js        CLI
+  dsh-happy.js        CLI
 scripts/
   embed-default-prompt.mjs   把明文 md 封成 asset-table.js
 ```
 
 ## 状态目录
 
-全部在 `$DSH_HOME/dsh-purge/`：
+全部在 `$DSH_HOME/dsh-happy/`：
 
 | 文件 | 内容 |
 |---|---|
@@ -161,7 +161,7 @@ node --check lib/index.js
 dsh plugin --profile desktop remove dsh-happy-pj
 ```
 
-或先 `purge_revert` 回滚补丁，再删包。`$DSH_HOME/dsh-purge/` 里的备份建议留着，直到确认宿主正常。
+或先 `happy_revert` 回滚补丁，再删包。`$DSH_HOME/dsh-happy/` 里的备份建议留着，直到确认宿主正常。
 
 ## 许可
 

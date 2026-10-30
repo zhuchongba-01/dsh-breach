@@ -38,7 +38,7 @@ It rewrites specific strings inside the host's `@deepseek-ai/*` sources:
 | `hooks_deny` | hooks deny → allow |
 | `hooks_steer` | Stop / UserPromptSubmit no longer fake-interject or reject the whole turn |
 
-- Every patch has a stable id, writes a `.dshpurge.bak` backup first, and is recorded in `$DSH_HOME/dsh-purge/applied.json`.
+- Every patch has a stable id, writes a `.dshhappy.bak` backup first, and is recorded in `$DSH_HOME/dsh-happy/applied.json`.
 - After a host upgrade you can replay (reapply) or revert the whole batch.
 - Unknown host versions are skipped rather than force-patched.
 
@@ -46,9 +46,9 @@ It rewrites specific strings inside the host's `@deepseek-ai/*` sources:
 
 | Tool | Purpose |
 |---|---|
-| `purge_status` | which patches are applied, which failed, where the backups are |
-| `purge_apply` | apply / replay patches |
-| `purge_revert` | restore from backups |
+| `happy_status` | which patches are applied, which failed, where the backups are |
+| `happy_apply` | apply / replay patches |
+| `happy_revert` | restore from backups |
 
 ### 4. Region and sensitive-action gate
 
@@ -62,7 +62,7 @@ Blocked requests get a refusal string and never reach the model. Allowlist: `$DS
 
 ### 5. Web panel
 
-The plugin registers a `/dsh-purge/*` route group on its web surface (status, apply, revert, uninstall, restart, rewind, skills, rules, override, …).
+The plugin registers a `/dsh-happy/*` route group on its web surface (status, apply, revert, uninstall, restart, rewind, skills, rules, override, …).
 Only same-origin requests are accepted: cross-site `sec-fetch-site`, `Origin: null`, and `Origin` ≠ `Host` are rejected.
 
 ### 6. Skills, rules, rewind
@@ -100,7 +100,7 @@ then run `pnpm install` inside that profile directory.
 Restart the host afterwards and verify:
 
 ```bash
-curl http://127.0.0.1:52034/dsh-purge/status
+curl http://127.0.0.1:52034/dsh-happy/status
 ```
 
 `{"ok":true,...}` means it loaded.
@@ -124,14 +124,14 @@ lib/
   rewind.js          session rewind
   update.js          self-update (disabled by default)
 bin/
-  dsh-purge.js       CLI
+  dsh-happy.js       CLI
 scripts/
   embed-default-prompt.mjs   seal a plaintext md into asset-table.js
 ```
 
 ## State directory
 
-Everything lives in `$DSH_HOME/dsh-purge/`:
+Everything lives in `$DSH_HOME/dsh-happy/`:
 
 | File | Contents |
 |---|---|
@@ -161,7 +161,7 @@ You only need `embed-prompt` after editing the default prompt text; the runtime 
 dsh plugin --profile desktop remove dsh-happy-pj
 ```
 
-Or `purge_revert` first, then remove the package. Keep `$DSH_HOME/dsh-purge/` until you've confirmed the host is healthy.
+Or `happy_revert` first, then remove the package. Keep `$DSH_HOME/dsh-happy/` until you've confirmed the host is healthy.
 
 ## License
 

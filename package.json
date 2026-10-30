@@ -21,7 +21,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "dsh-happy": "bin/dsh-purge.js"
+    "dsh-happy": "bin/dsh-happy.js"
   },
   "files": [
     "lib",
