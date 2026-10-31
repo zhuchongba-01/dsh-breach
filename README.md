@@ -62,12 +62,11 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 
 ### 5. Web 面板
 
-插件在自己的 Web 表面注册了 `/dsh-breach/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、Skill、规则、覆盖等）。
+插件在自己的 Web 表面注册了 `/dsh-breach/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、覆盖等）。
 只接受同源请求：跨站 `sec-fetch-site`、`Origin: null`、`Origin` 与 `Host` 不一致的一律拒绝。
 
-### 6. Skill / 规则 / rewind
+### 6. rewind
 
-- Skill 与规则的增删改走同一套 HTTP + 工具接口。
 - rewind 支持把会话退回到指定轮次。
 
 ---
@@ -136,8 +135,7 @@ lib/
   net-scope.js       区域与敏感操作门
   asset-table.js     加密的默认提示词资产
   table-key.js       封存/解封（AES-256-GCM + deflate）
-  skills.js           Skill 管理
-  rules.js            规则管理
+  rules.js            提示词注入底座（注入文本解析、工作区策略）
   rewind.js           会话回退
   update.js           自更新（默认关闭）
 bin/
