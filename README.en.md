@@ -7,7 +7,7 @@
 > - Back up before you start. Every change writes a `.dshhappy.bak` backup and can be reverted in one click, but compatibility with arbitrary host versions is **not guaranteed**, and a restore after a host upgrade is **not guaranteed** either.
 > - The author is **not liable** for any direct or indirect damage, including but not limited to: a host that will not boot, data loss, restricted accounts, breach of a service's terms, or legal liability.
 > - Check the laws of your jurisdiction and the terms of the services you use. All risk and responsibility arising from use of this project rests with the user.
-> - This project is **carved out of the original project `purge`** (`dsh-purge` → `dsh-happy`) and **keeps only the breach part**; the original red-team / pentest workbench (target cards, role scripts, dispatch flows, toolchains, reporting) is not shipped here and is outside this project's support scope.
+> - This project is **carved out of the original project `dsh-purge`** and **keeps only the breach part**; the original red-team / pentest workbench (target cards, role scripts, dispatch flows, toolchains, reporting) is not shipped here and is outside this project's support scope.
 > - Provided under the **MIT** license, "as is", without warranty of any kind.
 
 <div align="center">
@@ -276,13 +276,11 @@ Check that `/dsh-breach/status` returns `{"ok":true}`, that `dsh-breach` is list
 
 ## Origin: carved out of purge
 
-This plugin was not written from scratch. It is the **single-purpose slice cut out of the original project `purge`** (internal identifier `dsh-purge`, later renamed `dsh-happy`; this repository is `dsh-breach`).
+This plugin was not written from scratch. It is the **single-purpose slice cut out of the original project `dsh-purge`**.
 
 - The original was a full red-team / pentest workbench: target cards, role scripts, dispatch flows, pentest toolchains, reporting.
 - This package keeps **only the breach part**: prompt injection + host patch engine + panel and revert. The red-team side (target cards, role scripts, dispatch, toolchains) does not ship here.
 - What is left is a small, clearly bounded plugin that does one thing: turn the host's "don't do that" sentences into "do it", with a revert path always available.
-
-The rename chain is visible in git history: `dsh-purge` → `dsh-happy` → `dsh-breach`.
 
 ---
 
