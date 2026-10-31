@@ -3095,7 +3095,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			};
 			if (!busy && !(info && info.hasUpdate)) return null;
 			const detail = info && info.remoteVersion
-				? " " + info.remoteVersion + " → " + info.localVersion
+				? " " + (info.localVersion || "?") + " → " + info.remoteVersion
 				: "";
 			return h("button", {
 				type: "button",
