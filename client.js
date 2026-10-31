@@ -981,6 +981,9 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary,currentColor));cursor:pointer;font:12.5px/1 inherit;white-space:nowrap;transition:background .15s,color .15s}
 .dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
+.dshp-hero-chip-icon{width:14px;height:14px;flex:none;opacity:.78;transition:opacity .15s}
+.dshp-hero-chip-btn:hover .dshp-hero-chip-icon{opacity:1}
+.dshp-hero-chip-btn.on .dshp-hero-chip-icon{opacity:1;color:var(--dshp-accent,#748B6F)}
 .dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#4E8A4A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .dshp-update-pill:hover{background:#447A41}
 .dshp-update-pill:disabled{opacity:.65;cursor:default}
@@ -3103,6 +3106,25 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			}, busy ? t("updPill.busy") : t("updPill.label"));
 		}
 
+		/** 首屏胶囊的图标：与宿主那排控件同款线性图标（14px，描边走 currentColor）。 */
+		function HeroChipIcon() {
+			return h("svg", {
+				viewBox: "0 0 24 24",
+				width: 14,
+				height: 14,
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: 1.8,
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": "true",
+				className: "dshp-hero-chip-icon",
+			},
+				h("path", { d: "M12 22s8-4 8-10V5.5L12 2.5 4 5.5V12c0 6 8 10 8 10Z" }),
+				h("path", { d: "m8.8 11.9 2.2 2.2 4.2-4.4" }),
+			);
+		}
+
 		/** 首页：模式旁挂「dsh-breach」→ 打开插件。红队模式走模式下拉（registry 声明）。 */
 		function HeroNewSessionMount() {
 			const t = useT();
@@ -3162,6 +3184,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				title: t("dock.newSession"),
 				onClick: () => toggleDock(),
 			},
+				HeroChipIcon(),
 				st.open ? h("span", { className: "dshp-live-dot", "aria-hidden": "true" }) : null,
 				t("dock.newSession"),
 			);
