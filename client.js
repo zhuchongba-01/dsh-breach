@@ -2838,6 +2838,15 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		function HappyDock() {
 			const t = useT();
 			const st = useDock();
+			// 版本号单一来源：package.json 由服务端读出，随 /dsh-breach/status 返回；前端不再写死字面量。
+			const [ver, setVer] = useState("");
+			useEffect(() => {
+				let alive = true;
+				apiJson("/dsh-breach/status")
+					.then((d) => { if (alive && d && d.plugin_version) setVer(String(d.plugin_version)); })
+					.catch(() => {});
+				return () => { alive = false; };
+			}, []);
 			const [geom, setGeom] = useState(() => loadDockGeom());
 			const [dockTheme, setDockTheme] = useState(detectHostTheme);
 			useEffect(() => {
@@ -2975,7 +2984,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			},
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
 					h("b", null, "dsh-breach"),
-					h("span", { className: "dshp-dock-ver" }, "1.0.26"),
+					h("span", { className: "dshp-dock-ver" }, ver || "—"),
 					h("span", { style: { flex: 1 } }),
 					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
 				),
