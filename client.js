@@ -913,7 +913,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
   cursor:pointer;user-select:none;background:transparent;width:100%;font-family:inherit}
 .dshp-dt-more:hover{background:var(--cd-hover);color:var(--cd-ink)}
 /* [dsh-breach] 提示词 / 规则集 / Skill 卡片 */
-.dshp-cd{border:1px solid var(--cd-line);border-radius:11px;padding:12px 14px;margin-top:12px;background:var(--cd-bg)}
+.dshp-cd{border:0;border-radius:12px;padding:12px 14px;margin-top:10px;background:var(--ov-card,#fff);box-shadow:var(--ov-shadow,0 1px 2px rgba(60,50,35,.05))}
 .dshp-cd-head{display:flex;align-items:center;gap:8px}
 .dshp-cd-name{font-size:12.5px;font-weight:650;color:var(--cd-ink)}
 .dshp-cd-meta{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
@@ -1311,41 +1311,43 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
 		   应用与还原来回复用同一套接口，所有数据来自 /dsh-breach/status。 */
 		const OVERVIEW_CSS = `
-.dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#EDE7DA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
-body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
-.dshp-ov-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
+.dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#F2EDE2;--ov-ink:#26241F;--ov-mute:#6B6862;--ov-faint:#9A948A;--ov-green:#7BA271;--ov-red:#C4756B;--ov-card:#FFFFFF;--ov-chip:#F4F1EA;--ov-hair:#F1ECE1;--ov-shadow:0 1px 2px rgba(60,50,35,.05)}
+body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149;--ov-card:#26231F;--ov-chip:#2C2925;--ov-hair:#332F29;--ov-shadow:none}
+.dshp-ov-top{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;padding:12px 14px;margin-bottom:10px;background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow)}
 .dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
-.dshp-ov-big{font-size:19px;font-weight:660;letter-spacing:-.35px;line-height:1.2;color:var(--ov-green);transition:color .25s}
+.dshp-ov-big{font-size:22px;font-weight:700;letter-spacing:-.4px;line-height:1.15;color:var(--ov-green);transition:color .25s;font-variant-numeric:tabular-nums}
 .dshp-ov.is-bad .dshp-ov-big{color:var(--ov-red)}
 .dshp-ov-sub{font-size:11.5px;color:var(--ov-faint);margin-top:4px;font-variant-numeric:tabular-nums}
 .dshp-ov-hint{font-size:11px;color:var(--ov-faint);margin-top:6px;line-height:1.6}
-.dshp-ov-acts{display:flex;gap:6px;flex:none;padding-top:2px}
-.dshp-ov-btn{appearance:none;border:1px solid var(--ov-line);background:var(--ov-panel);color:var(--ov-ink);padding:5px 11px;border-radius:8px;font:550 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer;transition:background .15s,border-color .15s}
-.dshp-ov-btn:hover:not(:disabled){background:var(--ov-cell)}
+.dshp-ov-acts{display:flex;gap:6px;flex:none;margin-left:auto}
+.dshp-ov-btn{appearance:none;border:0;background:var(--ov-chip);color:var(--ov-ink);padding:5px 12px;border-radius:8px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer;transition:background .15s,color .15s}
+.dshp-ov-btn:hover:not(:disabled){background:var(--ov-line)}
 .dshp-ov-btn:disabled{opacity:.5;cursor:default}
-.dshp-ov-btn.primary{background:var(--ov-ink);border-color:var(--ov-ink);color:var(--ov-panel)}
-.dshp-ov-btn.primary:hover:not(:disabled){opacity:.88;background:var(--ov-ink)}
-.dshp-ov-expand{display:inline-flex;align-items:center;gap:3px;border-color:transparent;background:transparent;color:var(--ov-mute);padding:5px 6px}
-.dshp-ov-expand:hover:not(:disabled){background:var(--ov-cell);color:var(--ov-ink)}
-.dshp-ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-.dshp-ov-cell{background:var(--ov-cell);border:1px solid var(--ov-cell-bd);border-radius:10px;padding:12px 10px;text-align:center}
-.dshp-ov-cell b{display:block;font-size:21px;font-weight:640;letter-spacing:-.7px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ov-ink)}
-.dshp-ov-cell span{display:block;font-size:10.5px;color:var(--ov-faint);margin-top:6px;letter-spacing:.03em}
-.dshp-ov-cell.g b{color:var(--ov-green)}
-.dshp-ov-cell.m b{color:var(--ov-faint)}
-.dshp-ov-cell.r b{color:var(--ov-red)}
-.dshp-ov-rows{border-top:1px solid var(--ov-line);padding-top:4px}
-.dshp-ov-row{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12.5px}
-.dshp-ov-row .nm{width:52px;flex:none;color:var(--ov-ink)}
-.dshp-ov-row .bar{flex:1;height:4px;border-radius:2px;background:var(--ov-track);overflow:hidden}
-.dshp-ov-row .bar i{display:block;height:100%;background:var(--ov-green);border-radius:2px;transition:width .3s}
-.dshp-ov-row.bad .bar i{background:var(--ov-red)}
-.dshp-ov-row .v{width:52px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
+.dshp-ov-btn.primary{background:var(--ov-green);color:#fff}
+.dshp-ov-btn.primary:hover:not(:disabled){opacity:.9;background:var(--ov-green)}
+.dshp-ov-stats{display:flex;align-items:center;gap:13px;font-size:11.5px;color:var(--ov-faint);flex-wrap:wrap}
+.dshp-ov-stats .st{display:inline-flex;align-items:center;gap:5px}
+.dshp-ov-stats .st b{font-weight:650;color:var(--ov-ink);font-variant-numeric:tabular-nums}
+.dshp-ov-stats .p{width:6px;height:6px;border-radius:999px;background:var(--ov-green);flex:none}
+.dshp-ov-stats .sk .p{background:#E3C983}
+.dshp-ov-stats .bad .p{background:#D08A80}
+.dshp-ov-stats .bad b{color:var(--ov-red)}
+.dshp-ov-rows{background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow);padding:2px 13px}
+.dshp-ov-row{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:12.5px;border-top:1px solid var(--ov-hair);cursor:pointer}
+.dshp-ov-row:first-child{border-top:0}
+.dshp-ov-row .nm{width:54px;flex:none;font-weight:600;color:var(--ov-ink)}
+.dshp-ov-row .bar{flex:1;height:5px;border-radius:999px;background:var(--ov-track);overflow:hidden;display:flex}
+.dshp-ov-row .bar i{display:block;height:100%;transition:width .3s;background:var(--ov-green)}
+.dshp-ov-row .bar i.sk{background:#E3C983}
+.dshp-ov-row .bar i.bad{background:#D08A80}
+.dshp-ov-row .dshp-ov-caret{width:10px;flex:none;color:var(--ov-faint);font-size:9px;line-height:1;transition:transform .12s}
+.dshp-ov-row.open .dshp-ov-caret{transform:rotate(90deg)}
+.dshp-ov-row .v{width:50px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
 .dshp-ov-led{width:6px;height:6px;border-radius:999px;background:var(--dshp-led,#22C55E);box-shadow:0 0 0 2px color-mix(in srgb,var(--dshp-led,#22C55E) 18%,transparent);flex:none;transition:all .25s}
 .dshp-ov.is-bad .dshp-ov-led:not(.mini){background:#E5484D;box-shadow:0 0 0 2px rgba(229,72,77,.18)}
 .dshp-ov-led.mini{width:5px;height:5px;box-shadow:none}
 .dshp-ov-row.bad .dshp-ov-led.mini{background:#E5484D}
-.dshp-ov-foot{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 0 14px;border-top:1px solid var(--ov-line);font-size:11.5px;color:var(--ov-mute)}
+.dshp-ov-foot{display:flex;align-items:center;gap:8px;padding:8px 3px 10px;font-size:11px;color:var(--ov-faint)}
 .dshp-ov-foot .sp{flex:1}
 .dshp-ov-note{font-size:11.5px;color:var(--ov-red);padding:0 0 10px}
 .dshp-ov-note.is-ok{color:var(--ov-mute)}
@@ -1512,46 +1514,47 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 							h("span", { className: "dshp-ov-big" }, bigText),
 						),
 						h("div", { className: "dshp-ov-sub" },
-							total ? (applied + " / " + total + " 项生效" + (skipped ? " · " + skipped + " 跳过" : "")) : tr("ov.loading")),
+							total ? (rows.length + " 个分组 · " + total + " 项补丁") : tr("ov.loading")),
 						promptAlive > 0 && codeApplied === 0
 							? h("div", { className: "dshp-ov-hint" },
 								"代码补丁已全部撤销；" + promptAlive + " 项提示词仍在生效（运行时注入，不受还原影响）")
 							: null,
 					),
-					h("div", { className: "dshp-ov-acts" },
-						h("button", {
-							type: "button",
-							className: "dshp-ov-btn dshp-ov-expand",
-							onClick: props.onToggleDetail,
-							"aria-expanded": props.detail ? "true" : "false",
-							title: props.detail ? "收起补丁明细" : "展开补丁明细",
-						},
-							"明细",
-							h("svg", {
-								viewBox: "0 0 24 24", width: 12, height: 12, fill: "none",
-								stroke: "currentColor", strokeWidth: 2.2,
-								strokeLinecap: "round", strokeLinejoin: "round",
-								style: { transform: props.detail ? "rotate(180deg)" : "none", transition: "transform .15s" },
-							}, h("path", { d: "m6 9 6 6 6-6" })),
-						),
+					h("div", { className: "dshp-ov-stats" },
+					h("span", { className: "st ok" }, h("i", { className: "p" }), h("b", null, String(applied)), " " + tr("ov.applied")),
+					h("span", { className: "st sk" }, h("i", { className: "p" }), h("b", null, String(skipped)), " " + tr("ov.skipped")),
+					h("span", { className: "st bad" }, h("i", { className: "p" }), h("b", null, String(bad.length)), " " + tr("ov.failed")),
+					bad.length || pending ? h("span", { className: "st" }, h("i", { className: "p" }), h("b", null, String(pending)), " " + tr("ov.pending")) : null,
+				),
+				h("div", { className: "dshp-ov-acts" },
 						h("button", { type: "button", className: "dshp-ov-btn", disabled: !!busy, onClick: () => runAction("revert") }, tr("btn.revert")),
 						h("button", { type: "button", className: "dshp-ov-btn primary", disabled: !!busy, onClick: () => runAction("apply") }, busy === "apply" ? tr("btn.apply.busy") : tr("btn.apply")),
 					),
 				),
 				note ? h("div", { className: "dshp-ov-note" + (/失败|错误/.test(note) ? "" : " is-ok") }, note) : null,
-				h("div", { className: "dshp-ov-grid" },
-					h("div", { className: "dshp-ov-cell g" }, h("b", null, String(applied)), h("span", null, tr("ov.applied"))),
-					h("div", { className: "dshp-ov-cell m" }, h("b", null, String(skipped)), h("span", null, tr("ov.skipped"))),
-					h("div", { className: "dshp-ov-cell" + (bad.length ? " r" : "") }, h("b", null, String(bad.length)), h("span", null, tr("ov.failed"))),
-					h("div", { className: "dshp-ov-cell" }, h("b", null, String(pending)), h("span", null, tr("ov.pending"))),
-				),
 				h("div", { className: "dshp-ov-rows" },
-					rows.map((r) => h("div", { key: r.key, className: "dshp-ov-row" + (r.bad ? " bad" : "") },
-						h("span", { className: "dshp-ov-led mini" }),
-						h("span", { className: "nm" }, r.key),
-						h("span", { className: "bar" }, h("i", { style: { width: (r.total ? Math.round((r.done / r.total) * 100) : 0) + "%" } })),
-						h("span", { className: "v" }, r.done + " / " + r.total),
-					)),
+					rows.map((r) => {
+						const pct = (n) => (r.total ? (n / r.total) * 100 : 0);
+						const sk = Math.max(0, r.total - r.done - r.bad);
+						return h("div", {
+							key: r.key,
+							className: "dshp-ov-row" + (props.detail ? " open" : ""),
+							onClick: props.onToggleDetail,
+							role: "button",
+							tabIndex: 0,
+							onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onToggleDetail(); } },
+							title: props.detail ? "收起补丁明细" : "展开补丁明细",
+						},
+							h("span", { className: "dshp-ov-caret" }, "▸"),
+							h("span", { className: "nm" }, r.key),
+							h("span", { className: "bar" },
+								h("i", { style: { width: pct(r.done) + "%" } }),
+								sk ? h("i", { className: "sk", style: { width: pct(sk) + "%" } }) : null,
+								r.bad ? h("i", { className: "bad", style: { width: pct(r.bad) + "%" } }) : null,
+							),
+							h("span", { className: "v" }, r.done + " / " + r.total),
+						);
+					}),
 				),
 				h("div", { className: "dshp-ov-foot" },
 					h("span", null, skipped ? (tr("ov.skippedHint") + " " + skipped) : tr("ov.allApplied")),
