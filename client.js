@@ -985,6 +985,8 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
 .dshp-hero-chip-icon{width:16px;height:16px;flex:none;color:inherit}
 .dshp-hero-chip-btn.on .dshp-hero-chip-icon{color:var(--dshp-accent,#748B6F)}
+/* 装饰用下拉箭头：与宿主 chip 的 chevron 同尺寸，颜色比文字更淡。 */
+.dshp-hero-chip-chev{width:14px;height:14px;flex:none;display:inline-grid;place-items:center;color:var(--dsw-alias-label-tertiary,#8b8f95);pointer-events:none}
 .dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#4E8A4A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .dshp-update-pill:hover{background:#447A41}
 .dshp-update-pill:disabled{opacity:.65;cursor:default}
@@ -1652,11 +1654,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 							: tr("ov.ok");
 
 			return h("div", { className: "dshp-ov" + (red ? " is-bad" : "") },
-				h("div", { className: "dshp-ov-head" },
-					h("span", { className: "dshp-ov-led" }),
-					h("b", null, tr("happy.title")),
-					h("span", { className: "sp" }),
-				),
 				h("div", { className: "dshp-ov-top" },
 					h("div", { style: { flex: 1, minWidth: 0 } },
 						h("div", { className: "dshp-ov-bigwrap" },
@@ -2992,15 +2989,6 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					h("span", { style: { flex: 1 } }),
 					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
 				),
-				h("div", { className: "dshp-dock-tabs", role: "tablist" },
-					h("button", {
-						type: "button",
-						className: "dshp-dock-tab" + (st.tab === "clean" ? " on" : ""),
-						role: "tab",
-						"aria-selected": st.tab === "clean" ? "true" : "false",
-						onClick: () => onTab("clean"),
-					}, t("dock.clean")),
-				),
 				h("div", { className: "dshp-dock-body" }, body),
 			);
 			let portal = null;
@@ -3187,6 +3175,14 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				HeroChipIcon(),
 				st.open ? h("span", { className: "dshp-live-dot", "aria-hidden": "true" }) : null,
 				t("dock.newSession"),
+				// 纯装饰的下拉箭头：与宿主 chip 的 chevron 同尺寸（14px、label-tertiary），不绑任何事件。
+				h("span", { className: "dshp-hero-chip-chev", "aria-hidden": "true" },
+					h("svg", {
+						viewBox: "0 0 24 24", width: 14, height: 14, fill: "none",
+						stroke: "currentColor", strokeWidth: 2,
+						strokeLinecap: "round", strokeLinejoin: "round",
+					}, h("path", { d: "m6 9 6 6 6-6" })),
+				),
 			);
 			try {
 				const rd = require("react-dom");
