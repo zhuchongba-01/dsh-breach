@@ -638,8 +638,8 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 
 		const HAPPY_CSS = `
 .dshp-root{--dshp-display:system-ui,-apple-system,"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",sans-serif;--dshp-sans:system-ui,-apple-system,"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",sans-serif;--dshp-mono:ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;--dshp-led:#22C55E;--dshp-ease:cubic-bezier(.16,1,.3,1);max-width:920px;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:12px;background:var(--dshp-bg);color:var(--dshp-ink);font-family:var(--dshp-sans)}
-.dshp-root{--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f6f4ef) 74%,transparent);--dshp-ink:var(--dsw-alias-label-primary,#1a1916);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#1a1916) 74%,var(--dsw-alias-label-secondary,#5c564c));--dshp-line:color-mix(in srgb,var(--dsw-alias-border-l1,#c8c2b6) 78%,transparent);--dshp-fill:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 14%,transparent);--dshp-accent:var(--dsw-alias-brand-primary,#748B6F);--dshp-accent-soft:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);--dshp-ok:#748B6F;--dshp-warn:#8a5a12;--dshp-bad:#9a3434;--cd-bg:#FCFAF5;--cd-field:#FFFDF9;--cd-line:#EDE6D9;--cd-line-soft:#EFE9DD;--cd-line-dim:#F3EEE4;--cd-line-btn:#E7DFD0;--cd-ink:#1F1E1C;--cd-ink2:#3A3833;--cd-mute:#6B6862;--cd-faint:#A29E95;--cd-hover:#FAF6EE;--cd-hover2:#F6F1E7;--cd-focus:#D8CDB8;--cd-code:#F0EAE0;--cd-ok:#748B6F;--cd-bad:#C0392B;--cd-warn:#A96C16;--cd-off:#CFCBC2;--cd-track:#E0D8C8;--cd-knob:#FFFDF9}
-.dshp-root[data-theme="white"]{color-scheme:light;background:#FFFDF9;--dshp-paper:#FBF7EF;--dshp-line:#EDE6D9}
+.dshp-root{--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f6faff) 74%,transparent);--dshp-ink:var(--dsw-alias-label-primary,#16202e);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#16202e) 76%,var(--dsw-alias-label-secondary,#5b6b7e));--dshp-line:color-mix(in srgb,var(--dsw-alias-border-l1,#d3e5fa) 78%,transparent);--dshp-fill:color-mix(in srgb,var(--dsw-alias-brand-primary,#2D7FF9) 12%,transparent);--dshp-accent:var(--dsw-alias-brand-primary,#2D7FF9);--dshp-accent-soft:color-mix(in srgb,var(--dsw-alias-brand-primary,#2D7FF9) 16%,transparent);--dshp-ok:#4F8F6B;--dshp-warn:#A9762F;--dshp-bad:#BE7A72;--cd-bg:#FFFFFF;--cd-field:#FFFFFF;--cd-line:#E4EDF7;--cd-line-soft:#EDF3FA;--cd-line-dim:#EFF5FB;--cd-line-btn:#DCE7F3;--cd-ink:#16202E;--cd-ink2:#2E3B4C;--cd-mute:#5B6B7E;--cd-faint:#7C8B9E;--cd-hover:#F5F9FE;--cd-hover2:#EDF3FA;--cd-focus:#C3D8F2;--cd-code:#F3F8FE;--cd-ok:#4F8F6B;--cd-bad:#BE7A72;--cd-warn:#A9762F;--cd-off:#CFDAE6;--cd-track:#DDE7F2;--cd-knob:#FFFFFF}
+.dshp-root[data-theme="white"]{color-scheme:light;background:#FFFFFF;--dshp-paper:#F7FAFE;--dshp-line:#E4EDF7}
 .dshp-root[data-theme="dusk"]{color-scheme:dark;background:#211F1C;--dshp-paper:#26231F;--dshp-line:#332F29;--dshp-ok:#748B6F;--dshp-warn:#e4c48a;--dshp-bad:#f0b4b4}
 /* 深色令牌：宿主切深色（body 属性）或本地判定为 dusk 时同时生效，
    概览面板 / 明细 / 提示词·规则·Skill 卡片 / 开关全部跟着走。 */
@@ -722,13 +722,13 @@ body[data-ds-dark-theme] .dshp-root,.dshp-root[data-theme="dusk"]{--cd-bg:#26231
 .dshp-modal p{margin:0 0 16px;font-size:13.5px;line-height:1.55}
 .dshp-modal-ops{display:flex;justify-content:flex-end;gap:8px}
 .dshp-restart-mask{position:fixed;inset:0;z-index:12000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(38,32,24,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);font-family:var(--dshp-sans,system-ui,sans-serif)}
-.dshp-restart-card{width:min(408px,100%);box-sizing:border-box;padding:22px 22px 18px;border-radius:14px;background:#FFFDF9;color:#1F1E1C;border:1px solid #EDE6D9;box-shadow:0 20px 54px rgba(60,48,30,.22),0 2px 8px rgba(60,48,30,.06)}
+.dshp-restart-card{width:min(408px,100%);box-sizing:border-box;padding:22px 22px 18px;border-radius:14px;background:#FFFFFF;color:#1F1E1C;border:1px solid #E4EDF7;box-shadow:0 20px 54px rgba(60,48,30,.22),0 2px 8px rgba(60,48,30,.06)}
 .dshp-restart-card h4{margin:0 0 9px;font-family:inherit;font-size:16px;font-weight:660;letter-spacing:-.2px;line-height:1.4;color:#1F1E1C}
 .dshp-restart-card p{margin:0 0 18px;font-size:13px;font-weight:400;line-height:1.7;color:#6B6862}
 .dshp-restart-card .dshp-modal-ops{display:flex;justify-content:flex-end;gap:9px}
-.dshp-restart-card .dshp-btn{min-width:0;min-height:32px;padding:0 15px;border-radius:8px;font-size:12.5px;font-weight:550;font-family:inherit;color:#3A3833;background:#FFFDF9;border:1px solid #E7DFD0;cursor:pointer;transition:background .15s}
-.dshp-restart-card .dshp-btn:hover{background:#FAF6EE}
-.dshp-restart-card .dshp-btn-primary,.dshp-restart-card .dshp-btn-primary:hover:not(:disabled){color:#FFFDF9;background:#D05663;border-color:#D05663;font-weight:600}
+.dshp-restart-card .dshp-btn{min-width:0;min-height:32px;padding:0 15px;border-radius:8px;font-size:12.5px;font-weight:550;font-family:inherit;color:#3A3833;background:#FFFFFF;border:1px solid #E7DFD0;cursor:pointer;transition:background .15s}
+.dshp-restart-card .dshp-btn:hover{background:#F5F9FE}
+.dshp-restart-card .dshp-btn-primary,.dshp-restart-card .dshp-btn-primary:hover:not(:disabled){color:#FFFFFF;background:#D05663;border-color:#D05663;font-weight:600}
 .dshp-restart-card .dshp-btn-primary:hover:not(:disabled){background:#BC4754}
 body[data-ds-dark-theme] .dshp-restart-card,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card{background:#211F1C;color:#EFEBE2;border-color:#332F29;box-shadow:0 20px 54px rgba(0,0,0,.5)}
 body[data-ds-dark-theme] .dshp-restart-card h4,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card h4{color:#EFEBE2}
@@ -773,8 +773,14 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 @media (max-width:640px){.dshp-metrics{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.dshp-btn,.dshp-bar>i{transition:none}.dshp-skel{animation:none}}
 
-.dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:auto;max-height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#000 30%,transparent),0 0 0 1px color-mix(in srgb,#fff 6%,transparent);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:visible}
+.dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:auto;max-height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#000 22%,transparent),0 0 0 1px color-mix(in srgb,#fff 6%,transparent);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:hidden}
 .dshp-dock[data-open="0"]{display:none}
+.dshp-dock[data-theme="white"]{background:linear-gradient(180deg,#E6F1FF 0%,#F6FAFF 45%,#FCFEFF 100%);border-color:#D3E5FA}
+.dshp-dock::before{content:"";position:absolute;left:-12%;right:-12%;top:-60%;height:130%;border-radius:inherit;pointer-events:none;z-index:0;background:radial-gradient(58% 52% at 50% 44%,rgba(120,175,255,.40) 0%,rgba(152,196,255,.16) 48%,rgba(255,255,255,0) 76%);animation:dshp-breath 7.5s ease-in-out infinite alternate}
+.dshp-dock[data-theme="dusk"]::before{background:radial-gradient(58% 52% at 50% 44%,rgba(74,124,200,.34) 0%,rgba(60,100,160,.14) 48%,rgba(0,0,0,0) 76%)}
+@keyframes dshp-breath{from{opacity:.45;transform:scale(1)}to{opacity:.95;transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.dshp-dock::before{animation:none;opacity:.7}}
+.dshp-dock-head,.dshp-dock-body{position:relative;z-index:1}
 .dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 55%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#1c1c1c) 72%,transparent);color:var(--dsw-alias-label-primary,#f2f2f2);cursor:pointer;font:13px/1 inherit;box-shadow:0 8px 22px color-mix(in srgb,#000 28%,transparent);pointer-events:auto}
 .dshp-launch:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent)}
 .dshp-launch[data-open="1"],.dshp-launch[data-hide="1"]{display:none}
@@ -783,7 +789,7 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 .dshp-dock-head b{font-size:14px;font-weight:600;color:inherit;text-shadow:0 1px 0 color-mix(in srgb,#000 18%,transparent)}
 .dshp-dock-head button{cursor:pointer;color:inherit;background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,rgba(127,127,127,.18)) 55%,transparent)}
 .dshp-dock-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:transparent;border-radius:0 0 12px 12px}
-.dshp-dock-body .dshp-root{max-width:none;height:100%;flex:1;min-height:0;overflow:auto;background:transparent!important;--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dshp-ink) 7%,transparent);--dshp-fill:color-mix(in srgb,var(--dshp-ink) 6%,transparent);--dshp-line:color-mix(in srgb,var(--dshp-ink) 20%,transparent);--dshp-accent-soft:color-mix(in srgb,var(--dshp-accent) 22%,transparent)}.dshp-dock-body .dshp-panel,.dshp-dock-body .dshp-metric,.dshp-dock-body .dshp-group,.dshp-dock-body .dshp-editor,.dshp-dock-body .dshp-active,.dshp-dock-body .dshp-ask,.dshp-dock-body .dshp-create,.dshp-dock-body .dshp-table,.dshp-dock-body .dshp-cwd-list,.dshp-dock-body .dshp-cwd-item{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f7f4ee) 74%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 32%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
+.dshp-dock-body .dshp-root{max-width:none;height:auto;max-height:100%;flex:1;min-height:0;overflow:auto;background:transparent!important;--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dshp-ink) 7%,transparent);--dshp-fill:color-mix(in srgb,var(--dshp-ink) 6%,transparent);--dshp-line:color-mix(in srgb,var(--dshp-ink) 20%,transparent);--dshp-accent-soft:color-mix(in srgb,var(--dshp-accent) 22%,transparent)}.dshp-dock-body .dshp-panel,.dshp-dock-body .dshp-metric,.dshp-dock-body .dshp-group,.dshp-dock-body .dshp-editor,.dshp-dock-body .dshp-active,.dshp-dock-body .dshp-ask,.dshp-dock-body .dshp-create,.dshp-dock-body .dshp-table,.dshp-dock-body .dshp-cwd-list,.dshp-dock-body .dshp-cwd-item{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f4f8fd) 74%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 32%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
 .dshp-dock-body .dshp-field,.dshp-dock-body .dshp-area{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 88%,transparent)!important;color:var(--dshp-ink)!important;border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#8a8478) 72%,transparent)!important}
 .dshp-dock-body select.dshp-field,.dshp-dock-body .dshp-field.dshp-ver{background:var(--dsw-alias-bg-layer-1,#fff)!important;color:var(--dshp-ink)!important;color-scheme:inherit}
 .dshp-dock[data-theme="white"] select.dshp-field option,.dshp-dock[data-theme="white"] .dshp-field.dshp-ver option{background:#fff;color:#16140f}
@@ -873,7 +879,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 /* [dsh-breach] 面板外壳改实心暖米，去掉毛玻璃。
    注意：上面 .dshp-dock[data-theme=...] 那条也带 !important 且权重更高，
    所以这里必须用同样带 data-theme 的选择器，并放在它之后，才能压过。 */
-.dshp-dock[data-theme="white"]{background:#FFFDF9!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #E7DFD0!important;box-shadow:0 18px 48px rgba(60,48,30,.16),0 2px 8px rgba(60,48,30,.06)!important}
+.dshp-dock[data-theme="white"]{background:#FFFFFF!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #E7DFD0!important;box-shadow:0 18px 48px rgba(60,48,30,.16),0 2px 8px rgba(60,48,30,.06)!important}
 .dshp-dock[data-theme="dusk"]{background:#211F1C!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #332F29!important;box-shadow:0 18px 48px rgba(0,0,0,.45)!important}
 .dshp-dock-ver{font-size:10.5px;font-weight:500;color:var(--dshp-mute,#6b6862);opacity:.75;letter-spacing:.02em}
 /* [dsh-breach] 明细面板（新设计） */
@@ -1310,7 +1316,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
 		   应用与还原来回复用同一套接口，所有数据来自 /dsh-breach/status。 */
 		const OVERVIEW_CSS = `
-.dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#ECEAE3;--ov-ink:#2A2A28;--ov-mute:#6B6862;--ov-faint:#9C9A93;--ov-green:#7C8477;--ov-red:#B0827C;--ov-card:#FFFFFF;--ov-chip:#F4F1EA;--ov-hair:#F1ECE1;--ov-shadow:0 1px 2px rgba(50,50,45,.045)}
+.dshp-ov{padding:0;--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-track:#EDF3FA;--ov-ink:#16202E;--ov-mute:#6B6862;--ov-faint:#7C8B9E;--ov-green:#4F8F6B;--ov-red:#BE7A72;--ov-card:#FFFFFF;--ov-chip:#EFF4FA;--ov-hair:#EAF1F9;--ov-shadow:0 1px 2px rgba(35,80,140,.06)}
 body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149;--ov-card:#26231F;--ov-chip:#2C2925;--ov-hair:#332F29;--ov-shadow:none}
 .dshp-ov-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:10px 12px;margin-bottom:8px;background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow)}
 .dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
@@ -1322,14 +1328,14 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-btn{appearance:none;border:0;background:var(--ov-chip);color:var(--ov-ink);padding:5px 12px;border-radius:8px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer;transition:background .15s,color .15s}
 .dshp-ov-btn:hover:not(:disabled){background:var(--ov-line)}
 .dshp-ov-btn:disabled{opacity:.5;cursor:default}
-.dshp-ov-btn.primary{background:var(--ov-green);color:#fff}
-.dshp-ov-btn.primary:hover:not(:disabled){opacity:.9;background:var(--ov-green)}
+.dshp-ov-btn.primary{background:#2D7FF9;color:#fff}
+.dshp-ov-btn.primary:hover:not(:disabled){opacity:.9;background:#2D7FF9}
 .dshp-ov-stats{display:flex;align-items:center;gap:13px;font-size:11.5px;color:var(--ov-faint);flex-wrap:wrap}
 .dshp-ov-stats .st{display:inline-flex;align-items:center;gap:5px}
 .dshp-ov-stats .st b{font-weight:650;color:var(--ov-ink);font-variant-numeric:tabular-nums}
 .dshp-ov-stats .p{width:6px;height:6px;border-radius:999px;background:var(--ov-green);flex:none}
-.dshp-ov-stats .sk .p{background:#CBBD95}
-.dshp-ov-stats .bad .p{background:#BE9089}
+.dshp-ov-stats .sk .p{background:#C9A45E}
+.dshp-ov-stats .bad .p{background:#BE7A72}
 .dshp-ov-stats .bad b{color:var(--ov-red)}
 .dshp-ov-rows{background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow);padding:2px 13px}
 .dshp-ov-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px;border-top:1px solid var(--ov-hair);cursor:pointer}
@@ -1337,8 +1343,8 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-row .nm{width:54px;flex:none;font-weight:600;color:var(--ov-ink)}
 .dshp-ov-row .bar{flex:1;height:5px;border-radius:999px;background:var(--ov-track);overflow:hidden;display:flex}
 .dshp-ov-row .bar i{display:block;height:100%;transition:width .3s;background:var(--ov-green)}
-.dshp-ov-row .bar i.sk{background:#CBBD95}
-.dshp-ov-row .bar i.bad{background:#BE9089}
+.dshp-ov-row .bar i.sk{background:#C9A45E}
+.dshp-ov-row .bar i.bad{background:#BE7A72}
 .dshp-ov-row .dshp-ov-caret{width:10px;flex:none;color:var(--ov-faint);font-size:9px;line-height:1;transition:transform .12s}
 .dshp-ov-row.open .dshp-ov-caret{transform:rotate(90deg)}
 .dshp-ov-row .v{width:50px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
@@ -1351,7 +1357,7 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-detail{display:none}
 .dshp-ov-detail[data-open="1"]{display:block}
 /* 明细区：把原有区块的视觉语言拉回概览这套（暖米、圆角、小字号标题） */
-.dshp-ov-detail{--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
+.dshp-ov-detail{--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
 body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
 .dshp-ov-detail .dshp-panel{background:var(--ov-cell);border:1px solid var(--ov-cell-bd);border-radius:12px;padding:14px 16px 12px}
 .dshp-ov-detail .dshp-head{gap:8px;margin-bottom:10px}
@@ -2611,7 +2617,8 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					right: "auto",
 					bottom: "auto",
 					width: geom.w + "px",
-					height: geom.h + "px",
+					height: "auto",
+					maxHeight: geom.h + "px",
 				},
 			},
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
