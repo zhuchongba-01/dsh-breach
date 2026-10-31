@@ -880,7 +880,6 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-dt{margin-top:14px;padding-top:12px;border-top:1px solid var(--cd-line-soft)}
 .dshp-dt-head{display:flex;align-items:center;gap:7px;margin-bottom:10px}
 .dshp-dt-title{font-size:12.5px;font-weight:650;color:var(--cd-ink)}
-.dshp-dt-count{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
 .dshp-dt-chip{appearance:none;border:1px solid var(--cd-line);background:transparent;color:var(--cd-mute);
   padding:2px 9px;border-radius:999px;font:500 11px/1.6 inherit;cursor:pointer;transition:all .15s}
 .dshp-dt-chip:hover{background:var(--cd-hover)}
@@ -1347,8 +1346,6 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov.is-bad .dshp-ov-led:not(.mini){background:#E5484D;box-shadow:0 0 0 2px rgba(229,72,77,.18)}
 .dshp-ov-led.mini{width:5px;height:5px;box-shadow:none}
 .dshp-ov-row.bad .dshp-ov-led.mini{background:#E5484D}
-.dshp-ov-foot{display:flex;align-items:center;gap:8px;padding:6px 3px 2px;font-size:11px;color:var(--ov-faint)}
-.dshp-ov-foot .sp{flex:1}
 .dshp-ov-note{font-size:11.5px;color:var(--ov-red);padding:0 0 10px}
 .dshp-ov-note.is-ok{color:var(--ov-mute)}
 .dshp-ov-detail{display:none}
@@ -1556,9 +1553,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 						);
 					}),
 				),
-				h("div", { className: "dshp-ov-foot" },
-					h("span", null, skipped ? (tr("ov.skippedHint") + " " + skipped) : tr("ov.allApplied")),
-				),
 			);
 		}
 
@@ -1636,7 +1630,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			return h("div", { className: "dshp-dt" },
 				h("div", { className: "dshp-dt-head" },
 					h("span", { className: "dshp-dt-title" }, "补丁明细"),
-					h("span", { className: "dshp-dt-count" }, patches.length + " 项"),
 					h("span", { style: { flex: 1 } }),
 					[["all", "全部"], ["bad", "失败"], ["skip", "跳过"]].map(([f, txt]) =>
 						h("button", {
