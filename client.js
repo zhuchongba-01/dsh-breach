@@ -978,9 +978,10 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-hbtn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)}
 .dshp-live-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dshp-accent,#748B6F);box-shadow:0 0 0 3px color-mix(in srgb,var(--dshp-accent,#748B6F) 28%,transparent)}
 .dshp-hero-chip{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;align-self:center}
-/* 与宿主首屏 chip 完全同款：min-height 28px / 13px 500 / line-height 20px / gap 4px / padding 0 8px / label-primary */
-.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:4px;min-height:28px;padding:0 8px;border:0;border-radius:var(--dsw-radius-sm,7px);background:transparent;color:var(--dsw-alias-label-primary,currentColor);cursor:pointer;font-size:13px;font-weight:500;line-height:20px;white-space:nowrap;transition:background .15s,color .15s}
-.dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.1))}
+/* 与宿主首屏 chip 同规格：min-height 28px / 13px 500 / line-height 20px / gap 4px / padding 0 8px；
+   字色在 label-primary 上留 12% 透明度（彩色背景自适应，不靠写死灰值），hover 回到全量。 */
+.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:4px;min-height:28px;padding:0 8px;border:0;border-radius:var(--dsw-radius-sm,7px);background:transparent;color:color-mix(in srgb,var(--dsw-alias-label-primary,currentColor) 88%,transparent);cursor:pointer;font-size:13px;font-weight:500;line-height:20px;white-space:nowrap;transition:background .15s,color .15s}
+.dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.1));color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
 .dshp-hero-chip-icon{width:16px;height:16px;flex:none;color:inherit}
 .dshp-hero-chip-btn.on .dshp-hero-chip-icon{color:var(--dshp-accent,#748B6F)}
