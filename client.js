@@ -775,12 +775,25 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 
 .dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:auto;max-height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#66330f 20%,transparent),0 0 0 1px color-mix(in srgb,#fff 10%,transparent),inset 0 0 46px rgba(255,124,66,.16);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:hidden}
 .dshp-dock[data-open="0"]{display:none}
-.dshp-dock[data-theme="white"]{background:linear-gradient(180deg,#FFF8F0 0%,#FFF4E8 55%,#FFFBF5 100%);border-color:#F3D9BE}
-.dshp-dock::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;background:radial-gradient(118% 104% at 50% 50%,rgba(255,255,255,0) 44%,rgba(255,176,92,.26) 70%,rgba(233,86,52,.40) 88%,rgba(176,42,64,.50) 100%),radial-gradient(52% 44% at 6% 2%,rgba(255,202,92,.58) 0%,rgba(255,202,92,0) 72%),radial-gradient(50% 42% at 96% 6%,rgba(255,110,70,.46) 0%,rgba(255,110,70,0) 72%),radial-gradient(54% 46% at 10% 98%,rgba(204,58,96,.40) 0%,rgba(204,58,96,0) 74%),radial-gradient(52% 44% at 94% 96%,rgba(255,150,54,.44) 0%,rgba(255,150,54,0) 74%);animation:dshp-fire 16s ease-in-out infinite alternate}
-.dshp-dock[data-theme="dusk"]::before{background:radial-gradient(74% 64% at 50% 50%,rgba(0,0,0,0) 40%,rgba(168,84,40,.22) 72%,rgba(120,38,42,.40) 100%),radial-gradient(46% 40% at 10% 6%,rgba(150,96,38,.34) 0%,rgba(150,96,38,0) 70%),radial-gradient(44% 38% at 90% 10%,rgba(132,52,60,.30) 0%,rgba(132,52,60,0) 70%),radial-gradient(50% 42% at 86% 94%,rgba(140,74,34,.28) 0%,rgba(140,74,34,0) 72%)}
-@keyframes dshp-fire{0%{transform:translate3d(0,-6%,0) scale(1.05);opacity:.86}50%{opacity:1}100%{transform:translate3d(0,6%,0) scale(1.08);opacity:.92}}
-@media (prefers-reduced-motion:reduce){.dshp-dock::before{animation:none;opacity:.85;transform:none}}
-.dshp-dock-head,.dshp-dock-body{position:relative;z-index:1}
+.dshp-dock[data-theme="white"]{background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,#FF5200 15%,#FFF9F2) 0%,rgba(255,249,242,0) 62%),radial-gradient(110% 80% at 100% 100%,color-mix(in srgb,#F01B4B 11%,#FFF9F2) 0%,rgba(255,249,242,0) 60%),linear-gradient(135deg,#FFF9F2,#FFF6EC 70%,#FFF9F2);border-color:#F3D9BE;--pool-a:#FF5200;--pool-b:#F01B4B;--pool-c:#FFA400}
+.dshp-dock[data-theme="dusk"]{--pool-a:#B85E22;--pool-b:#B02A46;--pool-c:#BC8220}
+.dshp-field,.dshp-rim{position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;overflow:hidden}
+.dshp-field{opacity:.78;-webkit-mask:linear-gradient(rgb(0 0 0/.22) 0 0),linear-gradient(to right,#000,transparent 44px,transparent calc(100% - 44px),#000),linear-gradient(to bottom,#000,transparent 44px,transparent calc(100% - 44px),#000);mask:linear-gradient(rgb(0 0 0/.22) 0 0),linear-gradient(to right,#000,transparent 44px,transparent calc(100% - 44px),#000),linear-gradient(to bottom,#000,transparent 44px,transparent calc(100% - 44px),#000)}
+.dshp-rim{padding:1px;z-index:1;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.dshp-pool{position:absolute;left:50%;top:50%;width:max(72%,380px);aspect-ratio:8/5;margin:calc(max(72%,380px) * -5 / 16) 0 0 calc(max(72%,380px) / -2);border-radius:50%;background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 52%,transparent) 40%,color-mix(in srgb,var(--pool-color) 16%,transparent) 72%,transparent 100%)}
+.dshp-rim .dshp-pool{background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 80%,transparent) 45%,color-mix(in srgb,var(--pool-color) 28%,transparent) 78%,transparent 100%)}
+.dshp-pool[data-pool="a"]{--pool-color:var(--pool-a);translate:-19% 0;animation:dshp-pa-x 23s ease-in-out -6s infinite alternate,dshp-pa-y 9.5s ease-in-out -2s infinite alternate,dshp-pool-morph 14s ease-in-out -6s infinite alternate}
+.dshp-pool[data-pool="b"]{--pool-color:var(--pool-b);translate:20% 0;animation:dshp-pb-x 29s ease-in-out -19s infinite alternate,dshp-pb-y 12.5s ease-in-out -8s infinite alternate,dshp-pool-morph 17s ease-in-out -19s infinite alternate}
+.dshp-pool[data-pool="c"]{--pool-color:var(--pool-c);translate:37% 0;animation:dshp-pc-x 37s ease-in-out -11s infinite alternate,dshp-pc-y 8s ease-in-out -5s infinite alternate,dshp-pool-morph 21s ease-in-out -11s infinite alternate}
+@keyframes dshp-pa-x{from{translate:-100% 0}to{translate:62% 0}}
+@keyframes dshp-pa-y{from{transform:translateY(-46%)}to{transform:translateY(34%)}}
+@keyframes dshp-pb-x{from{translate:98% 0}to{translate:-58% 0}}
+@keyframes dshp-pb-y{from{transform:translateY(40%)}to{transform:translateY(-40%)}}
+@keyframes dshp-pc-x{from{translate:-30% 0}to{translate:104% 0}}
+@keyframes dshp-pc-y{from{transform:translateY(-38%)}to{transform:translateY(46%)}}
+@keyframes dshp-pool-morph{from{scale:1.2 .86}to{scale:.86 1.16}}
+@media (prefers-reduced-motion:reduce){.dshp-pool{animation:none!important}}
+.dshp-dock-head,.dshp-dock-body{position:relative;z-index:2}
 .dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 55%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#1c1c1c) 72%,transparent);color:var(--dsw-alias-label-primary,#f2f2f2);cursor:pointer;font:13px/1 inherit;box-shadow:0 8px 22px color-mix(in srgb,#000 28%,transparent);pointer-events:auto}
 .dshp-launch:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent)}
 .dshp-launch[data-open="1"],.dshp-launch[data-hide="1"]{display:none}
@@ -918,7 +931,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
   cursor:pointer;user-select:none;background:transparent;width:100%;font-family:inherit}
 .dshp-dt-more:hover{background:var(--cd-hover);color:var(--cd-ink)}
 /* [dsh-breach] 提示词 / 规则集 / Skill 卡片 */
-.dshp-cd{border:0;border-radius:12px;padding:11px 13px;margin-top:8px;background:var(--ov-card,#fff);box-shadow:var(--ov-shadow,0 1px 2px rgba(60,50,35,.05))}
+.dshp-cd{border:0;border-radius:12px;padding:11px 13px;margin-top:8px;background:var(--ov-card,#fff);backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);box-shadow:var(--ov-shadow,0 1px 2px rgba(60,50,35,.05))}
 .dshp-cd-head{display:flex;align-items:center;gap:8px}
 .dshp-cd-name{font-size:12.5px;font-weight:650;color:var(--cd-ink)}
 .dshp-cd-meta{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
@@ -1316,9 +1329,9 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
 		   应用与还原来回复用同一套接口，所有数据来自 /dsh-breach/status。 */
 		const OVERVIEW_CSS = `
-.dshp-ov{padding:0;--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-track:#F5E9D6;--ov-ink:#2A2118;--ov-mute:#6B6862;--ov-faint:#93826C;--ov-green:#4F8F6B;--ov-red:#BE7A72;--ov-card:#FFFFFF;--ov-chip:#FBF0DE;--ov-hair:#F6EBDC;--ov-shadow:0 1px 2px rgba(90,60,20,.06)}
+.dshp-ov{padding:0;--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-track:#F5E9D6;--ov-ink:#2A2118;--ov-mute:#6B6862;--ov-faint:#93826C;--ov-green:#4F8F6B;--ov-red:#BE7A72;--ov-card:color-mix(in srgb,#fff 78%,transparent);--ov-chip:#FBF0DE;--ov-hair:#F6EBDC;--ov-shadow:0 1px 2px rgba(90,60,20,.06)}
 body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149;--ov-card:#26231F;--ov-chip:#2C2925;--ov-hair:#332F29;--ov-shadow:none}
-.dshp-ov-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:10px 12px;margin-bottom:8px;background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow)}
+.dshp-ov-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:10px 12px;margin-bottom:8px;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow)}
 .dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
 .dshp-ov-big{font-size:22px;font-weight:700;letter-spacing:-.4px;line-height:1.15;color:var(--ov-green);transition:color .25s;font-variant-numeric:tabular-nums}
 .dshp-ov.is-bad .dshp-ov-big{color:var(--ov-red)}
@@ -1337,7 +1350,7 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-stats .sk .p{background:#C98A2E}
 .dshp-ov-stats .bad .p{background:#BE7A72}
 .dshp-ov-stats .bad b{color:var(--ov-red)}
-.dshp-ov-rows{background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow);padding:2px 13px}
+.dshp-ov-rows{backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);background:var(--ov-card);border-radius:12px;box-shadow:var(--ov-shadow);padding:2px 13px}
 .dshp-ov-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px;border-top:1px solid var(--ov-hair);cursor:pointer}
 .dshp-ov-row:first-child{border-top:0}
 .dshp-ov-row .nm{width:54px;flex:none;font-weight:600;color:var(--ov-ink)}
@@ -2621,6 +2634,16 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					maxHeight: geom.h + "px",
 				},
 			},
+				h("div", { className: "dshp-field", "aria-hidden": "true" },
+					h("i", { className: "dshp-pool", "data-pool": "a" }),
+					h("i", { className: "dshp-pool", "data-pool": "b" }),
+					h("i", { className: "dshp-pool", "data-pool": "c" }),
+				),
+				h("div", { className: "dshp-rim", "aria-hidden": "true" },
+					h("i", { className: "dshp-pool", "data-pool": "a" }),
+					h("i", { className: "dshp-pool", "data-pool": "b" }),
+					h("i", { className: "dshp-pool", "data-pool": "c" }),
+				),
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
 					h("b", null, "dsh-breach"),
 					h("span", { className: "dshp-dock-ver" }, ver || "—"),
