@@ -262,6 +262,18 @@ Check that `/dsh-breach/status` returns `{"ok":true}`, that `dsh-breach` is list
 
 ---
 
+## Origin: carved out of purge
+
+This plugin was not written from scratch. It is the **single-purpose slice cut out of the original project `purge`** (internal identifier `dsh-purge`, later renamed `dsh-happy`; this repository is `dsh-breach`).
+
+- The original was a full red-team / pentest workbench: target cards, role scripts, dispatch flows, pentest toolchains, reporting.
+- This package keeps **only the breach part**: prompt injection + host patch engine + panel and revert. The red-team side (target cards, role scripts, dispatch, toolchains) does not ship here.
+- What is left is a small, clearly bounded plugin that does one thing: turn the host's "don't do that" sentences into "do it", with a revert path always available.
+
+The rename chain is visible in git history: `dsh-purge` → `dsh-happy` → `dsh-breach`.
+
+---
+
 ## License
 
 [MIT](./LICENSE) © 2026 zhuchongba01
