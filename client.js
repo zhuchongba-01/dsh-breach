@@ -3094,9 +3094,8 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					.catch((e) => { setBusy(false); setErr(String((e && e.message) || e)); });
 			};
 			if (!busy && !(info && info.hasUpdate)) return null;
-			const detail = info && info.remoteVersion
-				? " " + (info.localVersion || "?") + " → " + info.remoteVersion
-				: "";
+			// 只报目标版本，不做「当前 → 目标」比较，避免版本顺序引起误读。
+			const detail = info && info.remoteVersion ? " " + info.remoteVersion : "";
 			return h("button", {
 				type: "button",
 				className: "dshp-update-pill" + (err ? " is-bad" : ""),
