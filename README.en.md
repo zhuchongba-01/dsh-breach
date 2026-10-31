@@ -7,6 +7,7 @@
 > - Back up before you start. Every change writes a `.dshhappy.bak` backup and can be reverted in one click, but compatibility with arbitrary host versions is **not guaranteed**, and a restore after a host upgrade is **not guaranteed** either.
 > - The author is **not liable** for any direct or indirect damage, including but not limited to: a host that will not boot, data loss, restricted accounts, breach of a service's terms, or legal liability.
 > - Check the laws of your jurisdiction and the terms of the services you use. All risk and responsibility arising from use of this project rests with the user.
+> - This project is **carved out of the original project `purge`** (`dsh-purge` → `dsh-happy`) and **keeps only the breach part**; the original red-team / pentest workbench (target cards, role scripts, dispatch flows, toolchains, reporting) is not shipped here and is outside this project's support scope.
 > - Provided under the **MIT** license, "as is", without warranty of any kind.
 
 <div align="center">
