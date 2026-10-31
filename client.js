@@ -977,13 +977,13 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-hbtn:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-hbtn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)}
 .dshp-live-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dshp-accent,#748B6F);box-shadow:0 0 0 3px color-mix(in srgb,var(--dshp-accent,#748B6F) 28%,transparent)}
-.dshp-hero-chip{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto}
-.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary,currentColor));cursor:pointer;font:12.5px/1 inherit;white-space:nowrap;transition:background .15s,color .15s}
-.dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,currentColor)}
+.dshp-hero-chip{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;align-self:center}
+/* 与宿主首屏 chip 完全同款：min-height 28px / 13px 500 / line-height 20px / gap 4px / padding 0 8px / label-primary */
+.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:4px;min-height:28px;padding:0 8px;border:0;border-radius:var(--dsw-radius-sm,7px);background:transparent;color:var(--dsw-alias-label-primary,currentColor);cursor:pointer;font-size:13px;font-weight:500;line-height:20px;white-space:nowrap;transition:background .15s,color .15s}
+.dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.1))}
 .dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
-.dshp-hero-chip-icon{width:14px;height:14px;flex:none;opacity:.78;transition:opacity .15s}
-.dshp-hero-chip-btn:hover .dshp-hero-chip-icon{opacity:1}
-.dshp-hero-chip-btn.on .dshp-hero-chip-icon{opacity:1;color:var(--dshp-accent,#748B6F)}
+.dshp-hero-chip-icon{width:16px;height:16px;flex:none;color:inherit}
+.dshp-hero-chip-btn.on .dshp-hero-chip-icon{color:var(--dshp-accent,#748B6F)}
 .dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#4E8A4A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .dshp-update-pill:hover{background:#447A41}
 .dshp-update-pill:disabled{opacity:.65;cursor:default}
