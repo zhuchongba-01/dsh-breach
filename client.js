@@ -1358,8 +1358,23 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-row .bar i{display:block;height:100%;transition:width .3s;background:var(--ov-green)}
 .dshp-ov-row .bar i.sk{background:#C98A2E}
 .dshp-ov-row .bar i.bad{background:#BE7A72}
-.dshp-ov-row .dshp-ov-caret{width:10px;flex:none;color:var(--ov-faint);font-size:9px;line-height:1;transition:transform .12s}
+.dshp-ov-row .dshp-ov-caret{width:14px;flex:none;color:var(--ov-faint);font-size:12px;line-height:1;transition:transform .14s}
 .dshp-ov-row.open .dshp-ov-caret{transform:rotate(90deg)}
+.dshp-ov-bar{display:flex;justify-content:flex-end;gap:4px;padding:8px 2px 2px}
+.dshp-ov-chip{appearance:none;border:0;background:transparent;color:var(--ov-faint);font:11.5px/1.7 inherit;font-family:inherit;padding:1px 9px;border-radius:999px;cursor:pointer}
+.dshp-ov-chip.on{background:var(--ov-chip);color:var(--ov-ink);font-weight:600}
+.dshp-ov-item>.dshp-ov-row{border-top:0}
+.dshp-ov-item+.dshp-ov-item>.dshp-ov-row{border-top:1px solid var(--ov-hair)}
+.dshp-ov-list{padding:2px 0 10px 24px}
+.dshp-ov-patch{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px}
+.dshp-ov-dot{width:6px;height:6px;border-radius:99px;background:#4F8F6B;flex:none}
+.dshp-ov-dot.skip{background:#C9A45E}
+.dshp-ov-dot.bad{background:#BE7A72}
+.dshp-ov-pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ov-ink)}
+.dshp-ov-pst{flex:none;font-size:11.5px;color:var(--ov-faint)}
+.dshp-ov-pst.skip{color:#B08637}
+.dshp-ov-pst.bad{color:#B4746C}
+.dshp-ov-empty{padding:6px 0;font-size:12px;color:var(--ov-faint)}
 .dshp-ov-row .v{width:50px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
 .dshp-ov-led{width:6px;height:6px;border-radius:999px;background:var(--dshp-led,#22C55E);box-shadow:0 0 0 2px color-mix(in srgb,var(--dshp-led,#22C55E) 18%,transparent);flex:none;transition:all .25s}
 .dshp-ov.is-bad .dshp-ov-led:not(.mini){background:#E5484D;box-shadow:0 0 0 2px rgba(229,72,77,.18)}
@@ -1401,7 +1416,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			const [note, setNote] = useState("");
 			const [askRestart, setAskRestart] = useState(false);
 			const suppressRestart = useRef(false);
-			const open = !!(props && props.detail);
 
 			const load = useCallback(() => {
 				apiJson("/dsh-breach/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
@@ -1413,6 +1427,8 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				return () => window.clearInterval(timer);
 			}, [load]);
 
+			const [openG, setOpenG] = useState({});
+			const [filter, setFilter] = useState("all");
 			const patches = (st && st.patches) || [];
 			const isDone = (s) => s === "applied" || s === "already";
 			const isBad = (s) => s === "pattern_not_found" || s === "error" || s === "unmatched";
@@ -1436,6 +1452,7 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			// 按 layer 归组；「0.2.0 兼容」「0.1.5 兼容」并成一行「兼容」
 			const ORDER = ["提示词", "代码", "工具", "兼容"];
 			const bucket = {};
+			const bucketList = {};
 			for (const p of patches) {
 				let key = p.layer || "其他";
 				if (key.indexOf("兼容") !== -1) key = "兼容";
@@ -1443,7 +1460,14 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				bucket[key].total += 1;
 				if (isDone(p.status)) bucket[key].done += 1;
 				if (isBad(p.status)) bucket[key].bad += 1;
+				(bucketList[key] || (bucketList[key] = [])).push(p);
 			}
+			const passFilter = (p) => {
+				if (filter === "all") return true;
+				if (filter === "bad") return isBad(p.status);
+				if (filter === "skip") return !isDone(p.status) && !isBad(p.status);
+				return true;
+			};
 			const rows = Object.keys(bucket)
 				.sort((a, b) => {
 					const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
@@ -1548,157 +1572,56 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 					),
 				),
 				note ? h("div", { className: "dshp-ov-note" + (/失败|错误/.test(note) ? "" : " is-ok") }, note) : null,
+				h("div", { className: "dshp-ov-bar" },
+					[["all", "全部"], ["bad", "失败"], ["skip", "跳过"]].map(([f, txt]) =>
+						h("button", {
+							key: f, type: "button",
+							className: "dshp-ov-chip" + (filter === f ? " on" : ""),
+							onClick: () => setFilter(f),
+						}, txt)),
+				),
 				h("div", { className: "dshp-ov-rows" },
 					rows.map((r) => {
 						const pct = (n) => (r.total ? (n / r.total) * 100 : 0);
 						const sk = Math.max(0, r.total - r.done - r.bad);
-						return h("div", {
-							key: r.key,
-							className: "dshp-ov-row" + (props.detail ? " open" : ""),
-							onClick: props.onToggleDetail,
-							role: "button",
-							tabIndex: 0,
-							onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onToggleDetail(); } },
-							title: props.detail ? "收起补丁明细" : "展开补丁明细",
-						},
-							h("span", { className: "dshp-ov-caret" }, "▸"),
-							h("span", { className: "nm" }, r.key),
-							h("span", { className: "bar" },
-								h("i", { style: { width: pct(r.done) + "%" } }),
-								sk ? h("i", { className: "sk", style: { width: pct(sk) + "%" } }) : null,
-								r.bad ? h("i", { className: "bad", style: { width: pct(r.bad) + "%" } }) : null,
+						const open = !!openG[r.key];
+						const list = (bucketList[r.key] || []).filter(passFilter);
+						const toggle = () => setOpenG((o) => ({ ...o, [r.key]: !open }));
+						return h("div", { key: r.key, className: "dshp-ov-item" + (open ? " open" : "") },
+							h("div", {
+								className: "dshp-ov-row",
+								onClick: toggle,
+								role: "button",
+								tabIndex: 0,
+								"aria-expanded": open ? "true" : "false",
+								onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } },
+								title: open ? "收起本组补丁" : "展开本组补丁",
+							},
+								h("span", { className: "dshp-ov-caret" }, "\u25B8"),
+								h("span", { className: "nm" }, r.key),
+								h("span", { className: "bar" },
+									h("i", { style: { width: pct(r.done) + "%" } }),
+									sk ? h("i", { className: "sk", style: { width: pct(sk) + "%" } }) : null,
+									r.bad ? h("i", { className: "bad", style: { width: pct(r.bad) + "%" } }) : null,
+								),
+								h("span", { className: "v" }, r.done + " / " + r.total),
 							),
-							h("span", { className: "v" }, r.done + " / " + r.total),
+							open ? h("div", { className: "dshp-ov-list" },
+								list.length
+									? list.map((p) => {
+										const s = p.status;
+										return h("div", { key: p.id, className: "dshp-ov-patch" },
+											h("span", { className: "dshp-ov-dot" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") }),
+											h("span", { className: "dshp-ov-pname", title: p.title || ("#" + p.id) }, p.title || ("#" + p.id)),
+											h("span", { className: "dshp-ov-pst" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") },
+												isBad(s) ? "失败" : isDone(s) ? "已应用" : (s === "missing_file" ? "未安装" : "跳过")),
+										);
+									})
+									: h("div", { className: "dshp-ov-empty" }, "无匹配项"),
+							) : null,
 						);
 					}),
 				),
-			);
-		}
-
-		/* ── 明细：按分组列补丁，新设计（不再复用旧区块的排版） ─────────────── */
-		function DetailPanel() {
-			const [st, setSt] = useState(null);
-			const [closed, setClosed] = useState({});
-			const [filter, setFilter] = useState("all");
-			const [hooksOn, setHooksOn] = useState(null);
-			const [hooksBusy, setHooksBusy] = useState(false);
-
-			const load = useCallback(() => {
-				apiJson("/dsh-breach/status")
-					.then((d) => { if (d && d.ok) setSt(d); })
-					.catch(() => {});
-			}, []);
-
-			useEffect(() => {
-				load();
-				apiJson("/dsh-breach/hooks-deny")
-					.then((d) => { if (d && d.ok) setHooksOn(d.hooksDenyBypass !== false); })
-					.catch(() => {});
-				const timer = window.setInterval(load, 15000);
-				return () => window.clearInterval(timer);
-			}, [load]);
-
-			const saveHooks = (next) => {
-				if (hooksBusy || hooksOn === null) return;
-				const prev = hooksOn;
-				setHooksBusy(true);
-				setHooksOn(next);
-				apiJson("/dsh-breach/hooks-deny", {
-					method: "POST",
-					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ hooksDenyBypass: next }),
-				}).then((d) => {
-					if (d && d.ok) setHooksOn(d.hooksDenyBypass === true);
-					else setHooksOn(prev);
-				}).catch(() => setHooksOn(prev))
-					.finally(() => setHooksBusy(false));
-			};
-
-			const HOOK_IDS = [30, 31, 64, 65];
-			const patches = (st && st.patches) || [];
-			const isDone = (s) => s === "applied" || s === "already";
-			const isBad = (s) => s === "pattern_not_found" || s === "error" || s === "unmatched";
-			// hooks 开关关闭时，这 4 个补丁不参与应用，状态一律按「已跳过」呈现
-			const hookOff = hooksOn === false;
-			const isHookPatch = (p) => HOOK_IDS.indexOf(Number(p.id)) >= 0;
-			const effStatus = (p) => (hookOff && isHookPatch(p)) ? "skipped" : p.status;
-			const label = (p) => {
-				const s = effStatus(p);
-				return isBad(s) ? "失败" : isDone(s) ? "已应用" : (s === "missing_file" ? "未安装" : "跳过");
-			};
-			const pass = (p) => {
-				if (filter === "all") return true;
-				const s = effStatus(p);
-				if (filter === "bad") return isBad(s);
-				if (filter === "skip") return !isDone(s) && !isBad(s);
-				return true;
-			};
-
-			const ORDER = ["提示词", "代码", "工具", "兼容"];
-			const groups = {};
-			for (const p of patches) {
-				let k = p.layer || "其他";
-				if (k.indexOf("兼容") !== -1) k = "兼容";
-				(groups[k] || (groups[k] = [])).push(p);
-			}
-			const keys = Object.keys(groups).sort((a, b) => {
-				const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
-				return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-			});
-
-			return h("div", { className: "dshp-dt" },
-				h("div", { className: "dshp-dt-head" },
-					h("span", { className: "dshp-dt-title" }, "补丁明细"),
-					h("span", { style: { flex: 1 } }),
-					[["all", "全部"], ["bad", "失败"], ["skip", "跳过"]].map(([f, txt]) =>
-						h("button", {
-							key: f, type: "button",
-							className: "dshp-dt-chip" + (filter === f ? " on" : ""),
-							onClick: () => setFilter(f),
-						}, txt)),
-				),
-				h("div", { className: "dshp-dt-hooks" },
-					h("span", { className: "dshp-dt-hooks-name" }, "Hooks 拦截"),
-					h("span", { className: "dshp-dt-hooks-meta" }, hookOff ? "已关闭 · 30/31/64/65 跳过" : "已放行 · 含 30/31/64/65"),
-					h("span", { style: { flex: 1 } }),
-					h("button", {
-						type: "button",
-						className: "dshp-sw" + (hooksOn ? " on" : ""),
-						disabled: hooksBusy || hooksOn === null,
-						role: "switch",
-						"aria-checked": hooksOn ? "true" : "false",
-						onClick: () => saveHooks(!hooksOn),
-					}, h("i", null)),
-				),
-				keys.map((k) => {
-					const all = groups[k];
-					const list = all.filter(pass);
-					const done = all.filter((p) => isDone(effStatus(p))).length;
-					const opened = !closed[k];
-					return h("div", { key: k, className: "dshp-dt-group" },
-						h("div", {
-							className: "dshp-dt-ghead",
-							onClick: () => setClosed((o) => ({ ...o, [k]: opened })),
-						},
-							h("span", { className: "dshp-dt-arrow" + (opened ? " open" : "") }, "▶"),
-							h("span", { className: "dshp-dt-gname" }, k),
-							h("span", { style: { flex: 1 } }),
-							h("span", { className: "dshp-dt-gnum" }, done + " / " + all.length),
-						),
-						opened ? h("div", { className: "dshp-dt-list" },
-							list.length
-								? list.map((p) => {
-									const s = effStatus(p);
-									return h("div", { key: p.id, className: "dshp-dt-row" },
-										h("span", { className: "dshp-dt-dot" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") }),
-										h("span", { className: "dshp-dt-name", title: p.title || ("#" + p.id) }, p.title || ("#" + p.id)),
-										h("span", { className: "dshp-dt-st" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") }, label(p)),
-									);
-								})
-								: h("div", { className: "dshp-dt-empty" }, "无匹配项"),
-						) : null,
-					);
-				}),
 			);
 		}
 
@@ -1824,12 +1747,10 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				};
 			}, []);
 			translate = t;
-			const [detail, setDetail] = useState(false);
 			return h("div", { className: "dshp-root", "data-theme": theme },
 				h("style", null, HAPPY_CSS),
 				h("style", null, OVERVIEW_CSS),
-				h(OverviewSection, { detail, onToggleDetail: () => setDetail((v) => !v) }),
-				detail ? h(DetailPanel, null) : null,
+				h(OverviewSection, null),
 				h(PromptCard, null),
 			);
 		}
