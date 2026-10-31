@@ -1,195 +1,269 @@
+<div align="center">
+
 # dsh-breach
 
-A [DSH (DeepSeek Harness)](https://github.com/deepseek-ai) plugin that injects **prompts, rules and tools** into the host, plus a fully reversible **patch engine**.
+**A working foundation for DeepSeek Harness** · prompt injection · rule rewriting · reversible patch engine
 
-Once installed, your DSH runs with the persona and rules this plugin defines — and every patch it applies can be rolled back, because each one keeps a backup.
+[![npm](https://img.shields.io/npm/v/dsh-breach?style=flat-square&color=1783ff)](https://www.npmjs.com/package/dsh-breach)
+[![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](./LICENSE)
+[![DSH](https://img.shields.io/badge/DSH-%E2%89%A5%200.2.1--rc.5-4c6ef5?style=flat-square)](https://github.com/deepseek-ai)
+[![surface](https://img.shields.io/badge/surface-web%20%7C%20desktop-4c6ef5?style=flat-square)](#compatibility)
 
-- Target host: `dsh 0.2.1-rc.5`
-- Surfaces: `web` / `desktop`
-- License: MIT
+[中文](./README.md) · [English](./README.en.md)
 
----
+</div>
 
-## What it actually does
-
-### 1. Prompt injection
-
-Resolution order (highest first):
-
-```
-text currently in the input box  >  $DSH_HOME/prompt-inject.md  >  encrypted built-in default
-```
-
-- The default prompt is sealed in `lib/asset-table.js` with AES-256-GCM + deflate and decrypted at runtime — no plaintext on disk.
-- To use your own: edit `$DSH_HOME/prompt-inject.md`. Saving is enough; no restart needed.
-- Different models can be bound to different prompts via presets.
-
-### 2. Patch engine (86 patches)
-
-It rewrites specific strings inside the host's `@deepseek-ai/*` sources:
-
-| Group | Effect |
-|---|---|
-| `disclaimer` | global / replacement / scoped disclaimers → strong directive |
-| `approval_sentence` | approval prompt sentence → auto-approve |
-| `approval_policy` | approval defaults to `never` + auto-approve |
-| `desktop_update` | official desktop update hand-off |
-| `desktop_close` | host exit without the error dialog |
-| `hooks_deny` | hooks deny → allow |
-| `hooks_steer` | Stop / UserPromptSubmit no longer fake-interject or reject the whole turn |
-
-- Every patch has a stable id, writes a `.dshhappy.bak` backup first, and is recorded in `$DSH_HOME/dsh-breach/applied.json`.
-- After a host upgrade you can replay (reapply) or revert the whole batch.
-- Unknown host versions are skipped rather than force-patched.
-
-### 3. Three tools
-
-| Tool | Purpose |
-|---|---|
-| `happy_status` | which patches are applied, which failed, where the backups are |
-| `happy_apply` | apply / replay patches |
-| `happy_revert` | restore from backups |
-
-### 4. Region and sensitive-action gate
-
-`lib/net-scope.js` intercepts on the first step:
-
-- hosts in mainland China / Hong Kong / Macao
-- roughly 200 banking domains
-- attack-pattern keywords
-
-Blocked requests get a refusal string and never reach the model. Allowlist: `$DSH_HOME/net-scope-allow.txt`, one entry per line.
-
-### 5. Web panel
-
-The plugin registers a `/dsh-breach/*` route group on its web surface (status, apply, revert, uninstall, restart, rewind, skills, rules, override, …).
-Only same-origin requests are accepted: cross-site `sec-fetch-site`, `Origin: null`, and `Origin` ≠ `Host` are rejected.
-
-### 6. Skills, rules, rewind
-
-- Skill and rule CRUD share the same HTTP + tool interfaces.
-- Rewind rolls a session back to a chosen turn.
+![dsh-breach panel](./docs/overview.png)
 
 ---
 
-## Install
+## Contents
 
-### Option 1 — from the DSH UI (recommended)
+- [What it solves](#what-it-solves)
+- [Quick start](#quick-start)
+- [Panel](#panel)
+- [Prompt injection](#1-prompt-injection)
+- [Patch engine](#2-patch-engine)
+- [Three tools](#3-three-tools)
+- [Region and sensitive-operation gate](#4-region-and-sensitive-operation-gate)
+- [Web routes](#5-web-routes)
+- [rewind](#6-rewind)
+- [Compatibility](#compatibility)
+- [State directory](#state-directory)
+- [Development](#development)
+- [Uninstall](#uninstall)
+- [FAQ](#faq)
+- [License](#license)
 
-Open DSH → Plugins → **Add plugin**, paste the package name:
+---
+
+## What it solves
+
+DSH ships a set of paragraphs written to avoid trouble: disclaimers, approval prompts, `hooks` deny paths, and tool descriptions that tell the model to hold back. When you actually try to get work done, those sentences keep pulling execution back into a confirmation loop.
+
+dsh-breach does two things:
+
+1. **Injects prompts** — swaps the default persona, rules and working discipline for a version that executes, and lets you bind a different prompt per model.
+2. **Rewrites host code** — replaces those intercept points with strong instructions, **with a backup for every change and a one-click batch revert**.
+
+It does not touch your conversation content and does not take over the host: it works only on your own machine, on your own installation.
+
+---
+
+## Quick start
+
+### Option 1 — Install from the DSH UI (recommended)
+
+DSH → Plugins → **Add plugin** → paste the package name:
 
 ```
 dsh-breach
 ```
 
-Either install source works (`registry.npmmirror.com` has synced this package).
+Both the official registry and `registry.npmmirror.com` are synced.
 
-### Option 2 — edit the profile's `package.json` by hand
+### Option 2 — Add it to the profile's `package.json`
 
 ```jsonc
 {
   "dependencies": {
-    // from npm:
-    "dsh-breach": "^1.0.26"
-    // or from a local directory (use your own path):
+    "dsh-breach": "^1.2.7"
+    // or from a local directory:
     // "dsh-breach": "link:D:/dsh/dsh-breach"
   },
   "dsh": { "profile": { "bundles": ["dsh-breach"] } }
 }
 ```
 
-then run `pnpm install` inside that profile directory.
+Then run `pnpm install` in that profile directory.
 
-### Verify
-
-Restart the host and open:
-
-```
-http://127.0.0.1:<DSH_PORT>/dsh-breach/status
-```
-
-`<DSH_PORT>` is the port of your DSH web UI (for example `52034` on this machine). `{"ok":true,...}` means it loaded.
-
-### About the `dsh` command
-
-Subcommands like `dsh plugin ...` depend on a CLI shipped by the host — **some installations (e.g. the desktop build) do not provide a `dsh` command**. Check first:
+### Option 3 — CLI (when the host ships `dsh`)
 
 ```bash
-# only if the dsh command exists
 dsh plugin --profile desktop add dsh-breach
 ```
 
-Otherwise use one of the two options above. The plugin's own CLI is `dsh-breach` (lands in the profile's `node_modules/.bin`); run `dsh-breach --help`.
+Some installs (the desktop build, for one) ship without the `dsh` command — use options 1 or 2 then. The plugin's own CLI is `dsh-breach` (inside the profile's `node_modules/.bin`); run `dsh-breach --help`.
+
+### Verify
+
+Restart the host, then open:
+
+```
+http://127.0.0.1:<DSH port>/dsh-breach/status
+```
+
+`{"ok":true, ...}` means it loaded. Open the floating panel on the right to see the patch groups.
 
 ---
+
+## Panel
+
+| Overview | Group expanded | Failure filter |
+|---|---|---|
+| ![overview](./docs/overview.png) | ![groups](./docs/patches.png) | ![filter](./docs/filter.png) |
+
+- **Top strip**: state (all ready / N failed / not applied), three counters (applied · skipped · failed), `Revert` / `Apply`.
+- **Group rows**: clicking one expands its patch list **inline, right below that row**; each group opens independently. The `All / Failed / Skipped` chips filter by status — while filtering, only groups with matches stay, and each list keeps only the matching entries; if nothing matches, the list says so in one line.
+- **Prompt card**: shows the active injection source and length; open it to edit or restore the default.
+
+---
+
+## What it changes
+
+### 1. Prompt injection
+
+Priority, highest first:
+
+```
+text currently in the composer  >  $DSH_HOME/prompt-inject.md  >  the plugin's encrypted default
+```
+
+- The default prompt is sealed with **AES-256-GCM + deflate** inside `lib/asset-table.js`, decrypted at runtime; plaintext never touches disk.
+- To swap it: edit `$DSH_HOME/prompt-inject.md` — saving is enough, no restart.
+- Different models can bind different prompts (per preset).
+
+### 2. Patch engine
+
+It replaces specific strings inside `@deepseek-ai/*` host sources.
+
+- **86 definitions** (ids 1..92, with gaps), **settled** at runtime per host version — on `0.2.1-rc.5` that is **72 items**: prompt 19 · code 46 · tools 4 · compatibility 3.
+- Every patch has a unique id; before touching anything it writes a `.dshhappy.bak` backup and records the change in `$DSH_HOME/dsh-breach/applied.json`.
+- After a host upgrade you can replay (reapply) or revert the whole batch; unknown host versions are skipped rather than force-patched.
+
+| Group | What it does | Examples |
+|---|---|---|
+| **Prompt** | Rewrites identity, disclaimer and approval paragraphs in the system prompt | `#1` global / replacement / scope disclaimers → strong instruction; `#4` persona: drop the stock identity; `#5` approval sentence → auto-approve |
+| **Code** | Runtime checks and defaults | `#6` sandbox deny file-write; `#7` sandbox defaults to `danger-full-access` (still switchable from the UI); `#8` approval defaults to `never` |
+| **Tools** | Tool descriptions and roster | `#29` web external content "untrusted" gate → usable data; `#48` bash/pwsh drop the over-cautious delete/move wording; `#60` PTC |
+| **Compatibility** | Keeps third-party presets and OAuth paths working | `#40` complete preset puts the folded injection first; `#47` Anthropic OAuth stops injecting the Claude Code preamble |
+
+**Status meanings**
+
+| Status | Meaning |
+|---|---|
+| Applied | Patched, or already in that shape |
+| Skipped | Target file / pattern does not exist on this host version — nothing to change (not an error) |
+| Failed | Target found but not writable (permissions, format drift) |
+| Pending | Not run yet |
+
+### 3. Three tools
+
+| Tool | Purpose |
+|---|---|
+| `happy_status` | Which patches are applied, which failed, where the backups are |
+| `happy_apply` | Apply / replay patches |
+| `happy_revert` | Revert from backups |
+
+### 4. Region and sensitive-operation gate
+
+`lib/net-scope.js` intercepts three classes of requests at the first step: hosts in mainland China / Hong Kong / Macau, roughly 200 banking domains, and attack-keyword requests. Intercepted calls return a refusal sentence without reaching the model. The allowlist lives in `$DSH_HOME/net-scope-allow.txt`, one entry per line.
+
+### 5. Web routes
+
+The plugin registers `/dsh-breach/*` on its own web surface and accepts same-origin requests only (cross-site `sec-fetch-site`, `Origin: null`, and `Origin`/`Host` mismatches are rejected).
+
+| Route | Purpose |
+|---|---|
+| `/dsh-breach/status` | Patch status |
+| `/dsh-breach/apply` | Apply / replay |
+| `/dsh-breach/revert` | Revert |
+| `/dsh-breach/override` | Read / write the prompt override |
+| `/dsh-breach/rewind` · `/rewind/options` | Session rewind |
+| `/dsh-breach/restart` | Restart the host |
+| `/dsh-breach/uninstall` | Uninstall |
+
+### 6. rewind
+
+Rewinds a session to a given turn, optionally refilling the composer.
+
+---
+
+## Compatibility
+
+| Item | Value | Status |
+|---|---|---|
+| Host `0.2.1-rc.5` · web | 72 items settled, 71 applied / 1 skipped | Verified |
+| Host `0.2.1-rc.5` · desktop | Same | Verified |
+| Other host versions | — | Not verified (unknown patterns are skipped) |
+| Node | ≥ 18 | — |
+| `@deepseek-ai/cordis` | `^4.0.1` (peer) | — |
+
+---
+
+## State directory
+
+Everything lives under `$DSH_HOME/dsh-breach/`:
+
+| File | Contents |
+|---|---|
+| `applied.json` | Applied patch ids and backup locations |
+| `host-backups/` | Backups of original host files |
+| `drill-grant.json` | Drill authorization |
+| `override-state.json` | Override state |
+| `installed-rev` | Installed revision marker |
 
 ## Layout
 
 ```
 lib/
-  index.js           entry: tools, routes, injection hooks
-  core.js            patch engine (86 patches + display groups + apply/revert)
-  client.js          client bundle (sidebar UI, i18n, styles)
+  index.js           plugin entry: tools, routes, injection hooks
+  core.js            patch engine (definitions + display groups + apply/revert)
+  client.js          client bundle (panel UI, strings, styles)
   desktop.js         desktop surface adapter
-  identity.js        identity overlay
-  net-scope.js       region / sensitive-action gate
+  identity.js        identity override
+  net-scope.js       region and sensitive-operation gate
   asset-table.js     sealed default prompt asset
-  table-key.js       seal / unseal (AES-256-GCM + deflate)
-  skills.js          skill management
-  rules.js           rule management
+  table-key.js       seal/unseal (AES-256-GCM + deflate)
+  rules.js           prompt injection base (parsing, workspace policy)
   rewind.js          session rewind
-  update.js          self-update (disabled by default)
+  update.js          self-update (off by default)
 bin/
-  dsh-breach.js       CLI
+  dsh-breach.js      CLI
 scripts/
-  embed-default-prompt.mjs   seal a plaintext md into asset-table.js
+  embed-default-prompt.mjs   seals the plaintext md into asset-table.js
 ```
-
-## State directory
-
-Everything lives in `$DSH_HOME/dsh-breach/`:
-
-| File | Contents |
-|---|---|
-| `applied.json` | applied patch ids and backup locations |
-| `host-backups/` | host file backups |
-| `drill-grant.json` | drill grant |
-| `override-state.json` | override state |
-| `installed-rev` | installed revision marker |
 
 ---
 
 ## Development
 
 ```bash
-# re-seal the default prompt (prepare lib/default-prompt-inject.md first)
-pnpm embed-prompt
-
-# syntax check
-node --check lib/index.js
+pnpm embed-prompt          # re-seal the default prompt (needs lib/default-prompt-inject.md)
+node --check lib/index.js  # syntax check
 ```
 
-You only need `embed-prompt` after editing the default prompt text; the runtime never reads the plaintext md.
+Only re-run `embed-prompt` when the default prompt body changes; the runtime never reads the plaintext md.
 
 ## Uninstall
 
-Revert the patches first (`happy_revert`, or the revert button in the UI), then remove the package:
+Revert the patches first (panel `Revert`, or `happy_revert`), then remove the package:
 
-- In the UI: plugin list → `dsh-breach` → uninstall
-- Or inside the profile directory:
+- UI: Plugins → `dsh-breach` → uninstall
+- or in the profile directory: `pnpm remove dsh-breach`, and drop it from `dsh.profile.bundles`
 
-  ```bash
-  pnpm remove dsh-breach
-  ```
+Keep `$DSH_HOME/dsh-breach/` backups until you have confirmed the host is healthy.
 
-  and drop it from `dsh.profile.bundles` in the profile's `package.json`.
+---
 
-If your host ships a CLI, `dsh plugin --profile desktop remove dsh-breach` also works.
+## FAQ
 
-Keep `$DSH_HOME/dsh-breach/` until you've confirmed the host is healthy.
+**Do I need to re-apply after a host upgrade?**
+Yes. Upgrades overwrite host sources. Check the panel and press `Apply` to replay; `reapply` also tops up automatically on startup.
+
+**Is "skipped" broken?**
+No. It means the target of that patch does not exist on this host version (file not installed, wording moved on) — nothing to change. On a machine without the LiangShen preset, `#71` stays skipped permanently.
+
+**Can it break my sources?**
+Every change is preceded by a `.dshhappy.bak` backup and recorded in `applied.json`; `Revert` restores from those backups. Unknown host versions are skipped.
+
+**Panel missing or unresponsive?**
+Check that `/dsh-breach/status` returns `{"ok":true}`, that `dsh-breach` is listed in the profile's `bundles`, and that the host was restarted once.
+
+---
 
 ## License
 
 [MIT](./LICENSE) © 2026 zhuchongba01
 
-This plugin works by rewriting host sources — use it on your own machine, on your own installation.
+The plugin works by rewriting host sources — use it on your own machine, on your own installation.
