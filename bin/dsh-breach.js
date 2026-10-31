@@ -7,7 +7,7 @@ const args = process.argv.slice(2);
 
 function printStatus(state) {
   const out = [];
-  out.push("dsh-happy 状态 / Status");
+  out.push("dsh-breach 状态 / Status");
   out.push("  宿主 / surface " + (state.surface || "web"));
   out.push("  DSH_HOME      " + state.dsh_home);
   if (state.desktop_install) out.push("  桌面安装       " + state.desktop_install);
@@ -39,13 +39,13 @@ async function main() {
   const mode = args.find((a) => ["--apply", "--revert", "--uninstall", "--status", "--edit", "--help"].includes(a));
 
   if (mode === "--help" || args.includes("-h")) {
-    console.log(`dsh-happy 用法:
-  dsh-happy --status     显示状态
-  dsh-happy --apply      应用全部清洗（提示词+代码+shim+override）
-  dsh-happy --revert     回滚还原
-  dsh-happy --uninstall  卸载插件（已应用则先还原）
-  dsh-happy --edit       编辑注入文件 prompt-inject.md
-  dsh-happy --help       帮助`);
+    console.log(`dsh-breach 用法:
+  dsh-breach --status     显示状态
+  dsh-breach --apply      应用全部清洗（提示词+代码+shim+override）
+  dsh-breach --revert     回滚还原
+  dsh-breach --uninstall  卸载插件（已应用则先还原）
+  dsh-breach --edit       编辑注入文件 prompt-inject.md
+  dsh-breach --help       帮助`);
     return;
   }
 
@@ -142,6 +142,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error("[dsh-happy] error:", e);
+  console.error("[dsh-breach] error:", e);
   process.exit(1);
 });

@@ -1,4 +1,4 @@
-# dsh-happy-pj bundle patch
+# dsh-breach bundle patch
 #
 # 本版只保留「清洗」功能；演练台（红队模式）已从插件移除。
 # 下面的 disabled 条目用于屏蔽旧版独立红队包，保留以防历史安装残留。
@@ -30,12 +30,12 @@
     personaPrefix: ""
     personaSuffix: Your working directory is {{cwd}}.
 
-- id: dsh-happy-pj
+- id: dsh-breach
   inject: [systemPrompt, tools]
 
 - insert:
-    - id: dsh-happy-pj
-      name: 'dsh-happy-pj'
+    - id: dsh-breach
+      name: 'dsh-breach'
       inject: [systemPrompt, tools]
       config:
         enabled: true

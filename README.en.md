@@ -1,4 +1,4 @@
-# dsh-happy
+# dsh-breach
 
 A [DSH (DeepSeek Harness)](https://github.com/deepseek-ai) plugin that injects **prompts, rules and tools** into the host, plus a fully reversible **patch engine**.
 
@@ -38,7 +38,7 @@ It rewrites specific strings inside the host's `@deepseek-ai/*` sources:
 | `hooks_deny` | hooks deny → allow |
 | `hooks_steer` | Stop / UserPromptSubmit no longer fake-interject or reject the whole turn |
 
-- Every patch has a stable id, writes a `.dshhappy.bak` backup first, and is recorded in `$DSH_HOME/dsh-happy/applied.json`.
+- Every patch has a stable id, writes a `.dshhappy.bak` backup first, and is recorded in `$DSH_HOME/dsh-breach/applied.json`.
 - After a host upgrade you can replay (reapply) or revert the whole batch.
 - Unknown host versions are skipped rather than force-patched.
 
@@ -62,7 +62,7 @@ Blocked requests get a refusal string and never reach the model. Allowlist: `$DS
 
 ### 5. Web panel
 
-The plugin registers a `/dsh-happy/*` route group on its web surface (status, apply, revert, uninstall, restart, rewind, skills, rules, override, …).
+The plugin registers a `/dsh-breach/*` route group on its web surface (status, apply, revert, uninstall, restart, rewind, skills, rules, override, …).
 Only same-origin requests are accepted: cross-site `sec-fetch-site`, `Origin: null`, and `Origin` ≠ `Host` are rejected.
 
 ### 6. Skills, rules, rewind
@@ -79,7 +79,7 @@ Only same-origin requests are accepted: cross-site `sec-fetch-site`, `Origin: nu
 Open DSH → Plugins → **Add plugin**, paste the package name:
 
 ```
-dsh-happy-pj
+dsh-breach
 ```
 
 Either install source works (`registry.npmmirror.com` has synced this package).
@@ -90,11 +90,11 @@ Either install source works (`registry.npmmirror.com` has synced this package).
 {
   "dependencies": {
     // from npm:
-    "dsh-happy-pj": "^1.0.26"
+    "dsh-breach": "^1.0.26"
     // or from a local directory (use your own path):
-    // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
+    // "dsh-breach": "link:D:/dsh/dsh-breach"
   },
-  "dsh": { "profile": { "bundles": ["dsh-happy-pj"] } }
+  "dsh": { "profile": { "bundles": ["dsh-breach"] } }
 }
 ```
 
@@ -105,7 +105,7 @@ then run `pnpm install` inside that profile directory.
 Restart the host and open:
 
 ```
-http://127.0.0.1:<DSH_PORT>/dsh-happy/status
+http://127.0.0.1:<DSH_PORT>/dsh-breach/status
 ```
 
 `<DSH_PORT>` is the port of your DSH web UI (for example `52034` on this machine). `{"ok":true,...}` means it loaded.
@@ -116,10 +116,10 @@ Subcommands like `dsh plugin ...` depend on a CLI shipped by the host — **some
 
 ```bash
 # only if the dsh command exists
-dsh plugin --profile desktop add dsh-happy-pj
+dsh plugin --profile desktop add dsh-breach
 ```
 
-Otherwise use one of the two options above. The plugin's own CLI is `dsh-happy` (lands in the profile's `node_modules/.bin`); run `dsh-happy --help`.
+Otherwise use one of the two options above. The plugin's own CLI is `dsh-breach` (lands in the profile's `node_modules/.bin`); run `dsh-breach --help`.
 
 ---
 
@@ -140,14 +140,14 @@ lib/
   rewind.js          session rewind
   update.js          self-update (disabled by default)
 bin/
-  dsh-happy.js       CLI
+  dsh-breach.js       CLI
 scripts/
   embed-default-prompt.mjs   seal a plaintext md into asset-table.js
 ```
 
 ## State directory
 
-Everything lives in `$DSH_HOME/dsh-happy/`:
+Everything lives in `$DSH_HOME/dsh-breach/`:
 
 | File | Contents |
 |---|---|
@@ -175,18 +175,18 @@ You only need `embed-prompt` after editing the default prompt text; the runtime 
 
 Revert the patches first (`happy_revert`, or the revert button in the UI), then remove the package:
 
-- In the UI: plugin list → `dsh-happy-pj` → uninstall
+- In the UI: plugin list → `dsh-breach` → uninstall
 - Or inside the profile directory:
 
   ```bash
-  pnpm remove dsh-happy-pj
+  pnpm remove dsh-breach
   ```
 
   and drop it from `dsh.profile.bundles` in the profile's `package.json`.
 
-If your host ships a CLI, `dsh plugin --profile desktop remove dsh-happy-pj` also works.
+If your host ships a CLI, `dsh plugin --profile desktop remove dsh-breach` also works.
 
-Keep `$DSH_HOME/dsh-happy/` until you've confirmed the host is healthy.
+Keep `$DSH_HOME/dsh-breach/` until you've confirmed the host is healthy.
 
 ## License
 

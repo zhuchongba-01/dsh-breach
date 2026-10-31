@@ -1,4 +1,4 @@
-# dsh-happy
+# dsh-breach
 
 DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工具**，并提供一个可回滚的**补丁引擎**。
 
@@ -38,7 +38,7 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 | `hooks_deny` | hooks deny → allow |
 | `hooks_steer` | Stop / UserPromptSubmit 不再假插话或整轮 reject |
 
-- 每条补丁有唯一 id，改动前写 `.dshhappy.bak` 备份，记录在 `$DSH_HOME/dsh-happy/applied.json`。
+- 每条补丁有唯一 id，改动前写 `.dshhappy.bak` 备份，记录在 `$DSH_HOME/dsh-breach/applied.json`。
 - 宿主升级后可以重放（reapply），也可以整批回滚。
 - 不认识的宿主版本会跳过，不会硬改坏。
 
@@ -62,7 +62,7 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 
 ### 5. Web 面板
 
-插件在自己的 Web 表面注册了 `/dsh-happy/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、Skill、规则、覆盖等）。
+插件在自己的 Web 表面注册了 `/dsh-breach/*` 一组路由（状态、应用、回滚、卸载、重启、rewind、Skill、规则、覆盖等）。
 只接受同源请求：跨站 `sec-fetch-site`、`Origin: null`、`Origin` 与 `Host` 不一致的一律拒绝。
 
 ### 6. Skill / 规则 / rewind
@@ -79,7 +79,7 @@ DSH（DeepSeek Harness）插件：往宿主里注入**提示词、规则和工�
 打开 DSH → 插件 → **添加插件**，在输入框里粘贴包名：
 
 ```
-dsh-happy-pj
+dsh-breach
 ```
 
 安装源选「中国大陆镜像源」或官方源都行（`registry.npmmirror.com` 已同步该包）。
@@ -90,11 +90,11 @@ dsh-happy-pj
 {
   "dependencies": {
     // 从 npm 装：
-    "dsh-happy-pj": "^1.0.26"
+    "dsh-breach": "^1.0.26"
     // 或从本地目录装（改成你自己的路径）：
-    // "dsh-happy-pj": "link:D:/dsh/dsh-happy-pj"
+    // "dsh-breach": "link:D:/dsh/dsh-breach"
   },
-  "dsh": { "profile": { "bundles": ["dsh-happy-pj"] } }
+  "dsh": { "profile": { "bundles": ["dsh-breach"] } }
 }
 ```
 
@@ -105,7 +105,7 @@ dsh-happy-pj
 装完重启宿主，打开：
 
 ```
-http://127.0.0.1:<DSH 端口>/dsh-happy/status
+http://127.0.0.1:<DSH 端口>/dsh-breach/status
 ```
 
 `<DSH 端口>` 就是 DSH Web 界面的端口（本机示例是 `52034`）。返回 `{"ok":true,...}` 即加载成功。
@@ -116,10 +116,10 @@ http://127.0.0.1:<DSH 端口>/dsh-happy/status
 
 ```bash
 # 有 dsh 命令才用这条
-dsh plugin --profile desktop add dsh-happy-pj
+dsh plugin --profile desktop add dsh-breach
 ```
 
-没有就用上面两种方式。插件自带的 CLI 是 `dsh-happy`（装完后在 profile 的 `node_modules/.bin` 里），跑 `dsh-happy --help`。
+没有就用上面两种方式。插件自带的 CLI 是 `dsh-breach`（装完后在 profile 的 `node_modules/.bin` 里），跑 `dsh-breach --help`。
 
 
 ---
@@ -141,14 +141,14 @@ lib/
   rewind.js           会话回退
   update.js           自更新（默认关闭）
 bin/
-  dsh-happy.js        CLI
+  dsh-breach.js        CLI
 scripts/
   embed-default-prompt.mjs   把明文 md 封成 asset-table.js
 ```
 
 ## 状态目录
 
-全部在 `$DSH_HOME/dsh-happy/`：
+全部在 `$DSH_HOME/dsh-breach/`：
 
 | 文件 | 内容 |
 |---|---|
@@ -176,18 +176,18 @@ node --check lib/index.js
 
 先回滚补丁（`happy_revert`，或界面上点「回滚」），再删包：
 
-- 界面里：插件列表 → `dsh-happy-pj` → 卸载
+- 界面里：插件列表 → `dsh-breach` → 卸载
 - 或在 profile 目录里：
 
   ```bash
-  pnpm remove dsh-happy-pj
+  pnpm remove dsh-breach
   ```
 
   并把它从 profile `package.json` 的 `dsh.profile.bundles` 数组里删掉。
 
-宿主带了 CLI 的话，也可以 `dsh plugin --profile desktop remove dsh-happy-pj`。
+宿主带了 CLI 的话，也可以 `dsh plugin --profile desktop remove dsh-breach`。
 
-`$DSH_HOME/dsh-happy/` 里的备份建议留着，直到确认宿主正常。
+`$DSH_HOME/dsh-breach/` 里的备份建议留着，直到确认宿主正常。
 
 ## 许可
 

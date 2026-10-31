@@ -1,4 +1,4 @@
-window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
+window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 
 		var module = { exports: {} };
 		var exports = module.exports;
@@ -7,9 +7,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		const h = react.createElement;
 		const { useState, useEffect, useCallback, useRef, Component } = react;
 
-		const name = "dsh-happy-pj";
+		const name = "dsh-breach";
 		const inject = ["slots", "locale"];
-		const NS = "settings.dsh-happy";
+		const NS = "settings.dsh-breach";
 		let translate = (key) => key;
 		function useT() {
 			return translate;
@@ -43,14 +43,14 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		function apiTimeoutMs(p, init) {
 			const path = String(p || "");
 			const method = String((init && init.method) || "GET").toUpperCase();
-			if (path.indexOf("/dsh-happy-pj/update") !== -1) return method === "POST" ? 180000 : 45000;
-			if (path.indexOf("/dsh-happy-pj/uninstall") !== -1) return 90000;
-			if (path.indexOf("/dsh-happy-pj/skill") !== -1) return method === "POST" ? 120000 : 20000;
+			if (path.indexOf("/dsh-breach/update") !== -1) return method === "POST" ? 180000 : 45000;
+			if (path.indexOf("/dsh-breach/uninstall") !== -1) return 90000;
+			if (path.indexOf("/dsh-breach/skill") !== -1) return method === "POST" ? 120000 : 20000;
 			// status 会在"应用"期间被后端的同步落盘阻塞，默认 20s 必然被 abort，界面只会显示"读取失败: timeout"。
-			if (path.indexOf("/dsh-happy-pj/status") !== -1) return 60000;
-			if (path.indexOf("/dsh-happy-pj/apply") !== -1) return 240000;
-			if (path.indexOf("/dsh-happy-pj/revert") !== -1) return 120000;
-			if (path.indexOf("/dsh-happy-pj/restart") !== -1) return 60000;
+			if (path.indexOf("/dsh-breach/status") !== -1) return 60000;
+			if (path.indexOf("/dsh-breach/apply") !== -1) return 240000;
+			if (path.indexOf("/dsh-breach/revert") !== -1) return 120000;
+			if (path.indexOf("/dsh-breach/restart") !== -1) return 60000;
 			return 20000;
 		}
 		function isAbortError(e) {
@@ -100,7 +100,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		}
 
 		function rulesApi(op, extra) {
-			return apiJson("/dsh-happy-pj/rules", {
+			return apiJson("/dsh-breach/rules", {
 				method: "POST",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
@@ -117,9 +117,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
 			};
-			return apiJson("/dsh-happy-pj/skills", init).catch((e) => {
+			return apiJson("/dsh-breach/skills", init).catch((e) => {
 				if (!skillsRouteMissing(e)) throw e;
-				return apiJson("/dsh-happy-pj/skill", init);
+				return apiJson("/dsh-breach/skill", init);
 			});
 		}
 
@@ -128,17 +128,21 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 		const zh = {
 			nav: "规则设定",
 			"dock.clean": "清洗",
-			"dock.toggle": "dsh-happy",
-			"dock.newSession": "dsh-happy",
-			"dock.inSession": "dsh-happy",
+			"dock.toggle": "dsh-breach",
+			"dock.newSession": "dsh-breach",
+			"updPill.label": "更新",
+			"updPill.title": "有新版本可用，点一下自动更新",
+			"updPill.busy": "更新中…",
+			"updPill.fail": "更新失败",
+			"dock.inSession": "dsh-breach",
 			"dock.full": "全面浏览",
 			"dock.close": "收起",
 			"dock.unauthorized": "未授权",
 			"welcome.title": "用户须知",
 			"welcome.lead": "首次安装本插件时请阅读以下说明。确认后本窗不再弹出。",
 			"welcome.warn": "本插件免费开源。任何背着作者私自售卖、付费倒卖或借本项目盈利的行为，作者将依法追究法律责任。",
-			"welcome.body": "dsh-happy 是 DeepSeek Harness 的本机网络安全红队评测与清洗插件：在受控本机环境中调整提示词与补丁。项目免费、非营利。",
-			"welcome.repo": "https://github.com/zhuchongba-01/dsh-happy",
+			"welcome.body": "dsh-breach 是 DeepSeek Harness 的本机网络安全红队评测与清洗插件：在受控本机环境中调整提示词与补丁。项目免费、非营利。",
+			"welcome.repo": "https://github.com/zhuchongba-01/dsh-breach",
 			"welcome.ban1": "禁止将本项目用于未授权的网络攻击、入侵、窃取数据、破坏系统或任何违法犯罪。",
 			"welcome.ban2": "禁止商业售卖、付费倒卖、黑灰产牟利，以及隐瞒作者的营利性再分发。",
 			"welcome.ban3": "使用者须自行遵守所在地法律法规与平台规范；违法后果由行为人自行承担，与作者无关。",
@@ -190,7 +194,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"btn.revert": "还原",
 			"btn.uninstall": "卸载",
 			"btn.uninstall.busy": "卸载中…",
-			"uninstall.title": "卸载 dsh-happy",
+			"uninstall.title": "卸载 dsh-breach",
 			"uninstall.body": "是否卸载？卸载将还原回原版，并清除本插件的全部文件与补丁。",
 			"uninstall.confirm": "确认卸载",
 			"uninstall.cancel": "取消",
@@ -329,6 +333,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"ov.skipped": "跳过",
 			"ov.failed": "失败",
 			"ov.pending": "待应用",
+			"ov.failN": "项失败",
+			"ov.pendingN": "项待应用",
+			"ov.notApplied": "未应用",
 			"ov.skippedHint": "跳过",
 			"ov.allApplied": "没有跳过项",
 			"ov.showDetail": "查看明细 ›",
@@ -358,7 +365,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"patch.24": "preset fetch 启用",
 			"patch.25": "去掉官方默认身份（功能提示词不动）",
 			"patch.26": "minimal：去掉默认身份并打开 inject",
-			"patch.28": "dsh-liangshen（梁神）：phase-1 保留 dsh-happy / dshhappy 段",
+			"patch.28": "dsh-liangshen（梁神）：phase-1 保留 dsh-breach / dshhappy 段",
 			"patch.70": "极简模式终端不再禁止网络",
 			"patch.71": "梁神去掉官方身份句",
 			"patch.29": "dsh-tool-web：外部 untrusted 拦截→可执行",
@@ -435,36 +442,26 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"hooksDeny.bypass": "放行 hooks 的 deny / ask（补丁 30 / 31 / 64 / 65）",
 			"hooksDeny.hint": "关掉后，用户自己的 PreToolUse / UserPromptSubmit / Stop hook 的 deny 会按官方逻辑生效。官方 ask 分支本身是空操作，关开关不会弹出审批框。改完后点「应用」并重启才写进宿主。",
 			"saved.hooksDeny": "已保存",
-			"continue.title": "失败重试 / 继续",
-			"continue.hint": "请求失败会自动重试；异常停止或中断可点「继续」或自动续跑。自己点停止不会自动继续。次数用完后需新开一轮。",
-			"continue.autoRetry": "失败自动重试",
-			"continue.retryMax": "重试次数",
-			"continue.autoContinue": "中断后自动继续",
-			"continue.continueMax": "继续次数",
-			"continue.text": "继续用语",
-			"saved.continue": "已保存",
-			"continue.label": "继续",
-			"continue.aria": "异常停止后继续",
-			"continue.busy": "继续中…",
-			"continue.ready": "继续（还可 {left} 次）",
-			"continue.limit": "已达继续上限",
-			"continue.fail": "继续失败: {error}",
 		};
 
 		const en = {
 			nav: "Rules",
 			"dock.clean": "Clean",
-			"dock.toggle": "dsh-happy",
-			"dock.newSession": "dsh-happy",
-			"dock.inSession": "dsh-happy",
+			"dock.toggle": "dsh-breach",
+			"dock.newSession": "dsh-breach",
+			"updPill.label": "Update",
+			"updPill.title": "New version available — click to update",
+			"updPill.busy": "Updating…",
+			"updPill.fail": "Update failed",
+			"dock.inSession": "dsh-breach",
 			"dock.full": "Full view",
 			"dock.close": "Collapse",
 			"dock.unauthorized": "Unauthorized",
 			"welcome.title": "User notice",
 			"welcome.lead": "Please read this on first install. After you confirm, it will not appear again.",
 			"welcome.warn": "This plugin is free and open source. Anyone who sells, resells, or profits from it behind the author's back may face legal action.",
-			"welcome.body": "dsh-happy is a local DeepSeek Harness plugin for security evaluation and cleaning: adjust prompts and patches on a machine you control. Free and non-profit.",
-			"welcome.repo": "https://github.com/YuJunZhiXue/dsh-happy",
+			"welcome.body": "dsh-breach is a local DeepSeek Harness plugin for security evaluation and cleaning: adjust prompts and patches on a machine you control. Free and non-profit.",
+			"welcome.repo": "https://github.com/zhuchongba-01/dsh-breach",
 			"welcome.ban1": "Do not use this project for unauthorized attacks, intrusion, data theft, sabotage, or any illegal activity.",
 			"welcome.ban2": "Do not commercially sell, resell, or profit from gray-market use, or redistribute for profit without the author.",
 			"welcome.ban3": "You must follow local law and platform rules; illegal use is solely your responsibility.",
@@ -516,7 +513,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"btn.revert": "Restore",
 			"btn.uninstall": "Uninstall",
 			"btn.uninstall.busy": "Uninstalling…",
-			"uninstall.title": "Uninstall dsh-happy",
+			"uninstall.title": "Uninstall dsh-breach",
 			"uninstall.body": "Uninstall? This restores the original Harness and removes this plugin completely.",
 			"uninstall.confirm": "Uninstall",
 			"uninstall.cancel": "Cancel",
@@ -655,6 +652,9 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"ov.skipped": "Skipped",
 			"ov.failed": "Failed",
 			"ov.pending": "Pending",
+			"ov.failN": "failed",
+			"ov.pendingN": "to apply",
+			"ov.notApplied": "Not applied",
 			"ov.skippedHint": "Skipped",
 			"ov.allApplied": "Nothing skipped",
 			"ov.showDetail": "Details ›",
@@ -684,7 +684,7 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"patch.24": "preset fetch on",
 			"patch.25": "Strip official default identity (keep feature prompts)",
 			"patch.26": "minimal: strip identity, open inject",
-			"patch.28": "dsh-liangshen: keep dsh-happy / dshhappy in phase-1",
+			"patch.28": "dsh-liangshen: keep dsh-breach / dshhappy in phase-1",
 			"patch.70": "Minimal shell drops the no-network line",
 			"patch.71": "Liangshen drops the stock identity line",
 			"patch.29": "dsh-tool-web: untrusted framing → usable data",
@@ -761,27 +761,16 @@ window.__ModuleLoader__.load({ id: "dsh-happy-pj", factory: (require) => {
 			"hooksDeny.bypass": "Bypass hook deny / ask (patches 30 / 31 / 64 / 65)",
 			"hooksDeny.hint": "When off, your own PreToolUse / UserPromptSubmit / Stop hook deny runs as the official host wrote it. The official ask branch is a no-op; turning this off will not show an approval dialog. Click Apply and restart to write the host files.",
 			"saved.hooksDeny": "Saved",
-			"continue.title": "Retry / Continue",
-			"continue.hint": "Failed requests auto-retry. After an abnormal stop or interrupt, use Continue or auto-resume. A manual stop never auto-continues. Counts reset after a completed turn.",
-			"continue.autoRetry": "Auto-retry on failure",
-			"continue.retryMax": "Retry count",
-			"continue.autoContinue": "Auto-continue after interrupt",
-			"continue.continueMax": "Continue count",
-			"continue.text": "Continue text",
-			"saved.continue": "Saved",
-			"continue.label": "Continue",
-			"continue.aria": "Continue after an abnormal stop",
-			"continue.busy": "Continuing…",
-			"continue.ready": "Continue ({left} left)",
-			"continue.limit": "Continue limit reached",
-			"continue.fail": "Continue failed: {error}",
 		};
 
 		const HAPPY_CSS = `
 .dshp-root{--dshp-display:"Songti SC","Noto Serif SC","Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;--dshp-sans:"Yu Gothic UI","Hiragino Sans GB","Source Han Sans SC",system-ui,sans-serif;--dshp-mono:"Cascadia Mono","Sarasa Mono SC",ui-monospace,monospace;--dshp-ease:cubic-bezier(.16,1,.3,1);max-width:920px;display:flex;flex-direction:column;gap:18px;padding:16px;border-radius:12px;background:var(--dshp-bg);color:var(--dshp-ink);font-family:var(--dshp-sans)}
-.dshp-root{--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f6f4ef) 74%,transparent);--dshp-ink:var(--dsw-alias-label-primary,#1a1916);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#1a1916) 74%,var(--dsw-alias-label-secondary,#5c564c));--dshp-line:color-mix(in srgb,var(--dsw-alias-border-l1,#c8c2b6) 78%,transparent);--dshp-fill:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 14%,transparent);--dshp-accent:var(--dsw-alias-brand-primary,#748B6F);--dshp-accent-soft:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);--dshp-ok:#748B6F;--dshp-warn:#8a5a12;--dshp-bad:#9a3434}
+.dshp-root{--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f6f4ef) 74%,transparent);--dshp-ink:var(--dsw-alias-label-primary,#1a1916);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#1a1916) 74%,var(--dsw-alias-label-secondary,#5c564c));--dshp-line:color-mix(in srgb,var(--dsw-alias-border-l1,#c8c2b6) 78%,transparent);--dshp-fill:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 14%,transparent);--dshp-accent:var(--dsw-alias-brand-primary,#748B6F);--dshp-accent-soft:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);--dshp-ok:#748B6F;--dshp-warn:#8a5a12;--dshp-bad:#9a3434;--cd-bg:#FCFAF5;--cd-field:#FFFDF9;--cd-line:#EDE6D9;--cd-line-soft:#EFE9DD;--cd-line-dim:#F3EEE4;--cd-line-btn:#E7DFD0;--cd-ink:#1F1E1C;--cd-ink2:#3A3833;--cd-mute:#6B6862;--cd-faint:#A29E95;--cd-hover:#FAF6EE;--cd-hover2:#F6F1E7;--cd-focus:#D8CDB8;--cd-code:#F0EAE0;--cd-ok:#748B6F;--cd-bad:#C0392B;--cd-warn:#A96C16;--cd-off:#CFCBC2;--cd-track:#E0D8C8;--cd-knob:#FFFDF9}
 .dshp-root[data-theme="white"]{color-scheme:light;background:#FFFDF9;--dshp-paper:#FBF7EF;--dshp-line:#EDE6D9}
 .dshp-root[data-theme="dusk"]{color-scheme:dark;background:#211F1C;--dshp-paper:#26231F;--dshp-line:#332F29;--dshp-ok:#748B6F;--dshp-warn:#e4c48a;--dshp-bad:#f0b4b4}
+/* 深色令牌：宿主切深色（body 属性）或本地判定为 dusk 时同时生效，
+   概览面板 / 明细 / 提示词·规则·Skill 卡片 / 开关全部跟着走。 */
+body[data-ds-dark-theme] .dshp-root,.dshp-root[data-theme="dusk"]{--cd-bg:#26231F;--cd-field:#1B1917;--cd-line:#332F29;--cd-line-soft:#2C2925;--cd-line-dim:#2A2724;--cd-line-btn:#3A352E;--cd-ink:#EFEBE2;--cd-ink2:#DDD8CD;--cd-mute:#9A948A;--cd-faint:#7A756B;--cd-hover:#2E2B26;--cd-hover2:#2B2824;--cd-focus:#6B6154;--cd-code:#2A2724;--cd-ok:#8FB389;--cd-bad:#F85149;--cd-warn:#E4C48A;--cd-off:#55504A;--cd-track:#3A352E;--cd-knob:#EFEBE2}
 .dshp-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .dshp-switch{display:inline-flex;border:1px solid var(--dshp-line);border-radius:999px;overflow:hidden;background:var(--dshp-paper)}
 .dshp-switch button{appearance:none;border:0;background:transparent;color:var(--dshp-mute);font:12px/1 var(--dshp-sans);padding:6px 14px;cursor:pointer}
@@ -987,11 +976,15 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-hbtn{appearance:none;display:inline-flex;flex:0 0 auto;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 55%,transparent);background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:12px/1 inherit;padding:5px 10px;border-radius:8px;white-space:nowrap}
 .dshp-hbtn:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-hbtn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)}
-.dshp-live-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dsw-alias-brand-primary,#748B6F);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 28%,transparent)}
-.dshp-hero-chip{display:inline-flex;align-items:center;margin-left:6px;flex:0 0 auto}
-.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 50%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 10%,transparent);color:var(--dsw-alias-label-primary,currentColor);cursor:pointer;font:12.5px/1 inherit;white-space:nowrap}
-.dshp-hero-chip-btn:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent)}
-.dshp-hero-chip-btn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)}
+.dshp-live-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dshp-accent,#748B6F);box-shadow:0 0 0 3px color-mix(in srgb,var(--dshp-accent,#748B6F) 28%,transparent)}
+.dshp-hero-chip{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto}
+.dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary,currentColor));cursor:pointer;font:12.5px/1 inherit;white-space:nowrap;transition:background .15s,color .15s}
+.dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,currentColor)}
+.dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
+.dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#4E8A4A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.dshp-update-pill:hover{background:#447A41}
+.dshp-update-pill:disabled{opacity:.65;cursor:default}
+.dshp-update-pill.is-bad{background:#9a3434}
 .dshp-tab-chip{display:inline-flex;align-items:flex-end;flex:0 0 auto}
 .dshp-tab-btn{appearance:none;position:relative;border:none;background:transparent;cursor:pointer;padding:0 0 9px;font:500 13px/16px inherit;color:var(--dsw-alias-label-tertiary,currentColor);white-space:nowrap}
 .dshp-tab-btn:hover{color:var(--dsw-alias-label-primary,currentColor)}
@@ -1018,93 +1011,93 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-dock[data-theme="white"] .dshp-dock-body .rt-err{color:#9a3434!important}
 .dshp-dock[data-theme="dusk"] .dshp-dock-body .rt-err{color:#f0b4b4!important}
 .dshp-dock-body .rt-rep-http,.dshp-dock-body pre{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 84%,transparent)!important;color:var(--dshp-ink)!important;border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,#888) 60%,transparent)!important}
-/* [dsh-happy] 面板外壳改实心暖米，去掉毛玻璃。
+/* [dsh-breach] 面板外壳改实心暖米，去掉毛玻璃。
    注意：上面 .dshp-dock[data-theme=...] 那条也带 !important 且权重更高，
    所以这里必须用同样带 data-theme 的选择器，并放在它之后，才能压过。 */
 .dshp-dock[data-theme="white"]{background:#FFFDF9!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #E7DFD0!important;box-shadow:0 18px 48px rgba(60,48,30,.16),0 2px 8px rgba(60,48,30,.06)!important}
 .dshp-dock[data-theme="dusk"]{background:#211F1C!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #332F29!important;box-shadow:0 18px 48px rgba(0,0,0,.45)!important}
 .dshp-dock-ver{font-size:10.5px;font-weight:500;color:var(--dshp-mute,#6b6862);opacity:.75;letter-spacing:.02em}
-/* [dsh-happy] 明细面板（新设计） */
-.dshp-dt{margin-top:14px;padding-top:12px;border-top:1px solid #EFE9DD}
+/* [dsh-breach] 明细面板（新设计） */
+.dshp-dt{margin-top:14px;padding-top:12px;border-top:1px solid var(--cd-line-soft)}
 .dshp-dt-head{display:flex;align-items:center;gap:7px;margin-bottom:10px}
-.dshp-dt-title{font-size:12.5px;font-weight:650;color:#1F1E1C}
-.dshp-dt-count{font-size:11px;color:#A29E95;font-variant-numeric:tabular-nums}
-.dshp-dt-chip{appearance:none;border:1px solid #EDE6D9;background:transparent;color:#6B6862;
+.dshp-dt-title{font-size:12.5px;font-weight:650;color:var(--cd-ink)}
+.dshp-dt-count{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
+.dshp-dt-chip{appearance:none;border:1px solid var(--cd-line);background:transparent;color:var(--cd-mute);
   padding:2px 9px;border-radius:999px;font:500 11px/1.6 inherit;cursor:pointer;transition:all .15s}
-.dshp-dt-chip:hover{background:#FAF6EE}
-.dshp-dt-chip.on{background:#1F1E1C;border-color:#1F1E1C;color:#FFFDF9}
+.dshp-dt-chip:hover{background:var(--cd-hover)}
+.dshp-dt-chip.on{background:var(--cd-ink);border-color:var(--cd-ink);color:var(--cd-field)}
 /* Hooks 开关行：作为补丁组的筛选条件放在明细顶部 */
 .dshp-dt-hooks{display:flex;align-items:center;gap:8px;padding:8px 0 10px;
-  border-bottom:1px solid #F3EEE4;margin-bottom:2px}
-.dshp-dt-hooks-name{font-size:12px;font-weight:600;color:#3A3833}
-.dshp-dt-hooks-meta{font-size:10.5px;color:#A29E95}
-.dshp-dt-group{border-bottom:1px solid #F3EEE4}
+  border-bottom:1px solid var(--cd-line-dim);margin-bottom:2px}
+.dshp-dt-hooks-name{font-size:12px;font-weight:600;color:var(--cd-ink2)}
+.dshp-dt-hooks-meta{font-size:10.5px;color:var(--cd-faint)}
+.dshp-dt-group{border-bottom:1px solid var(--cd-line-dim)}
 .dshp-dt-group:last-child{border-bottom:0}
 .dshp-dt-ghead{display:flex;align-items:center;gap:7px;padding:9px 2px;cursor:pointer;user-select:none}
-.dshp-dt-ghead:hover .dshp-dt-gname{color:#1F1E1C}
-.dshp-dt-arrow{font-size:9px;color:#A29E95;display:inline-block;transition:transform .16s}
+.dshp-dt-ghead:hover .dshp-dt-gname{color:var(--cd-ink)}
+.dshp-dt-arrow{font-size:9px;color:var(--cd-faint);display:inline-block;transition:transform .16s}
 .dshp-dt-arrow.open{transform:rotate(90deg)}
-.dshp-dt-gname{font-size:12.5px;font-weight:600;color:#3A3833;transition:color .15s}
-.dshp-dt-gnum{font-size:11px;color:#A29E95;font-variant-numeric:tabular-nums}
+.dshp-dt-gname{font-size:12.5px;font-weight:600;color:var(--cd-ink2);transition:color .15s}
+.dshp-dt-gnum{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
 .dshp-dt-list{padding:0 0 8px 16px}
 .dshp-dt-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
-.dshp-dt-dot{width:6px;height:6px;border-radius:50%;background:#748B6F;flex:none}
-.dshp-dt-dot.skip{background:#CFCBC2}
-.dshp-dt-dot.bad{background:#C0392B}
-.dshp-dt-name{flex:1;color:#3A3833;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dshp-dt-st{font-size:10.5px;color:#748B6F;flex:none}
-.dshp-dt-st.skip{color:#A29E95}
-.dshp-dt-st.bad{color:#C0392B}
-.dshp-dt-empty{padding:8px 0;font-size:11.5px;color:#A29E95}
+.dshp-dt-dot{width:6px;height:6px;border-radius:50%;background:var(--cd-ok);flex:none}
+.dshp-dt-dot.skip{background:var(--cd-off)}
+.dshp-dt-dot.bad{background:var(--cd-bad)}
+.dshp-dt-name{flex:1;color:var(--cd-ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dshp-dt-st{font-size:10.5px;color:var(--cd-ok);flex:none}
+.dshp-dt-st.skip{color:var(--cd-faint)}
+.dshp-dt-st.bad{color:var(--cd-bad)}
+.dshp-dt-empty{padding:8px 0;font-size:11.5px;color:var(--cd-faint)}
 .dshp-dt-more{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;
-  padding:8px;border:1px dashed #E7DFD0;border-radius:9px;font-size:11.5px;color:#6B6862;
+  padding:8px;border:1px dashed var(--cd-line-btn);border-radius:9px;font-size:11.5px;color:var(--cd-mute);
   cursor:pointer;user-select:none;background:transparent;width:100%;font-family:inherit}
-.dshp-dt-more:hover{background:#FAF6EE;color:#1F1E1C}
-/* [dsh-happy] 提示词 / 规则集 / Skill 卡片 */
-.dshp-cd{border:1px solid #EDE6D9;border-radius:11px;padding:12px 14px;margin-top:12px;background:#FCFAF5}
+.dshp-dt-more:hover{background:var(--cd-hover);color:var(--cd-ink)}
+/* [dsh-breach] 提示词 / 规则集 / Skill 卡片 */
+.dshp-cd{border:1px solid var(--cd-line);border-radius:11px;padding:12px 14px;margin-top:12px;background:var(--cd-bg)}
 .dshp-cd-head{display:flex;align-items:center;gap:8px}
-.dshp-cd-name{font-size:12.5px;font-weight:650;color:#1F1E1C}
-.dshp-cd-meta{font-size:11px;color:#A29E95;font-variant-numeric:tabular-nums}
-.dshp-cd-btn{appearance:none;border:1px solid #E7DFD0;background:#FFFDF9;color:#3A3833;
+.dshp-cd-name{font-size:12.5px;font-weight:650;color:var(--cd-ink)}
+.dshp-cd-meta{font-size:11px;color:var(--cd-faint);font-variant-numeric:tabular-nums}
+.dshp-cd-btn{appearance:none;border:1px solid var(--cd-line-btn);background:var(--cd-field);color:var(--cd-ink2);
   padding:3px 10px;border-radius:7px;font:500 11px/1.6 inherit;cursor:pointer;transition:all .15s}
-.dshp-cd-btn:hover{background:#FAF6EE}
-.dshp-cd-btn.primary{background:#1F1E1C;border-color:#1F1E1C;color:#FFFDF9}
+.dshp-cd-btn:hover{background:var(--cd-hover)}
+.dshp-cd-btn.primary{background:var(--cd-ink);border-color:var(--cd-ink);color:var(--cd-field)}
 .dshp-cd-btn.primary:hover{opacity:.88}
 .dshp-cd-btn.tiny{padding:1px 8px;font-size:10.5px}
 .dshp-cd-btn:disabled{opacity:.5;cursor:default}
 .dshp-cd-body{margin-top:10px}
 .dshp-cd-area{width:100%;min-height:180px;resize:vertical;box-sizing:border-box;
-  border:1px solid #EDE6D9;border-radius:9px;background:#FFFDF9;color:#3A3833;
+  border:1px solid var(--cd-line);border-radius:9px;background:var(--cd-field);color:var(--cd-ink2);
   padding:9px 11px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}
-.dshp-cd-area:focus{border-color:#D8CDB8}
+.dshp-cd-area:focus{border-color:var(--cd-focus)}
 .dshp-cd-acts{display:flex;align-items:center;gap:8px;margin-top:8px}
-.dshp-cd-note{font-size:11px;color:#A96C16}
+.dshp-cd-note{font-size:11px;color:var(--cd-warn)}
 .dshp-cd-list{margin-top:8px}
 .dshp-cd-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
-.dshp-cd-dot{width:6px;height:6px;border-radius:50%;background:#748B6F;flex:none}
-.dshp-cd-dot.off{background:#CFCBC2}
-.dshp-cd-t{flex:1;color:#3A3833;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dshp-cd-tag{font-size:10.5px;color:#748B6F}
-.dshp-cd-empty{margin-top:8px;font-size:11.5px;color:#A29E95;line-height:1.7}
-.dshp-cd-empty code{background:#F0EAE0;padding:1px 5px;border-radius:4px;font-size:11px}
+.dshp-cd-dot{width:6px;height:6px;border-radius:50%;background:var(--cd-ok);flex:none}
+.dshp-cd-dot.off{background:var(--cd-off)}
+.dshp-cd-t{flex:1;color:var(--cd-ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dshp-cd-tag{font-size:10.5px;color:var(--cd-ok)}
+.dshp-cd-empty{margin-top:8px;font-size:11.5px;color:var(--cd-faint);line-height:1.7}
+.dshp-cd-empty code{background:var(--cd-code);padding:1px 5px;border-radius:4px;font-size:11px}
 .dshp-cd-fields{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .dshp-cd-field{display:flex;flex-direction:column;gap:3px;flex:1;min-width:110px}
-.dshp-cd-field>span{font-size:10.5px;color:#A29E95;letter-spacing:.03em}
-.dshp-cd-input{border:1px solid #EDE6D9;border-radius:7px;background:#FFFDF9;color:#3A3833;
+.dshp-cd-field>span{font-size:10.5px;color:var(--cd-faint);letter-spacing:.03em}
+.dshp-cd-input{border:1px solid var(--cd-line);border-radius:7px;background:var(--cd-field);color:var(--cd-ink2);
   padding:4px 8px;font:12px/1.5 inherit;outline:none;width:100%;box-sizing:border-box}
-.dshp-cd-input:focus{border-color:#D8CDB8}
+.dshp-cd-input:focus{border-color:var(--cd-focus)}
 .dshp-cd-row.clickable{cursor:pointer;border-radius:7px;padding:6px 4px;margin:0 -4px}
-.dshp-cd-row.clickable:hover{background:#F6F1E7}
+.dshp-cd-row.clickable:hover{background:var(--cd-hover2)}
 .dshp-cd-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.dshp-cd-sub{font-size:10.5px;color:#A29E95;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dshp-cd-hint{font-size:11px;color:#A29E95;line-height:1.65;margin-top:2px}
-.dshp-cd-dirty{font-size:11px;color:#A96C16;margin-top:7px}
+.dshp-cd-sub{font-size:10.5px;color:var(--cd-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dshp-cd-hint{font-size:11px;color:var(--cd-faint);line-height:1.65;margin-top:2px}
+.dshp-cd-dirty{font-size:11px;color:var(--cd-warn);margin-top:7px}
 /* 开关 */
 .dshp-sw{appearance:none;position:relative;width:34px;height:19px;border-radius:999px;
-  border:1px solid #E0D8C8;background:#EFE9DD;cursor:pointer;padding:0;transition:background .18s,border-color .18s}
+  border:1px solid var(--cd-track);background:var(--cd-line-soft);cursor:pointer;padding:0;transition:background .18s,border-color .18s}
 .dshp-sw i{position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
-  background:#FFFDF9;box-shadow:0 1px 2px rgba(60,48,30,.22);transition:transform .18s}
-.dshp-sw.on{background:#748B6F;border-color:#748B6F}
+  background:var(--cd-knob);box-shadow:0 1px 2px rgba(0,0,0,.28);transition:transform .18s}
+.dshp-sw.on{background:var(--cd-ok);border-color:var(--cd-ok)}
 .dshp-sw.on i{transform:translateX(15px)}
 .dshp-sw:disabled{opacity:.55;cursor:default}
 `;
@@ -1272,7 +1265,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			const [busy, setBusy] = useState(false);
 
 			useEffect(() => {
-				apiJson("/dsh-happy-pj/hooks-deny")
+				apiJson("/dsh-breach/hooks-deny")
 					.then((d) => { if (d && d.ok) setCfg({ hooksDenyBypass: d.hooksDenyBypass !== false }); })
 					.catch(() => {});
 			}, []);
@@ -1281,7 +1274,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (!cfg || busy) return;
 				setCfg({ hooksDenyBypass });
 				setBusy(true);
-				apiJson("/dsh-happy-pj/hooks-deny", {
+				apiJson("/dsh-breach/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass }),
@@ -1315,108 +1308,6 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 							onChange: (e) => save(e.target.checked),
 						}),
 						t("hooksDeny.bypass"),
-					),
-				),
-			);
-		}
-
-		function ContinueRetrySection() {
-			const t = useT();
-			const [cfg, setCfg] = useState(null);
-			const [notice, setNotice] = useState({ kind: "idle", text: "" });
-			const [busy, setBusy] = useState(false);
-
-			useEffect(() => {
-				apiJson("/dsh-happy-pj/continue/settings")
-					.then((d) => { if (d && d.ok) setCfg(d); })
-					.catch(() => {});
-			}, []);
-
-			const save = (patch) => {
-				if (!cfg || busy) return;
-				const next = { ...cfg, ...patch };
-				if (next.autoRetry && !(Number(next.retryMax) > 0)) next.retryMax = 3;
-				if (next.autoContinue && !(Number(next.continueMax) > 0)) next.continueMax = 3;
-				setCfg(next);
-				setBusy(true);
-				apiJson("/dsh-happy-pj/continue/settings", {
-					method: "POST",
-					headers: { "content-type": "application/json" },
-					body: JSON.stringify(next),
-				})
-					.then((d) => {
-						if (d && d.ok) {
-							setCfg(d);
-							setNotice({ kind: "ok", text: t("saved.continue") });
-						} else {
-							setNotice({ kind: "error", text: t("err.save", { error: (d && d.error) || "" }) });
-						}
-					})
-					.catch((e) => setNotice({ kind: "error", text: t("err.save", { error: e.message }) }))
-					.finally(() => setBusy(false));
-			};
-
-			if (!cfg) return null;
-			return h("div", { className: "dshp-cr" },
-				h("div", { className: "dshp-sub" },
-					h("h4", null, t("continue.title")),
-					noticeNode(notice),
-				),
-				h("p", { className: "dshp-hint", style: { margin: "0 0 4px", color: "var(--dshp-mute)", fontSize: 12 } }, t("continue.hint")),
-				h("div", { className: "dshp-cr-row" },
-					h("label", null,
-						h("input", {
-							type: "checkbox",
-							checked: Boolean(cfg.autoRetry),
-							disabled: busy,
-							onChange: (e) => save({ autoRetry: e.target.checked }),
-						}),
-						t("continue.autoRetry"),
-					),
-					h("label", null,
-						t("continue.retryMax"),
-						h("input", {
-							className: "dshp-field dshp-cr-num",
-							type: "number",
-							min: 0,
-							max: 20,
-							value: cfg.retryMax,
-							disabled: busy,
-							onChange: (e) => save({ retryMax: Number(e.target.value) }),
-						}),
-					),
-				),
-				h("div", { className: "dshp-cr-row" },
-					h("label", null,
-						h("input", {
-							type: "checkbox",
-							checked: Boolean(cfg.autoContinue),
-							disabled: busy,
-							onChange: (e) => save({ autoContinue: e.target.checked }),
-						}),
-						t("continue.autoContinue"),
-					),
-					h("label", null,
-						t("continue.continueMax"),
-						h("input", {
-							className: "dshp-field dshp-cr-num",
-							type: "number",
-							min: 0,
-							max: 20,
-							value: cfg.continueMax,
-							disabled: busy,
-							onChange: (e) => save({ continueMax: Number(e.target.value) }),
-						}),
-					),
-					h("label", null,
-						t("continue.text"),
-						h("input", {
-							className: "dshp-field dshp-cr-text",
-							type: "text",
-							value: cfg.continueText || "",
-							disabled: busy,
-							onChange: (e) => save({ continueText: e.target.value }),
-						}),
 					),
 				),
 			);
@@ -1458,7 +1349,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			// 必须先看到旧进程掉线，再等新进程就绪；否则同进程立刻 200 会被当成「重启成功」又弹重启。
 			let sawDown = false;
 			const ping = () => {
-				fetch("/dsh-happy-pj/status", { cache: "no-store", credentials: "same-origin" })
+				fetch("/dsh-breach/status", { cache: "no-store", credentials: "same-origin" })
 					.then((r) => (r.ok ? r.json() : Promise.reject()))
 					.then((d) => {
 						if (!sawDown) {
@@ -1503,7 +1394,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				if (sawDrop) return;
 				stop("");
 			}, 25000);
-			fetch("/dsh-happy-pj/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
+			fetch("/dsh-breach/restart", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })
 				.then((r) => r.json())
 				.then((d) => {
 					if (!d.ok) throw new Error(d.error || "restart failed");
@@ -1559,10 +1450,13 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 
 		/* ── 概览面板（P 方案 · 暖米） ─────────────────────────────────────
 		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
-		   应用与还原来回复用同一套接口，所有数据来自 /dsh-happy-pj/status。 */
+		   应用与还原来回复用同一套接口，所有数据来自 /dsh-breach/status。 */
 		const OVERVIEW_CSS = `
 .dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#EDE7DA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
-body[data-ds-dark-theme] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#748B6F;--ov-red:#F85149}
+body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
+.dshp-ov-head{display:flex;align-items:center;gap:7px;padding:0 0 10px;margin-bottom:14px;border-bottom:1px solid var(--ov-line)}
+.dshp-ov-head b{font-size:12.5px;font-weight:650;letter-spacing:-.1px;color:var(--ov-ink)}
+.dshp-ov-head .sp{flex:1}
 .dshp-ov-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
 .dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
 .dshp-ov-big{font-size:19px;font-weight:660;letter-spacing:-.35px;line-height:1.2;color:var(--ov-green);transition:color .25s}
@@ -1589,9 +1483,10 @@ body[data-ds-dark-theme] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell
 .dshp-ov-row .bar i{display:block;height:100%;background:var(--ov-green);border-radius:2px;transition:width .3s}
 .dshp-ov-row.bad .bar i{background:var(--ov-red)}
 .dshp-ov-row .v{width:52px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
-.dshp-ov-led{width:8px;height:8px;border-radius:50%;background:var(--ov-green);box-shadow:0 0 0 3px color-mix(in srgb,#748B6F 14%,transparent);flex:none;transition:all .25s}
-.dshp-ov.is-bad .dshp-ov-led{background:var(--ov-red);box-shadow:0 0 0 3px rgba(192,57,43,.14)}
+.dshp-ov-led{width:8px;height:8px;border-radius:50%;background:var(--ov-green);box-shadow:0 0 0 3px color-mix(in srgb,var(--ov-green) 16%,transparent);flex:none;transition:all .25s}
+.dshp-ov.is-bad .dshp-ov-led:not(.mini){background:var(--ov-red);box-shadow:0 0 0 3px rgba(192,57,43,.14)}
 .dshp-ov-led.mini{width:7px;height:7px;box-shadow:none}
+.dshp-ov-row.bad .dshp-ov-led.mini{background:var(--ov-red)}
 .dshp-ov-foot{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 0 14px;border-top:1px solid var(--ov-line);font-size:11.5px;color:var(--ov-mute)}
 .dshp-ov-foot .sp{flex:1}
 .dshp-ov-note{font-size:11.5px;color:var(--ov-red);padding:0 0 10px}
@@ -1600,7 +1495,7 @@ body[data-ds-dark-theme] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell
 .dshp-ov-detail[data-open="1"]{display:block}
 /* 明细区：把原有区块的视觉语言拉回概览这套（暖米、圆角、小字号标题） */
 .dshp-ov-detail{--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
-body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#748B6F;--ov-red:#F85149}
+body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
 .dshp-ov-detail .dshp-panel{background:var(--ov-cell);border:1px solid var(--ov-cell-bd);border-radius:12px;padding:14px 16px 12px}
 .dshp-ov-detail .dshp-head{gap:8px;margin-bottom:10px}
 .dshp-ov-detail .dshp-title{font-size:14px;font-weight:650;letter-spacing:-.1px;line-height:1.4}
@@ -1633,7 +1528,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const open = !!(props && props.detail);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy-pj/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
+				apiJson("/dsh-breach/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
 			}, []);
 
 			useEffect(() => {
@@ -1685,15 +1580,15 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				setBusy(action);
 				setNote("");
 				const go = action === "apply"
-					? apiJson("/dsh-happy-pj/override").then((o) => {
+					? apiJson("/dsh-breach/override").then((o) => {
 						const content = (o && (o.content || o.defaultContent)) || "";
-						return fetch("/dsh-happy-pj/apply", {
+						return fetch("/dsh-breach/apply", {
 							method: "POST",
 							headers: { "content-type": "application/json" },
 							body: JSON.stringify({ content }),
 						}).then((r) => r.json());
 					})
-					: fetch("/dsh-happy-pj/revert", {
+					: fetch("/dsh-breach/revert", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: "{}",
@@ -1729,12 +1624,39 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				});
 			}
 
-			return h("div", { className: "dshp-ov" + (bad.length ? " is-bad" : "") },
+			/* 状态灯三态（照设计稿：灯在面板头，标题只留字色）
+			   绿 = 已全部生效/跳过、无失败、无待应用
+			   红 = 有失败 / 还没应用 / 已还原 / 还有待应用项 */
+			const state = !st
+				? "loading"
+				: bad.length
+					? "fail"
+					: applied === 0
+						? "idle"
+						: pending > 0
+							? "pending"
+							: "ok";
+			const red = state === "fail" || state === "idle" || state === "pending";
+			const bigText = state === "fail"
+				? bad.length + " " + tr("ov.failN")
+				: state === "idle"
+					? tr("ov.notApplied")
+					: state === "pending"
+						? pending + " " + tr("ov.pendingN")
+						: state === "loading"
+							? tr("ov.loading")
+							: tr("ov.ok");
+
+			return h("div", { className: "dshp-ov" + (red ? " is-bad" : "") },
+				h("div", { className: "dshp-ov-head" },
+					h("span", { className: "dshp-ov-led" }),
+					h("b", null, tr("happy.title")),
+					h("span", { className: "sp" }),
+				),
 				h("div", { className: "dshp-ov-top" },
 					h("div", { style: { flex: 1, minWidth: 0 } },
 						h("div", { className: "dshp-ov-bigwrap" },
-							h("span", { className: "dshp-ov-led big" }),
-							h("span", { className: "dshp-ov-big" }, bad.length ? (bad.length + " 项失败") : tr("ov.ok")),
+							h("span", { className: "dshp-ov-big" }, bigText),
 						),
 						h("div", { className: "dshp-ov-sub" },
 							total ? (applied + " / " + total + " 项生效" + (skipped ? " · " + skipped + " 跳过" : "")) : tr("ov.loading")),
@@ -1780,14 +1702,14 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [hooksBusy, setHooksBusy] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy-pj/status")
+				apiJson("/dsh-breach/status")
 					.then((d) => { if (d && d.ok) setSt(d); })
 					.catch(() => {});
 			}, []);
 
 			useEffect(() => {
 				load();
-				apiJson("/dsh-happy-pj/hooks-deny")
+				apiJson("/dsh-breach/hooks-deny")
 					.then((d) => { if (d && d.ok) setHooksOn(d.hooksDenyBypass !== false); })
 					.catch(() => {});
 				const timer = window.setInterval(load, 15000);
@@ -1799,7 +1721,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 				const prev = hooksOn;
 				setHooksBusy(true);
 				setHooksOn(next);
-				apiJson("/dsh-happy-pj/hooks-deny", {
+				apiJson("/dsh-breach/hooks-deny", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ hooksDenyBypass: next }),
@@ -1920,7 +1842,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 			const [open, setOpen] = useState(false);
 
 			const load = useCallback(() => {
-				apiJson("/dsh-happy-pj/override").then((d) => {
+				apiJson("/dsh-breach/override").then((d) => {
 					if (!d || !d.ok) return;
 					setData(d);
 					setText(typeof d.content === "string" && d.content ? d.content : (d.defaultContent || ""));
@@ -1930,7 +1852,7 @@ body[data-ds-dark-theme] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--
 
 			const writeContent = (content, okText) => {
 				setBusy(true); setNote("");
-				fetch("/dsh-happy-pj/override", {
+				fetch("/dsh-breach/override", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ content }),
@@ -2274,11 +2196,6 @@ body[data-ds-dark-theme] .dshp-rewind-menu{background:var(--dsw-specific-menu,#3
 .dshp-rewind-item b{font-size:13px;font-weight:600;color:var(--dsw-alias-label-primary,inherit)}
 .dshp-rewind-item span{color:var(--dsw-alias-label-tertiary,#9a958c);font-size:11px}
 body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tertiary,#a8a39a)}
-.dshp-continue{appearance:none;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;border:0;border-radius:8px;background:transparent;color:var(--dsw-alias-label-secondary,currentColor);font:12px/1 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer}
-.dshp-continue:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-continue:disabled{opacity:.4;cursor:default}
-.dshp-continue.is-ready{color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-continue svg{display:block}
 `;
 		const DRAFT_KEY = "dshp-rewind-draft:";
 		const ARM_KEY = "dshp-rewind-arm:";
@@ -2485,7 +2402,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				clearStoredDraft(sessionId);
 				stopped = true;
 			};
-			apiJson("/dsh-happy-pj/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
+			apiJson("/dsh-breach/last-user?sessionId=" + encodeURIComponent(sessionId)).then((data) => {
 				if (stopped) return;
 				last = String(data?.text || "").trim();
 				if (!last || isPluginDraft(last)) return;
@@ -2552,120 +2469,13 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		class RewindSafe extends Component {
 			constructor(p) { super(p); this.state = { failed: false }; }
 			static getDerivedStateFromError() { return { failed: true }; }
-			componentDidCatch(error) { try { console.error("[dsh-happy] rewind slot:", error); } catch { /* ignore */ } }
+			componentDidCatch(error) { try { console.error("[dsh-breach] rewind slot:", error); } catch { /* ignore */ } }
 			render() {
 				if (this.state.failed) return h(RewindFallback, this.props);
 				return h(RewindButton, this.props);
 			}
 		}
 
-		class ContinueSafe extends Component {
-			constructor(p) { super(p); this.state = { failed: false }; }
-			static getDerivedStateFromError() { return { failed: true }; }
-			componentDidCatch(error) { try { console.error("[dsh-happy] continue slot:", error); } catch { /* ignore */ } }
-			render() {
-				if (this.state.failed) {
-					return h("button", {
-						type: "button",
-						className: "dshp-continue",
-						title: rewindText(translate, "continue.label", "继续"),
-						onMouseDown: (e) => e.preventDefault(),
-						onClick: async () => {
-							const sessionId = currentSessionId(rewindSessions);
-							if (!sessionId) return;
-							try {
-								const data = await apiJson("/dsh-happy-pj/continue", {
-									method: "POST",
-									headers: { "content-type": "application/json" },
-									body: JSON.stringify({ sessionId, force: true }),
-								});
-								if (!data || !data.ok) throw new Error((data && data.error) || "continue");
-							} catch (e) {
-								window.alert(rewindText(translate, "continue.fail", "继续失败: {error}").replace("{error}", String((e && e.message) || e)));
-							}
-						},
-					}, rewindText(translate, "continue.label", "继续"));
-				}
-				return h(ContinueButton, this.props);
-			}
-		}
-
-		function ContinueButton(props) {
-			const t = props.t || translate;
-			const sessions = rewindSessions;
-			const sessionId = props.sessionId || currentSessionId(sessions);
-			const [busy, setBusy] = useState(false);
-			const [notice, setNotice] = useState("");
-			const [info, setInfo] = useState(null);
-
-			useEffect(() => {
-				if (!sessionId) {
-					setInfo(null);
-					return;
-				}
-				let cancelled = false;
-				const tick = () => {
-					apiJson("/dsh-happy-pj/continue?sessionId=" + encodeURIComponent(sessionId))
-						.then((data) => { if (!cancelled && data && data.ok) setInfo(data); })
-						.catch(() => {});
-				};
-				tick();
-				const timer = window.setInterval(tick, 1200);
-				return () => {
-					cancelled = true;
-					window.clearInterval(timer);
-				};
-			}, [sessionId]);
-
-			const canContinue = Boolean(info && info.canContinue);
-			const left = info ? Math.max(0, (info.continueMax || 0) - (info.continueUsed || 0)) : 0;
-			const runContinue = async () => {
-				if (!sessionId || busy || !canContinue) return;
-				setBusy(true);
-				setNotice("");
-				try {
-					const data = await apiJson("/dsh-happy-pj/continue", {
-						method: "POST",
-						headers: { "content-type": "application/json" },
-						body: JSON.stringify({ sessionId }),
-					});
-					if (!data || !data.ok) throw new Error((data && data.error) || "continue");
-					setInfo((prev) => prev ? { ...prev, ...data, canContinue: false, continueUsed: data.used } : data);
-				} catch (e) {
-					setNotice(rewindText(t, "continue.fail", "继续失败: {error}").replace("{error}", String((e && e.message) || e)));
-				} finally {
-					setBusy(false);
-				}
-			};
-
-			const label = busy
-				? rewindText(t, "continue.busy", "继续中…")
-				: rewindText(t, "continue.label", "继续");
-			const title = notice
-				|| (canContinue
-					? rewindText(t, "continue.ready", "继续（还可 {left} 次）").replace("{left}", String(left))
-					: (info && info.reason && left <= 0
-						? rewindText(t, "continue.limit", "已达继续上限")
-						: rewindText(t, "continue.aria", "异常停止后继续")));
-			return h("button", {
-				type: "button",
-				className: "dshp-continue" + (canContinue ? " is-ready" : ""),
-				title,
-				"aria-label": rewindText(t, "continue.aria", "异常停止后继续"),
-				disabled: busy || !sessionId || !canContinue,
-				onMouseDown: (e) => e.preventDefault(),
-				onClick: (e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					runContinue();
-				},
-			},
-				h("svg", { viewBox: "0 0 16 16", width: "14", height: "14", "aria-hidden": true },
-					h("path", { fill: "currentColor", d: "M4.2 2.8v10.4L13 8 4.2 2.8z" }),
-				),
-				label,
-			);
-		}
 
 		function rewindMenuNode(t, menuPos, menuRef, runRewind) {
 			const menu = h("div", {
@@ -2724,7 +2534,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				const sessionId = this.props.sessionId || currentSessionId(rewindSessions);
 				if (!sessionId || this.state.busy) return;
 				this.setState({ busy: true, menu: false, notice: "" });
-				apiJson("/dsh-happy-pj/rewind", {
+				apiJson("/dsh-breach/rewind", {
 					method: "POST",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({ sessionId, mode }),
@@ -2810,7 +2620,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				setMenu(false);
 				setNotice("");
 				try {
-					const data = await apiJson("/dsh-happy-pj/rewind", {
+					const data = await apiJson("/dsh-breach/rewind", {
 						method: "POST",
 						headers: { "content-type": "application/json" },
 						body: JSON.stringify({ sessionId, mode }),
@@ -2886,7 +2696,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			if (!sessions) return () => {};
 			const tick = async () => {
 				try {
-					const data = await apiJson("/dsh-happy-pj/rewind");
+					const data = await apiJson("/dsh-breach/rewind");
 					if (!data || !data.sessionId || !data.at || data.at <= rewindSeenAt) return;
 					rewindSeenAt = data.at;
 					const current = currentSessionId(sessions);
@@ -2927,7 +2737,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			else openDockClean();
 		}
 
-		const DOCK_GEOM_KEY = "dsh-happy-dock-geom-v5";
+		const DOCK_GEOM_KEY = "dsh-breach-dock-geom-v5";
 		/* 默认停在右上，底边留在输入框上面。拖动之后停在用户松开的位置，只保证不拖出窗口。 */
 		const DOCK_COMPOSER_CLEAR = 172;
 		function defaultDockGeom() {
@@ -2958,7 +2768,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			try { window.localStorage.setItem(DOCK_GEOM_KEY, JSON.stringify(clampDockGeom(g))); } catch { /* ignore */ }
 		}
 
-		const WELCOME_KEY = "dsh-happy-user-notice-v1";
+		const WELCOME_KEY = "dsh-breach-user-notice-v1";
 		function readWelcomeAck() {
 			try { return window.localStorage.getItem(WELCOME_KEY) === "1"; } catch { return false; }
 		}
@@ -3040,26 +2850,26 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				return () => { obs.disconnect(); window.clearInterval(timer); };
 			}, []);
 			useEffect(() => {
-				let uiTag = document.querySelector('style[data-dsh-happy-ui="1"]');
+				let uiTag = document.querySelector('style[data-dsh-breach-ui="1"]');
 				if (!uiTag) {
 					uiTag = document.createElement("style");
-					uiTag.setAttribute("data-dsh-happy-ui", "1");
+					uiTag.setAttribute("data-dsh-breach-ui", "1");
 					uiTag.textContent = HAPPY_CSS;
 					document.head.append(uiTag);
 				}
 				const styleTag = document.createElement("style");
-				styleTag.setAttribute("data-dsh-happy-drill", "1");
+				styleTag.setAttribute("data-dsh-breach-drill", "1");
 				styleTag.style.display = "none";
 				document.head.append(styleTag);
 				const widthTag = document.createElement("style");
-				widthTag.setAttribute("data-dsh-happy-dock-w", "1");
+				widthTag.setAttribute("data-dsh-breach-dock-w", "1");
 				widthTag.textContent = ":root{--dshp-dock-w:" + geom.w + "px;--dshp-dock-h:" + geom.h + "px}";
 				document.head.append(widthTag);
 				return () => { styleTag.remove(); widthTag.remove(); };
 			}, []);
 			useEffect(() => {
 				saveDockGeom(geom);
-				const tag = document.querySelector('style[data-dsh-happy-dock-w="1"]');
+				const tag = document.querySelector('style[data-dsh-breach-dock-w="1"]');
 				if (tag) tag.textContent = ":root{--dshp-dock-w:" + geom.w + "px;--dshp-dock-h:" + geom.h + "px}";
 			}, [geom]);
 			useEffect(() => {
@@ -3164,7 +2974,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				},
 			},
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
-					h("b", null, "dsh-happy"),
+					h("b", null, "dsh-breach"),
 					h("span", { className: "dshp-dock-ver" }, "1.0.26"),
 					h("span", { style: { flex: 1 } }),
 					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
@@ -3198,13 +3008,13 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		   于是浮动按钮自我隐藏，页面上一个入口都看不到。 */
 		function hasInlineHappyEntry() {
 			if (typeof document === "undefined") return false;
-			if (document.querySelector("[data-testid='dsh-happy-hero-chip'], [data-testid='dsh-happy-tab-chip']")) return true;
+			if (document.querySelector("[data-testid='dsh-breach-hero-chip'], [data-testid='dsh-breach-tab-chip']")) return true;
 			const nodes = document.querySelectorAll("button, [role='tab'], [role='button'], [class*='chip']");
 			for (let i = 0; i < nodes.length; i += 1) {
 				const el = nodes[i];
 				if (!el || el.classList.contains("dshp-launch")) continue;
 				if (el.closest && el.closest(".dshp-dock, .dshp-launch")) continue;
-				if (String(el.textContent || "").trim() === "dsh-happy") return true;
+				if (String(el.textContent || "").trim() === "dsh-breach") return true;
 			}
 			return false;
 		}
@@ -3232,13 +3042,59 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				className: "dshp-launch",
 				"data-open": "0",
 				"data-hide": "0",
-				"data-testid": "dsh-happy-launch",
+				"data-testid": "dsh-breach-launch",
 				title: t("dock.newSession"),
 				onClick: () => toggleDock(),
 			}, t("dock.newSession"));
 		}
 
-		/** 首页：模式旁挂「dsh-happy」→ 打开插件。红队模式走模式下拉（registry 声明）。 */
+		/** 首页胶囊旁的「更新」小胶囊：只有真有新版本才出现，点一下走现成的 /update 安装 + 重启链路。 */
+		function HeroUpdatePill() {
+			const t = useT();
+			const [info, setInfo] = useState(null);
+			const [busy, setBusy] = useState(false);
+			const [err, setErr] = useState("");
+			useEffect(() => {
+				let dead = false;
+				const tick = () => {
+					apiJson("/dsh-breach/update")
+						.then((d) => { if (!dead && d && d.ok) { setInfo(d); setErr(""); } })
+						.catch(() => { if (!dead) setInfo(null); });
+				};
+				tick();
+				const iv = setInterval(tick, 10 * 60 * 1000);
+				return () => { dead = true; clearInterval(iv); };
+			}, []);
+			const run = () => {
+				if (busy) return;
+				setBusy(true);
+				setErr("");
+				apiJson("/dsh-breach/update", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ op: "apply" }),
+				})
+					.then((d) => {
+						if (!d || !d.ok) throw new Error((d && d.error) || "failed");
+						setBusy(false);
+						setInfo(null);
+					})
+					.catch((e) => { setBusy(false); setErr(String((e && e.message) || e)); });
+			};
+			if (!busy && !(info && info.hasUpdate)) return null;
+			const detail = info && info.remoteVersion
+				? " " + info.remoteVersion + " → " + info.localVersion
+				: "";
+			return h("button", {
+				type: "button",
+				className: "dshp-update-pill" + (err ? " is-bad" : ""),
+				disabled: busy,
+				title: err ? t("updPill.fail") + ": " + err : t("updPill.title") + detail,
+				onClick: run,
+			}, busy ? t("updPill.busy") : t("updPill.label"));
+		}
+
+		/** 首页：模式旁挂「dsh-breach」→ 打开插件。红队模式走模式下拉（registry 声明）。 */
 		function HeroNewSessionMount() {
 			const t = useT();
 			const st = useDock();
@@ -3257,18 +3113,24 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!row) {
 						if (!warnedMiss) {
 							warnedMiss = true;
-							try { console.warn("[dsh-happy] HeroNewSessionMount: anchor row missing (host 可能改版)"); } catch { /* ignore */ }
+							try { console.warn("[dsh-breach] HeroNewSessionMount: anchor row missing (host 可能改版)"); } catch { /* ignore */ }
 						}
 						setHost((prev) => (prev ? null : prev));
 						return;
 					}
 					warnedMiss = false;
 					let el = row.querySelector(":scope > .dshp-hero-chip");
+					/* 宿主这一行是 flex：左边「工作区」「模式」，右侧 [class*="heroOptions"] 带 margin-left:auto。
+					   直接 append 会被 auto 挤到最右边；插在 heroOptions 前面才紧挨「模式」下拉。 */
+					const options = row.querySelector(':scope > [class*="heroOptions" i]');
 					if (!el) {
 						el = document.createElement("div");
 						el.className = "dshp-hero-chip";
-						el.setAttribute("data-testid", "dsh-happy-hero-chip");
-						row.appendChild(el);
+						el.setAttribute("data-testid", "dsh-breach-hero-chip");
+						if (options) row.insertBefore(el, options);
+						else row.appendChild(el);
+					} else if (options && el.nextElementSibling !== options) {
+						row.insertBefore(el, options);
 					}
 					setHost((prev) => (prev === el ? prev : el));
 				};
@@ -3296,7 +3158,8 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			);
 			try {
 				const rd = require("react-dom");
-				if (rd && typeof rd.createPortal === "function") return rd.createPortal(btn, host);
+				const node = h(react.Fragment, null, btn, h(HeroUpdatePill, null));
+				if (rd && typeof rd.createPortal === "function") return rd.createPortal(node, host);
 			} catch { /* host 可能没暴露 react-dom */ }
 			return null;
 		}
@@ -3320,7 +3183,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!row) {
 						if (!warnedMiss) {
 							warnedMiss = true;
-							try { console.warn("[dsh-happy] TabRowHappyMount: tab row anchor missing"); } catch { /* ignore */ }
+							try { console.warn("[dsh-breach] TabRowHappyMount: tab row anchor missing"); } catch { /* ignore */ }
 						}
 						setHost((prev) => (prev ? null : prev));
 						return;
@@ -3330,7 +3193,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					if (!el) {
 						el = document.createElement("div");
 						el.className = "dshp-tab-chip";
-						el.setAttribute("data-testid", "dsh-happy-tab-chip");
+						el.setAttribute("data-testid", "dsh-breach-tab-chip");
 						row.appendChild(el);
 					}
 					setHost((prev) => (prev === el ? prev : el));
@@ -3369,34 +3232,25 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			rewindConversation = ctx.conversation || null;
 			ctx.slots.inject("conversation.input.right", () => ctx.slots.register({
 				name: "conversation.input.right",
-				id: "dsh-happy-rewind",
+				id: "dsh-breach-rewind",
 				order: 20,
 				inject: (sessionId) => ({
 					sessionId,
 					t: ctx.locale.bind(NS),
 				}),
 			}, RewindSafe));
-			// ctx.slots.inject("conversation.input.right", () => ctx.slots.register({
-			// 	name: "conversation.input.right",
-			// 	id: "dsh-happy-continue",
-			// 	order: 21,
-			// 	inject: (sessionId) => ({
-			// 		sessionId,
-			// 		t: ctx.locale.bind(NS),
-			// 	}),
-			// }, ContinueSafe));
-			ctx.effect(() => installRewindWatch(ctx), "dsh-happy: rewind watch");
+			ctx.effect(() => installRewindWatch(ctx), "dsh-breach: rewind watch");
 		}
 
 		function apply(ctx) {
-			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "dsh-happy: dictionaries");
+			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "dsh-breach: dictionaries");
 			const t = ctx.locale.bind(NS);
 			translate = t;
 			// 红队门禁的依赖已随演练台删除，不能再挂到共享 overlay，
 			// 否则其 effect 抛错会让宿主卸载同组的入口和设置面板。
 			ctx.slots.inject("shell.overlay", () => ctx.slots.register({
 				name: "shell.overlay",
-				id: "dsh-happy-dock",
+				id: "dsh-breach-dock",
 				order: 50,
 			}, () => h(react.Fragment, null, h(WelcomeNotice), h(HappyLauncher), h(HappyDock), h(HeroNewSessionMount), h(TabRowHappyMount))));
 			try {
@@ -3411,7 +3265,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 						ctx.inject(["sessions", "uiWorkspace", "conversation"], (host) => installRewindUi(host));
 					}
 				} catch (e2) {
-					try { console.warn("[dsh-happy] rewind ui skipped:", e2 || e); } catch { /* ignore */ }
+					try { console.warn("[dsh-breach] rewind ui skipped:", e2 || e); } catch { /* ignore */ }
 				}
 			}
 		}
