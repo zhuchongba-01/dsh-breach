@@ -1325,6 +1325,8 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov-btn:disabled{opacity:.5;cursor:default}
 .dshp-ov-btn.primary{background:var(--ov-ink);border-color:var(--ov-ink);color:var(--ov-panel)}
 .dshp-ov-btn.primary:hover:not(:disabled){opacity:.88;background:var(--ov-ink)}
+.dshp-ov-expand{display:inline-flex;align-items:center;gap:3px;border-color:transparent;background:transparent;color:var(--ov-mute);padding:5px 6px}
+.dshp-ov-expand:hover:not(:disabled){background:var(--ov-cell);color:var(--ov-ink)}
 .dshp-ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
 .dshp-ov-cell{background:var(--ov-cell);border:1px solid var(--ov-cell-bd);border-radius:10px;padding:12px 10px;text-align:center}
 .dshp-ov-cell b{display:block;font-size:21px;font-weight:640;letter-spacing:-.7px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ov-ink)}
@@ -1517,6 +1519,21 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 							: null,
 					),
 					h("div", { className: "dshp-ov-acts" },
+						h("button", {
+							type: "button",
+							className: "dshp-ov-btn dshp-ov-expand",
+							onClick: props.onToggleDetail,
+							"aria-expanded": props.detail ? "true" : "false",
+							title: props.detail ? "收起补丁明细" : "展开补丁明细",
+						},
+							"明细",
+							h("svg", {
+								viewBox: "0 0 24 24", width: 12, height: 12, fill: "none",
+								stroke: "currentColor", strokeWidth: 2.2,
+								strokeLinecap: "round", strokeLinejoin: "round",
+								style: { transform: props.detail ? "rotate(180deg)" : "none", transition: "transform .15s" },
+							}, h("path", { d: "m6 9 6 6 6-6" })),
+						),
 						h("button", { type: "button", className: "dshp-ov-btn", disabled: !!busy, onClick: () => runAction("revert") }, tr("btn.revert")),
 						h("button", { type: "button", className: "dshp-ov-btn primary", disabled: !!busy, onClick: () => runAction("apply") }, busy === "apply" ? tr("btn.apply.busy") : tr("btn.apply")),
 					),
@@ -1538,8 +1555,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				),
 				h("div", { className: "dshp-ov-foot" },
 					h("span", null, skipped ? (tr("ov.skippedHint") + " " + skipped) : tr("ov.allApplied")),
-					h("span", { className: "sp" }),
-					h("button", { type: "button", className: "dshp-ov-btn", style: { borderColor: "transparent", background: "transparent", color: "var(--ov-mute)" }, onClick: props.onToggleDetail }, open ? tr("ov.hideDetail") : tr("ov.showDetail")),
 				),
 			);
 		}
