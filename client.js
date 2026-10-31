@@ -45,7 +45,6 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			const method = String((init && init.method) || "GET").toUpperCase();
 			if (path.indexOf("/dsh-breach/update") !== -1) return method === "POST" ? 180000 : 45000;
 			if (path.indexOf("/dsh-breach/uninstall") !== -1) return 90000;
-			if (path.indexOf("/dsh-breach/skill") !== -1) return method === "POST" ? 120000 : 20000;
 			// status 会在"应用"期间被后端的同步落盘阻塞，默认 20s 必然被 abort，界面只会显示"读取失败: timeout"。
 			if (path.indexOf("/dsh-breach/status") !== -1) return 60000;
 			if (path.indexOf("/dsh-breach/apply") !== -1) return 240000;
@@ -97,30 +96,6 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			if (!promptBoxEmpty(overrideText)) return false;
 			if (!promptBoxEmpty(defaultText)) return false;
 			return true;
-		}
-
-		function rulesApi(op, extra) {
-			return apiJson("/dsh-breach/rules", {
-				method: "POST",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
-			});
-		}
-
-		function skillsRouteMissing(e) {
-			return /\b404\b|\b405\b|non-json/i.test(String((e && e.message) || e || ""));
-		}
-
-		function skillsApi(op, extra) {
-			const init = {
-				method: "POST",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify(Object.assign({ op: op }, extra || {})),
-			};
-			return apiJson("/dsh-breach/skills", init).catch((e) => {
-				if (!skillsRouteMissing(e)) throw e;
-				return apiJson("/dsh-breach/skill", init);
-			});
 		}
 
 		const TARGETS = ["AGENTS.md", "CLAUDE.md"];
@@ -240,62 +215,11 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"err.action": "失败: {error}",
 			"err.status": "读取失败: {error}",
 			"err.override": "读取失败: {error}",
-			"err.rules": "读取失败: {error}",
 			"err.read": "读取失败: {error}",
 			"err.save": "保存失败: {error}",
 			"btn.saveInject": "保存",
 			"saved.override": "已保存",
-			"rules.title": "规则集",
-			"rules.none": "无",
-			"rules.reset": "还原",
-			"rules.reset.confirm": "还原全局指令文件？规则库会保留。",
-			"rules.empty": "暂无规则",
-			"rules.pick": "选择规则",
-			"policy.title": "工作区策略",
-			"policy.strict": "严格",
-			"policy.fallback": "空位兜底",
-			"policy.always": "总是允许",
-			"policy.hint": "严格：永远剥 AGENTS.md / CLAUDE.md；空位兜底：提示词框为空时才用；总是允许：保留 DSH 原生行为",
-			"cwd.title": "本地规则（当前目录）",
-			"cwd.empty": "当前目录没有 AGENTS.md / CLAUDE.md",
-			"cwd.rescan": "重新扫描",
-			"cwd.hint": "只有提示词框为空时，被勾选的本地文件才作为兜底注入；提示词框一旦非空就不会用这些文件。",
-			"cwd.scope.cwd": "当前目录",
-			"cwd.scope.ancestor": "上级",
-			"cwd.scope.root": "项目根",
-			"cwd.no.workspace": "DSH 尚未选过工作目录，请先在 DSH 里开始一次任务再回来。",
-			"pill.current": "当前",
-			"btn.use": "启用",
-			"btn.inUse": "当前",
-			"confirm.delete": "删除 {id}？",
-			"ph.id": "id",
-			"ph.alias": "名称",
 			"ph.alias.short": "名称",
-			"btn.create": "新建",
-			"need.id": "需要 id",
-			"ph.content": "",
-			"btn.saveRule": "保存",
-			"skills.title": "Skill",
-			"skills.hint": "导入到官方目录后，由 DSH 调用：聊天输入 /名称 立即加载；任务对上 description 或 whenToUse 时模型会调 skill 工具。正文写「激活」不会触发。",
-			"skills.hint.desktop": "当前桌面宿主的官方 Skill 目录。聊天输入 /名称 立即加载；任务对上 description 时模型会调 skill 工具。",
-			"skills.empty": "暂无用户 Skill",
-			"btn.importZip": "导入压缩包",
-			"skills.importing": "正在导入…",
-			"saved.import": "已导入 {count} 个 Skill",
-			"need.import": "请选择压缩包或文件夹",
-			"err.import.folder": "没读到文件夹里的文件，请直接选 Skill 目录（里面要有 SKILL.md）",
-			"skills.pick": "选择 Skill",
-			"skills.invalid": "官方会忽略：格式不对",
-			"skills.call.slash": "聊天输入 {cmd}",
-			"skills.call.model": "模型可调",
-			"skills.call.modelOff": "模型不可调",
-			"skills.call.userOff": "不可 /名称",
-			"ph.skill.desc": "description（何时用）",
-			"btn.saveSkill": "保存",
-			"need.skill.id": "id 必须是 kebab-case，例如 code-review",
-			"confirm.delete.skill": "从官方 $DSH_HOME/skills 删除 {id}？宿主会自动从目录拿掉。",
-			"err.skills": "读取失败: {error}",
-			"err.skills.needRestart": "Skill 接口未加载，请先重启当前宿主",
 			"btn.restart": "重启",
 			"btn.restart.busy": "重启中…",
 			"restarting": "重启中…",
@@ -559,62 +483,11 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"err.action": "Failed: {error}",
 			"err.status": "Read failed: {error}",
 			"err.override": "Read failed: {error}",
-			"err.rules": "Read failed: {error}",
 			"err.read": "Read failed: {error}",
 			"err.save": "Save failed: {error}",
 			"btn.saveInject": "Save",
 			"saved.override": "Saved",
-			"rules.title": "Rule sets",
-			"rules.none": "None",
-			"rules.reset": "Restore",
-			"rules.reset.confirm": "Restore global instruction files? The rule library is kept.",
-			"rules.empty": "No rules",
-			"rules.pick": "Select a rule",
-			"policy.title": "Workspace policy",
-			"policy.strict": "Strict",
-			"policy.fallback": "Fallback",
-			"policy.always": "Always on",
-			"policy.hint": "Strict: always strip AGENTS.md / CLAUDE.md. Fallback: use workspace files only when the prompt box is empty. Always on: keep DSH default behavior.",
-			"cwd.title": "Local rules (current folder)",
-			"cwd.empty": "No AGENTS.md / CLAUDE.md in this folder",
-			"cwd.rescan": "Rescan",
-			"cwd.hint": "Checked files are injected only when the prompt box is empty. A non-empty prompt box always wins.",
-			"cwd.scope.cwd": "cwd",
-			"cwd.scope.ancestor": "ancestor",
-			"cwd.scope.root": "project root",
-			"cwd.no.workspace": "DSH has not opened a workspace yet. Start a task in DSH first, then come back.",
-			"pill.current": "On",
-			"btn.use": "Enable",
-			"btn.inUse": "On",
-			"confirm.delete": "Delete {id}?",
-			"ph.id": "id",
-			"ph.alias": "Name",
 			"ph.alias.short": "Name",
-			"btn.create": "New",
-			"need.id": "id required",
-			"ph.content": "",
-			"btn.saveRule": "Save",
-			"skills.title": "Skills",
-			"skills.hint": "After import, DSH calls it: type /name in chat to load now; the model calls the skill tool when the task matches description or whenToUse. Writing「激活」in the body does nothing.",
-			"skills.hint.desktop": "This desktop host’s official skill catalog. Type /name in chat to load; the model calls the skill tool when the task matches the description.",
-			"skills.empty": "No user skills",
-			"btn.importZip": "Import zip",
-			"skills.importing": "Importing…",
-			"saved.import": "Imported {count} skill(s)",
-			"need.import": "Choose a zip or folder",
-			"err.import.folder": "No files were read. Select the skill folder itself (it must contain SKILL.md).",
-			"skills.pick": "Select a skill",
-			"skills.invalid": "Official catalog will ignore this: invalid format",
-			"skills.call.slash": "Type {cmd} in chat",
-			"skills.call.model": "Model can load",
-			"skills.call.modelOff": "Hidden from model",
-			"skills.call.userOff": "/name disabled",
-			"ph.skill.desc": "description (when to use)",
-			"btn.saveSkill": "Save",
-			"need.skill.id": "id must be kebab-case, e.g. code-review",
-			"confirm.delete.skill": "Delete {id} from official $DSH_HOME/skills? The host will drop it from the catalog.",
-			"err.skills": "Read failed: {error}",
-			"err.skills.needRestart": "Skill API is not loaded. Restart this host first.",
 			"btn.restart": "Restart",
 			"btn.restart.busy": "Restarting…",
 			"restarting": "Restarting…",
@@ -871,15 +744,6 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 .dshp-active b{font-family:var(--dshp-display);font-weight:500}
 .dshp-empty{padding:28px 12px;font-size:13px;color:var(--dshp-mute);text-align:center}
 .dshp-split{display:flex;flex-direction:column;gap:12px}
-.dshp-rulelist{display:flex;flex-direction:column;border:1px solid var(--dshp-line);border-radius:8px;background:var(--dshp-bg);overflow:hidden}
-.dshp-rulebody{max-height:240px;overflow:auto}
-.dshp-ruleitem{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid var(--dshp-line);background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
-.dshp-ruleitem:hover{background:var(--dshp-fill)}
-.dshp-ruleitem.is-edit{background:var(--dshp-accent-soft)}
-.dshp-rule-main{flex:1;min-width:0}
-.dshp-rule-name{display:flex;align-items:center;gap:8px;font-family:var(--dshp-display);font-size:14px;line-height:1.35}
-.dshp-rule-meta{display:block;margin-top:3px;font-family:var(--dshp-mono);font-size:11px;color:var(--dshp-mute)}
-.dshp-rule-ops{display:flex;flex-direction:row;align-items:center;gap:6px;flex-shrink:0}
 .dshp-create{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-top:1px solid var(--dshp-line);background:var(--dshp-paper)}
 .dshp-create-row{display:flex;gap:6px;align-items:center}
 .dshp-create .dshp-field{flex:1;min-width:0;width:auto}
@@ -906,7 +770,7 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 .dshp-cwd-sub{margin-top:3px;font-family:var(--dshp-mono);font-size:11px;color:var(--dshp-mute);word-break:break-all}
 .dshp-cwd-prev{margin-top:4px;font-size:11px;line-height:1.5;color:var(--dshp-mute);max-height:34px;overflow:hidden}
 @keyframes dshp-pulse{0%{background-position:200% 0}100%{background-position:-200% 0}}
-@media (max-width:640px){.dshp-metrics{grid-template-columns:1fr}.dshp-ruleitem{flex-wrap:wrap}.dshp-rule-ops{width:100%;justify-content:flex-end}}
+@media (max-width:640px){.dshp-metrics{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.dshp-btn,.dshp-bar>i{transition:none}.dshp-skel{animation:none}}
 
 .dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#000 30%,transparent),0 0 0 1px color-mix(in srgb,#fff 6%,transparent);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:visible}
@@ -918,19 +782,12 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 .dshp-dock-head:active{cursor:grabbing}
 .dshp-dock-head b{font-size:14px;font-weight:600;color:inherit;text-shadow:0 1px 0 color-mix(in srgb,#000 18%,transparent)}
 .dshp-dock-head button{cursor:pointer;color:inherit;background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,rgba(127,127,127,.18)) 55%,transparent)}
-.dshp-dock-tabs{display:flex;gap:4px;padding:0 12px;border-bottom:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 55%,transparent);background:transparent}
-.dshp-dock-tab{appearance:none;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--dsw-alias-label-secondary,var(--dshp-mute,#b8b4ac));border-radius:0;padding:10px 14px 8px;margin-bottom:-1px;cursor:pointer;font:13px/1.2 inherit;text-shadow:0 1px 0 color-mix(in srgb,#000 12%,transparent)}
-.dshp-dock-tab:hover{color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2))}
-.dshp-dock-tab.on{color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));font-weight:600;border-bottom-color:var(--dsw-alias-brand-primary,#748B6F);background:transparent}
 .dshp-dock-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:transparent;border-radius:0 0 12px 12px}
-.dshp-dock-body .dshp-root{max-width:none;height:100%;flex:1;min-height:0;overflow:auto;background:transparent!important;--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dshp-ink) 7%,transparent);--dshp-fill:color-mix(in srgb,var(--dshp-ink) 6%,transparent);--dshp-line:color-mix(in srgb,var(--dshp-ink) 20%,transparent);--dshp-accent-soft:color-mix(in srgb,var(--dshp-accent) 22%,transparent)}
-.dshp-dock-body .dshp-panel,.dshp-dock-body .dshp-metric,.dshp-dock-body .dshp-group,.dshp-dock-body .dshp-editor,.dshp-dock-body .dshp-active,.dshp-dock-body .dshp-ask,.dshp-dock-body .dshp-create,.dshp-dock-body .dshp-rulelist,.dshp-dock-body .dshp-table,.dshp-dock-body .dshp-ruleitem,.dshp-dock-body .dshp-cwd-list,.dshp-dock-body .dshp-cwd-item{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f7f4ee) 74%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 32%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
+.dshp-dock-body .dshp-root{max-width:none;height:100%;flex:1;min-height:0;overflow:auto;background:transparent!important;--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dshp-ink) 7%,transparent);--dshp-fill:color-mix(in srgb,var(--dshp-ink) 6%,transparent);--dshp-line:color-mix(in srgb,var(--dshp-ink) 20%,transparent);--dshp-accent-soft:color-mix(in srgb,var(--dshp-accent) 22%,transparent)}.dshp-dock-body .dshp-panel,.dshp-dock-body .dshp-metric,.dshp-dock-body .dshp-group,.dshp-dock-body .dshp-editor,.dshp-dock-body .dshp-active,.dshp-dock-body .dshp-ask,.dshp-dock-body .dshp-create,.dshp-dock-body .dshp-table,.dshp-dock-body .dshp-cwd-list,.dshp-dock-body .dshp-cwd-item{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f7f4ee) 74%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 32%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
 .dshp-dock-body .dshp-field,.dshp-dock-body .dshp-area{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 88%,transparent)!important;color:var(--dshp-ink)!important;border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#8a8478) 72%,transparent)!important}
 .dshp-dock-body select.dshp-field,.dshp-dock-body .dshp-field.dshp-ver{background:var(--dsw-alias-bg-layer-1,#fff)!important;color:var(--dshp-ink)!important;color-scheme:inherit}
 .dshp-dock[data-theme="white"] select.dshp-field option,.dshp-dock[data-theme="white"] .dshp-field.dshp-ver option{background:#fff;color:#16140f}
-.dshp-dock[data-theme="dusk"] select.dshp-field option,.dshp-dock[data-theme="dusk"] .dshp-field.dshp-ver option{background:#1b1d22;color:#f4f1ea}
-.dshp-dock-body .dshp-title,.dshp-dock-body .dshp-sub h4,.dshp-dock-body .dshp-group-h strong,.dshp-dock-body .dshp-metric b,.dshp-dock-body .dshp-rule-name{font-family:inherit;font-weight:650;letter-spacing:0;color:var(--dshp-ink)!important;text-shadow:none}
-.dshp-dock-body .dshp-mute,.dshp-dock-body .dshp-kicker,.dshp-dock-body .dshp-metric span,.dshp-dock-body .dshp-group-h em,.dshp-dock-body .dshp-count,.dshp-dock-body .dshp-rule-meta,.dshp-dock-body .dshp-hint{color:var(--dshp-mute)!important;font-weight:500;text-shadow:none}
+.dshp-dock[data-theme="dusk"] select.dshp-field option,.dshp-dock[data-theme="dusk"] .dshp-field.dshp-ver option{background:#1b1d22;color:#f4f1ea}.dshp-dock-body .dshp-title,.dshp-dock-body .dshp-sub h4,.dshp-dock-body .dshp-group-h strong,.dshp-dock-body .dshp-metric b{font-family:inherit;font-weight:650;letter-spacing:0;color:var(--dshp-ink)!important;text-shadow:none}.dshp-dock-body .dshp-mute,.dshp-dock-body .dshp-kicker,.dshp-dock-body .dshp-metric span,.dshp-dock-body .dshp-group-h em,.dshp-dock-body .dshp-count,.dshp-dock-body .dshp-hint{color:var(--dshp-mute)!important;font-weight:500;text-shadow:none}
 .dshp-dock-body .rt-dock{position:relative;inset:auto;width:100%!important;height:100%;max-width:none!important;flex:1;min-height:0;min-width:0;display:flex!important;flex-direction:column;box-shadow:none;border:0;transform:none!important;opacity:1!important;pointer-events:auto!important;background:transparent!important}
 .dshp-dock-body .rt-grip{display:none!important}
 .dshp-dock-body .rt-embedded>.rt-head,.dshp-dock-body .rt-tabs,.dshp-dock-body .rt-foot{flex:none}
@@ -1000,11 +857,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-dock{font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif;font-size:14px;line-height:1.6;font-weight:500;-webkit-font-smoothing:antialiased;text-shadow:none}
 .dshp-dock[data-theme="white"],.dshp-dock[data-theme="dusk"]{background:linear-gradient(165deg,color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 50%,transparent),color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent) 46%,color-mix(in srgb,var(--dsw-alias-bg-layer-2,#fff) 28%,transparent))!important;backdrop-filter:blur(26px) saturate(1.45)!important;-webkit-backdrop-filter:blur(26px) saturate(1.45)!important;color:var(--dshp-ink)!important;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 36%,transparent)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 42%,transparent),0 18px 44px color-mix(in srgb,#000 18%,transparent)!important}
 .dshp-dock[data-theme="dusk"]{--dshp-ink:var(--dsw-alias-label-primary,#f4f1ea);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#f4f1ea) 84%,var(--dsw-alias-label-secondary,#c9c3b8))}
-.dshp-dock[data-theme="white"]{--dshp-ink:var(--dsw-alias-label-primary,#16140f);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#16140f) 76%,var(--dsw-alias-label-secondary,#3c362e))}
-.dshp-dock .dshp-dock-head,.dshp-dock .dshp-dock-tabs{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,transparent) 28%,transparent)!important;color:var(--dshp-ink)!important}
-.dshp-dock .dshp-dock-head,.dshp-dock .dshp-dock-head b,.dshp-dock .dshp-dock-head button,.dshp-dock .dshp-dock-tab,.dshp-dock .dshp-dock-tab.on{color:var(--dshp-ink)!important;text-shadow:none!important;font-weight:600}
-.dshp-dock .dshp-dock-tab{font-size:14px}
-.dshp-dock .dshp-dock-tab.on{border-bottom-color:var(--dsw-alias-brand-primary,#748B6F)!important}
+.dshp-dock[data-theme="white"]{--dshp-ink:var(--dsw-alias-label-primary,#16140f);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#16140f) 76%,var(--dsw-alias-label-secondary,#3c362e))}.dshp-dock .dshp-dock-head{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,transparent) 28%,transparent)!important;color:var(--dshp-ink)!important}.dshp-dock .dshp-dock-head,.dshp-dock .dshp-dock-head b,.dshp-dock .dshp-dock-head button{color:var(--dshp-ink)!important;text-shadow:none!important;font-weight:600}
 .dshp-dock-body .rt-dock{font-size:14px!important;line-height:1.6!important;font-weight:500!important;color:var(--dshp-ink)!important;--rt-ink:var(--dshp-ink);--rt-mute:var(--dshp-mute);--rt-surf:color-mix(in srgb,var(--dsw-alias-bg-layer-2,var(--dsw-alias-bg-layer-1,#fff)) 40%,transparent);--rt-surf-2:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 62%,transparent);--rt-line:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 30%,transparent)}
 .dshp-dock-body .rt-title,.dshp-dock-body .rt-tab,.dshp-dock-body .rt-tab.on,.dshp-dock-body .rt-card,.dshp-dock-body .rt-card h4,.dshp-dock-body .rt-row,.dshp-dock-body .rt-vrow,.dshp-dock-body .rt-kv,.dshp-dock-body .rt-kv b,.dshp-dock-body .rt-kv span,.dshp-dock-body .rt-mono,.dshp-dock-body .rt-empty,.dshp-dock-body .rt-foot,.dshp-dock-body .rt-tag,.dshp-dock-body .rt-item,.dshp-dock-body .rt-item-name,.dshp-dock-body .rt-item-desc,.dshp-dock-body .rt-sec-sub,.dshp-dock-body .rt-kb-sub,.dshp-dock-body .rt-seg-cidr,.dshp-dock-body .rt-seg-meta,.dshp-dock-body .rt-section,.dshp-dock-body .rt-note,.dshp-dock-body .rt-hint{color:var(--dshp-ink)!important;text-shadow:none!important;opacity:1!important}
 .dshp-dock-body .rt-tab,.dshp-dock-body .rt-foot,.dshp-dock-body .rt-empty,.dshp-dock-body .rt-item-desc,.dshp-dock-body .rt-kb-sub,.dshp-dock-body .rt-kv span,.dshp-dock-body .rt-tag,.dshp-dock-body .rt-sec-sub{color:var(--dshp-mute)!important}
@@ -1460,9 +1313,6 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 		const OVERVIEW_CSS = `
 .dshp-ov{padding:0;--ov-panel:#FFFDF9;--ov-cell:#FAF6EE;--ov-cell-bd:#EDE6D9;--ov-line:#EFE9DD;--ov-track:#EDE7DA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
 body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
-.dshp-ov-head{display:flex;align-items:center;gap:7px;padding:0 0 10px;margin-bottom:14px;border-bottom:1px solid var(--ov-line)}
-.dshp-ov-head b{font-size:12.5px;font-weight:650;letter-spacing:-.1px;color:var(--ov-ink)}
-.dshp-ov-head .sp{flex:1}
 .dshp-ov-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
 .dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
 .dshp-ov-big{font-size:19px;font-weight:660;letter-spacing:-.35px;line-height:1.2;color:var(--ov-green);transition:color .25s}
@@ -1911,234 +1761,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			);
 		}
 
-		function RulesCard() {
-			const [st, setSt] = useState(null);
-			const [note, setNote] = useState("");
-			const [busy, setBusy] = useState(false);
-			const [edit, setEdit] = useState(null);
-			const TARGETS = ["AGENTS.md", "CLAUDE.md"];
-
-			const load = useCallback(() => {
-				rulesApi("status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
-			}, []);
-			useEffect(() => { load(); }, [load]);
-
-			const list = (st && st.rules) || [];
-			const meta = st ? (list.length ? list.length + " 条" : "无自定义规则") : "读取中…";
-
-			const act = (op, payload, after) => {
-				setBusy(true); setNote("");
-				rulesApi(op, payload).then((d) => {
-					if (!d || !d.ok) setNote("操作失败：" + ((d && d.error) || ""));
-					else if (after) after(d);
-					load();
-				}).catch((e) => setNote("操作失败：" + e.message)).finally(() => setBusy(false));
-			};
-
-			const openEdit = (id) => {
-				setNote("");
-				rulesApi("read", { id }).then((d) => {
-					if (!d || !d.ok) { setNote("读取失败：" + ((d && d.error) || "")); return; }
-					setEdit({ id: d.id, name: d.name || d.id, target: d.target || TARGETS[0], content: d.content || "" });
-				}).catch((e) => setNote("读取失败：" + e.message));
-			};
-
-			const save = () => {
-				if (!edit) return;
-				const id = String(edit.id || "").trim();
-				if (!id) { setNote("请填 id（小写字母、数字、短横线）"); return; }
-				act("save", { id, content: edit.content, name: edit.name || id, target: edit.target }, () => setEdit(null));
-			};
-
-			return h(Card, {
-				name: "规则集",
-				meta: meta,
-				right: h("button", {
-					type: "button", className: "dshp-cd-btn", disabled: busy,
-					onClick: () => { setNote(""); setEdit({ id: "", name: "", target: TARGETS[0], content: "" }); },
-				}, "新建"),
-			},
-				list.length
-					? h("div", { className: "dshp-cd-list" },
-						list.map((r) => h("div", { key: r.id, className: "dshp-cd-row" },
-							h("span", { className: "dshp-cd-dot" + (st.active === r.id ? "" : " off") }),
-							h("span", { className: "dshp-cd-t" }, r.name || r.id),
-							st.active === r.id
-								? h("span", { className: "dshp-cd-tag" }, "生效中")
-								: h("button", { type: "button", className: "dshp-cd-btn tiny", disabled: busy, onClick: () => act("activate", { id: r.id }) }, "启用"),
-							h("button", { type: "button", className: "dshp-cd-btn tiny", disabled: busy, onClick: () => openEdit(r.id) }, "编辑"),
-							h("button", {
-								type: "button", className: "dshp-cd-btn tiny", disabled: busy,
-								onClick: () => {
-									if (!window.confirm("删除规则 " + r.id + "？")) return;
-									if (edit && edit.id === r.id) setEdit(null);
-									act("delete", { id: r.id });
-								},
-							}, "删除"),
-						)))
-					: h("div", { className: "dshp-cd-empty" },
-						"没有自定义规则。当前生效的是 ", h("code", null, (st && st.injectSource) || "default"), "。"),
-
-				edit ? h("div", { className: "dshp-cd-body" },
-					h("div", { className: "dshp-cd-fields" },
-						h("label", { className: "dshp-cd-field" },
-							h("span", null, "id"),
-							h("input", {
-								className: "dshp-cd-input", value: edit.id, spellCheck: false, placeholder: "my-rule",
-								onChange: (e) => setEdit({ ...edit, id: e.target.value }),
-							})),
-						h("label", { className: "dshp-cd-field" },
-							h("span", null, "名称"),
-							h("input", {
-								className: "dshp-cd-input", value: edit.name,
-								onChange: (e) => setEdit({ ...edit, name: e.target.value }),
-							})),
-						h("label", { className: "dshp-cd-field" },
-							h("span", null, "目标"),
-							h("select", {
-								className: "dshp-cd-input", value: edit.target,
-								onChange: (e) => setEdit({ ...edit, target: e.target.value }),
-							}, TARGETS.map((x) => h("option", { key: x, value: x }, x)))),
-					),
-					h("textarea", {
-						className: "dshp-cd-area", value: edit.content, spellCheck: false, placeholder: "规则正文（Markdown）",
-						onChange: (e) => setEdit({ ...edit, content: e.target.value }),
-					}),
-					h("div", { className: "dshp-cd-acts" },
-						h("button", { type: "button", className: "dshp-cd-btn", onClick: () => { setEdit(null); setNote(""); } }, "取消"),
-						h("span", { style: { flex: 1 } }),
-						note ? h("span", { className: "dshp-cd-note" }, note) : null,
-						h("button", { type: "button", className: "dshp-cd-btn primary", disabled: busy, onClick: save }, busy ? "保存中…" : "保存"),
-					),
-				) : (note ? h("div", { className: "dshp-cd-note", style: { padding: "4px 2px 0" } }, note) : null),
-			);
-		}
-
-		function SkillsCard() {
-			const [st, setSt] = useState(null);
-			const [note, setNote] = useState("");
-			const [busy, setBusy] = useState(false);
-			const [edit, setEdit] = useState(null);
-			const zipRef = useRef(null);
-
-			const load = useCallback(() => {
-				skillsApi("status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
-			}, []);
-			useEffect(() => { load(); }, [load]);
-
-			const list = (st && st.skills) || [];
-			const meta = st ? (list.length ? list.length + " 个" : "未安装") : "读取中…";
-
-			const act = (op, payload, after) => {
-				setBusy(true); setNote("");
-				skillsApi(op, payload).then((d) => {
-					if (!d || !d.ok) setNote("操作失败：" + ((d && d.error) || ""));
-					else if (after) after(d);
-					load();
-				}).catch((e) => setNote("操作失败：" + e.message)).finally(() => setBusy(false));
-			};
-
-			const openEdit = (id) => {
-				setNote("");
-				skillsApi("read", { id }).then((d) => {
-					if (!d || !d.ok) { setNote("读取失败：" + ((d && d.error) || "")); return; }
-					setEdit({ id: d.id || id, content: d.content || "", description: d.description || "" });
-				}).catch((e) => setNote("读取失败：" + e.message));
-			};
-
-			const asBase64 = (file) => new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.onload = () => {
-					const raw = String(reader.result || "");
-					const cut = raw.indexOf(",");
-					resolve(cut >= 0 ? raw.slice(cut + 1) : raw);
-				};
-				reader.onerror = () => reject(new Error("读取文件失败"));
-				reader.readAsDataURL(file);
-			});
-
-			// 单个压缩包 / .skill / .md
-			const importZip = (file) => {
-				if (!file) return;
-				asBase64(file)
-					.then((data) => act("import", { data, name: file.name }))
-					.catch((e) => setNote(e.message));
-			};
-
-			const fmtSize = (n) => {
-				const v = Number(n) || 0;
-				if (v < 1024) return v + " B";
-				if (v < 1024 * 1024) return (v / 1024).toFixed(1) + " KB";
-				return (v / 1024 / 1024).toFixed(1) + " MB";
-			};
-
-			return h(Card, {
-				name: "Skill",
-				meta: meta,
-				right: h("span", { style: { display: "flex", gap: 5 } },
-					h("input", {
-						ref: zipRef, type: "file", accept: ".zip,.tgz,.tar.gz,.tar,.skill", style: { display: "none" },
-						onChange: (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ""; importZip(f); },
-					}),
-					h("button", { type: "button", className: "dshp-cd-btn", disabled: busy, onClick: () => zipRef.current && zipRef.current.click() }, "导入"),
-				),
-			},
-				list.length
-					? h("div", { className: "dshp-cd-list" },
-						list.map((s) => h("div", {
-							key: s.id, className: "dshp-cd-row clickable",
-							onClick: () => openEdit(s.id),
-						},
-							h("span", { className: "dshp-cd-dot" + (s.valid ? "" : " off") }),
-							h("span", { className: "dshp-cd-col" },
-								h("span", { className: "dshp-cd-t" }, s.name || s.id),
-								h("span", { className: "dshp-cd-sub" },
-									(s.valid ? (s.description || "无描述") : "无效") + " · " + fmtSize(s.size)
-									+ (s.userInvocable ? " · /" + s.id : "")
-									+ (s.modelInvocable ? " · 模型可调用" : "")),
-							),
-							h("button", {
-								type: "button", className: "dshp-cd-btn tiny", disabled: busy,
-								onClick: (e) => {
-									e.stopPropagation();
-									if (!window.confirm("删除 Skill " + s.id + "？")) return;
-									if (edit && edit.id === s.id) setEdit(null);
-									act("delete", { id: s.id });
-								},
-							}, "删除"),
-						)))
-					: h("div", { className: "dshp-cd-empty" },
-						"还没有 Skill。点右上「导入」选一个压缩包（.zip / .tgz / .skill）。"),
-
-				edit ? h("div", { className: "dshp-cd-body" },
-					h("div", { className: "dshp-cd-fields" },
-						h("label", { className: "dshp-cd-field" },
-							h("span", null, "id"),
-							h("input", { className: "dshp-cd-input", value: edit.id, readOnly: true })),
-						h("label", { className: "dshp-cd-field" },
-							h("span", null, "描述"),
-							h("input", {
-								className: "dshp-cd-input", value: edit.description,
-								onChange: (e) => setEdit({ ...edit, description: e.target.value }),
-							})),
-					),
-					h("textarea", {
-						className: "dshp-cd-area", value: edit.content, spellCheck: false,
-						onChange: (e) => setEdit({ ...edit, content: e.target.value }),
-					}),
-					h("div", { className: "dshp-cd-acts" },
-						h("button", { type: "button", className: "dshp-cd-btn", onClick: () => { setEdit(null); setNote(""); } }, "取消"),
-						h("span", { style: { flex: 1 } }),
-						note ? h("span", { className: "dshp-cd-note" }, note) : null,
-						h("button", {
-							type: "button", className: "dshp-cd-btn primary", disabled: busy,
-							onClick: () => act("save", { id: edit.id, content: edit.content, description: edit.description }, () => setEdit(null)),
-						}, busy ? "保存中…" : "保存"),
-					),
-				) : (note ? h("div", { className: "dshp-cd-note", style: { padding: "4px 2px 0" } }, note) : null),
-			);
-		}
-
 		function SettingsRoot(props) {
 			const t = typeof props.t === "function" ? props.t : ((key) => key);
 			const [theme, setTheme] = useState(readTheme);
@@ -2179,8 +1801,6 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				h(OverviewSection, { detail, onToggleDetail: () => setDetail((v) => !v) }),
 				detail ? h(DetailPanel, null) : null,
 				h(PromptCard, null),
-				h(RulesCard, null),
-				h(SkillsCard, null),
 			);
 		}
 
