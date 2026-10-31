@@ -775,12 +775,12 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 
 .dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:auto;max-height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#66330f 20%,transparent),0 0 0 1px color-mix(in srgb,#fff 10%,transparent),inset 0 0 46px rgba(255,124,66,.16);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:hidden}
 .dshp-dock[data-open="0"]{display:none}
-.dshp-dock[data-theme="white"]{background:linear-gradient(135deg,color-mix(in srgb,#1783FF 7%,#FFFDFA),#FFFDFA 72%);border-color:#DCE8FA;--pool-a:#2E8BF5;--pool-b:#6FC0FF;--pool-c:#3D8AE8}
-.dshp-dock[data-theme="dusk"]{--pool-a:#4A86C8;--pool-b:#6FA8DE;--pool-c:#3F72AE}
+.dshp-dock[data-theme="white"]{background:linear-gradient(135deg,color-mix(in srgb,#1783FF 7%,#FFFDFA),#FFFDFA 72%);border-color:#DCE8FA;--pool-a:#4E9BF7;--pool-b:#8FCEFF;--pool-c:#6FA9F2}
+.dshp-dock[data-theme="dusk"]{--pool-a:#5E93D2;--pool-b:#82B5E6;--pool-c:#5A8BC4}
 .dshp-field,.dshp-rim{position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;overflow:hidden}
 .dshp-field{opacity:.70;-webkit-mask:linear-gradient(rgb(0 0 0/.28) 0 0),linear-gradient(to right,#000,transparent 72px,transparent calc(100% - 72px),#000),linear-gradient(to bottom,#000,transparent 72px,transparent calc(100% - 72px),#000);mask:linear-gradient(rgb(0 0 0/.28) 0 0),linear-gradient(to right,#000,transparent 72px,transparent calc(100% - 72px),#000),linear-gradient(to bottom,#000,transparent 72px,transparent calc(100% - 72px),#000)}
 .dshp-rim{padding:1px;z-index:1;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.dshp-pool{position:absolute;left:50%;top:50%;width:max(96%,520px);aspect-ratio:8/5;margin:calc(max(96%,520px) * -5 / 16) 0 0 calc(max(96%,520px) / -2);border-radius:50%;background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 46%,transparent) 46%,color-mix(in srgb,var(--pool-color) 12%,transparent) 80%,transparent 100%)}
+.dshp-pool{position:absolute;left:50%;top:50%;width:max(96%,520px);aspect-ratio:1/1;margin:calc(max(96%,520px) * -1 / 2) 0 0 calc(max(96%,520px) / -2);border-radius:50%;background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 46%,transparent) 46%,color-mix(in srgb,var(--pool-color) 12%,transparent) 80%,transparent 100%)}
 .dshp-rim .dshp-pool{background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 70%,transparent) 48%,color-mix(in srgb,var(--pool-color) 22%,transparent) 82%,transparent 100%)}
 .dshp-pool[data-pool="a"]{--pool-color:var(--pool-a);translate:-19% 0;animation:dshp-pa-x 23s ease-in-out -6s infinite alternate,dshp-pa-y 9.5s ease-in-out -2s infinite alternate,dshp-pool-morph 14s ease-in-out -6s infinite alternate}
 .dshp-pool[data-pool="b"]{--pool-color:var(--pool-b);translate:20% 0;animation:dshp-pb-x 29s ease-in-out -19s infinite alternate,dshp-pb-y 12.5s ease-in-out -8s infinite alternate,dshp-pool-morph 17s ease-in-out -19s infinite alternate}
@@ -1581,11 +1581,13 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 						}, txt)),
 				),
 				h("div", { className: "dshp-ov-rows" },
-					rows.map((r) => {
+					filter !== "all" && !rows.some((r) => (bucketList[r.key] || []).some(passFilter))
+						? h("div", { className: "dshp-ov-empty" }, filter === "bad" ? "无失败补丁" : "无跳过补丁")
+						: rows.filter((r) => filter === "all" || (bucketList[r.key] || []).some(passFilter)).map((r) => {
 						const pct = (n) => (r.total ? (n / r.total) * 100 : 0);
 						const sk = Math.max(0, r.total - r.done - r.bad);
-						const open = !!openG[r.key];
-						const list = (bucketList[r.key] || []).filter(passFilter);
+						const open = filter !== "all" ? true : !!openG[r.key];
+						const list = filter !== "all" ? (bucketList[r.key] || []).filter(passFilter) : (bucketList[r.key] || []);
 						const toggle = () => setOpenG((o) => ({ ...o, [r.key]: !open }));
 						return h("div", { key: r.key, className: "dshp-ov-item" + (open ? " open" : "") },
 							h("div", {
