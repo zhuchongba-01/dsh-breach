@@ -21,6 +21,7 @@
 [![DSH](https://img.shields.io/badge/DSH-%E2%89%A5%200.2.1--rc.5-4c6ef5?style=flat-square)](https://github.com/deepseek-ai)
 [![surface](https://img.shields.io/badge/surface-web%20%7C%20desktop-4c6ef5?style=flat-square)](#compatibility)
 [![Listed on dsh-plugin.org](https://dsh-plugin.org/badges/listed.svg)](https://dsh-plugin.org/plugins/zhuchongba-01/dsh-breach)
+[![dsh.so risk](https://cdn.dsh.so/badge/dsh-breach.svg)](https://www.dsh.so/artifact/dsh-breach/?ref=badge)
 
 [中文](./README.md) · [English](./README.en.md)
 
@@ -195,6 +196,14 @@ Rewinds a session to a given turn, optionally refilling the composer.
 ---
 
 ## Compatibility
+
+```
+Node.js: >= 18
+DSH: >= 0.2.1-rc.5
+Surfaces: web, desktop
+License: MIT
+Install: dsh plugin --profile web add github:zhuchongba-01/dsh-breach
+```
 
 | Item | Value | Status |
 |---|---|---|
