@@ -20,6 +20,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](./LICENSE)
 [![DSH](https://img.shields.io/badge/DSH-%E2%89%A5%200.2.1--rc.5-4c6ef5?style=flat-square)](https://github.com/deepseek-ai)
 [![surface](https://img.shields.io/badge/surface-web%20%7C%20desktop-4c6ef5?style=flat-square)](#compatibility)
+[![Listed on dsh-plugin.org](https://dsh-plugin.org/badges/listed.svg)](https://dsh-plugin.org/plugins/zhuchongba-01/dsh-breach)
 
 [中文](./README.md) · [English](./README.en.md)
 
@@ -32,7 +33,7 @@
 ## Contents
 
 - [What it solves](#what-it-solves)
-- [Quick start](#quick-start)
+- [Installation](#installation)
 - [Panel](#panel)
 - [Prompt injection](#1-prompt-injection)
 - [Patch engine](#2-patch-engine)
@@ -62,25 +63,33 @@ It does not touch your conversation content and does not take over the host: it 
 
 ---
 
-## Quick start
+## Installation
 
-### Option 1 — Install from the DSH UI (recommended)
+**There is exactly one way to install: from the GitHub source.**
 
-DSH → Plugins → **Add plugin** → paste the package name:
+`dsh-breach` is not on npm — it did not pass npm's publish-time automated scan, so **do not** use `npm i dsh-breach`, `pnpm add dsh-breach`, or paste the package name into the UI; none of those install anything.
 
+### CLI (when the host ships the `dsh` command)
+
+Pick the line for your surface:
+
+```bash
+# web surface
+dsh plugin --profile web add github:zhuchongba-01/dsh-breach
+
+# official desktop build (EXE)
+dsh plugin --profile desktop add github:zhuchongba-01/dsh-breach
 ```
-dsh-breach
-```
 
-Both the official registry and `registry.npmmirror.com` are synced.
+Some installs (the desktop build, for one) ship without the `dsh` command — use the next method then.
 
-### Option 2 — Add it to the profile's `package.json`
+### Add it to the profile's `package.json`
 
 ```jsonc
 {
   "dependencies": {
-    "dsh-breach": "^1.2.7"
-    // or from a local directory:
+    "dsh-breach": "github:zhuchongba-01/dsh-breach"
+    // for local debugging, link a directory instead:
     // "dsh-breach": "link:D:/dsh/dsh-breach"
   },
   "dsh": { "profile": { "bundles": ["dsh-breach"] } }
@@ -89,13 +98,7 @@ Both the official registry and `registry.npmmirror.com` are synced.
 
 Then run `pnpm install` in that profile directory.
 
-### Option 3 — CLI (when the host ships `dsh`)
-
-```bash
-dsh plugin --profile desktop add dsh-breach
-```
-
-Some installs (the desktop build, for one) ship without the `dsh` command — use options 1 or 2 then. The plugin's own CLI is `dsh-breach` (inside the profile's `node_modules/.bin`); run `dsh-breach --help`.
+The plugin's own CLI is `dsh-breach` (inside the profile's `node_modules/.bin`); run `dsh-breach --help`.
 
 ### Verify
 

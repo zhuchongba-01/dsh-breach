@@ -20,6 +20,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](./LICENSE)
 [![DSH](https://img.shields.io/badge/DSH-%E2%89%A5%200.2.1--rc.5-4c6ef5?style=flat-square)](https://github.com/deepseek-ai)
 [![surface](https://img.shields.io/badge/surface-web%20%7C%20desktop-4c6ef5?style=flat-square)](#兼容性)
+[![Listed on dsh-plugin.org](https://dsh-plugin.org/badges/listed.svg)](https://dsh-plugin.org/plugins/zhuchongba-01/dsh-breach)
 
 [中文](./README.md) · [English](./README.en.md)
 
@@ -32,7 +33,7 @@
 ## 目录
 
 - [它解决什么](#它解决什么)
-- [快速开始](#快速开始)
+- [安装](#安装)
 - [面板](#面板)
 - [提示词注入](#1-提示词注入)
 - [补丁引擎](#2-补丁引擎)
@@ -62,40 +63,42 @@ dsh-breach 干两件事：
 
 ---
 
-## 快速开始
+## 安装
 
-### 方式一：DSH 界面里装（推荐）
+**只有一种安装方式：从 GitHub 源码安装。**
 
-DSH → 插件 → **添加插件** → 填包名：
+npm 上没有 `dsh-breach` 这个包——它没通过 npm 的发布期自动扫描，所以**不要**用 `npm i dsh-breach`、`pnpm add dsh-breach` 或界面里粘贴包名，那些都装不到东西。
 
+### CLI 安装（宿主带 `dsh` 命令时）
+
+按你的表面选一条：
+
+```bash
+# Web 表面
+dsh plugin --profile web add github:zhuchongba-01/dsh-breach
+
+# 官方桌面端（EXE）
+dsh plugin --profile desktop add github:zhuchongba-01/dsh-breach
 ```
-dsh-breach
-```
 
-官方源与 `registry.npmmirror.com` 都已同步。
+部分安装（桌面版）不带 `dsh` 命令——那就用下面这种方式。
 
-### 方式二：写进 profile 的 `package.json`
+### 写进 profile 的 `package.json`
 
 ```jsonc
 {
   "dependencies": {
-    "dsh-breach": "^1.2.7"
-    // 或从本地目录装：
+    "dsh-breach": "github:zhuchongba-01/dsh-breach"
+    // 本机调试用目录链接：
     // "dsh-breach": "link:D:/dsh/dsh-breach"
   },
   "dsh": { "profile": { "bundles": ["dsh-breach"] } }
 }
 ```
 
-然后在该 profile 目录下 `pnpm install`。
+然后在那个 profile 目录下执行 `pnpm install`。
 
-### 方式三：CLI（宿主带 `dsh` 命令时）
-
-```bash
-dsh plugin --profile desktop add dsh-breach
-```
-
-部分安装（如桌面版）不带 `dsh` 命令，那就用前两种。插件自己的 CLI 是 `dsh-breach`（在 profile 的 `node_modules/.bin` 下），`dsh-breach --help` 看用法。
+插件自带的 CLI 是 `dsh-breach`（在 profile 的 `node_modules/.bin` 下），`dsh-breach --help` 看用法。
 
 ### 验证
 
