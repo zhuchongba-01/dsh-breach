@@ -356,3 +356,74 @@ test("extractLatestChangelogSection selects target or latest version section cle
   assert.equal(targeted.includes("1.3.7"), false);
 });
 
+test("atomicWriteSync and atomicWriteFile preserve POSIX file mode", { skip: process.platform === "win32" }, async () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "dsh-breach-mode-test-"));
+  try {
+    const execFile = path.join(tmp, "dsh-shim");
+    fs.writeFileSync(execFile, "#!/bin/sh\necho old\n", { encoding: "utf8", mode: 0o755 });
+    fs.chmodSync(execFile, 0o755);
+
+    core.atomicWriteSync(execFile, "#!/bin/sh\necho sync\n", "utf8");
+    assert.equal(fs.statSync(execFile).mode & 0o777, 0o755, "atomicWriteSync should preserve 0o755");
+
+    await core.atomicWriteFile(execFile, "#!/bin/sh\necho async\n", "utf8");
+    assert.equal(fs.statSync(execFile).mode & 0o777, 0o755, "atomicWriteFile should preserve 0o755");
+
+    const secretFile = path.join(tmp, "secret.json");
+    fs.writeFileSync(secretFile, "{}\n", { encoding: "utf8", mode: 0o600 });
+    fs.chmodSync(secretFile, 0o600);
+
+    core.atomicWriteSync(secretFile, "{\"ok\":true}\n", "utf8");
+    assert.equal(fs.statSync(secretFile).mode & 0o777, 0o600, "atomicWriteSync should preserve 0o600");
+
+    await core.atomicWriteFile(secretFile, "{\"ok\":2}\n", "utf8");
+    assert.equal(fs.statSync(secretFile).mode & 0o777, 0o600, "atomicWriteFile should preserve 0o600");
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test("repairOfficialCliAfterUnpack keeps and heals POSIX executable bit on dsh shim", { skip: process.platform === "win32" }, () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "dsh-breach-cli-repair-"));
+  try {
+    const appBundle = path.join(tmp, "DeepSeek Harness.app", "Contents");
+    const exe = path.join(appBundle, "MacOS", "DeepSeek Harness");
+    const resources = path.join(appBundle, "Resources");
+    const shimDir = path.join(resources, "runtime", "cli", "bin");
+    const shimPath = path.join(shimDir, "dsh");
+    fs.mkdirSync(path.dirname(exe), { recursive: true });
+    fs.mkdirSync(path.join(resources, "app"), { recursive: true });
+    fs.mkdirSync(shimDir, { recursive: true });
+    fs.writeFileSync(exe, "", "utf8");
+
+    const stockShim = [
+      "#!/bin/sh",
+      "set -e",
+      "resources=$(CDPATH= cd -- \"$(dirname -- \"$0\")/../../..\" && pwd -P)",
+      "ELECTRON_RUN_AS_NODE=1 exec \"$resources/../MacOS/DeepSeek Harness\" --expose-internals \"$resources/app.asar/dsh/node_modules/@deepseek-ai/dsh-desktop-host/lib/cli.js\" \"$@\"",
+      "",
+    ].join("\n");
+    fs.writeFileSync(shimPath, stockShim, { encoding: "utf8", mode: 0o755 });
+    fs.chmodSync(shimPath, 0o755);
+
+    const first = core.repairOfficialCliAfterUnpack(exe);
+    assert.equal(first.ok, true);
+    const firstShim = first.shims.find((s) => s.path === shimPath);
+    assert.equal(firstShim?.status, "patched");
+    assert.equal(fs.statSync(shimPath).mode & 0o777, 0o755, "patched shim should keep 0o755");
+    assert.equal(fs.statSync(`${shimPath}.dsh-breach.bak`).mode & 0o777, 0o755);
+
+    // Simulate legacy bug: shim already patched, but mode downgraded to 0o644
+    fs.chmodSync(shimPath, 0o644);
+    assert.equal(fs.statSync(shimPath).mode & 0o777, 0o644);
+
+    const second = core.repairOfficialCliAfterUnpack(exe);
+    assert.equal(second.ok, true);
+    const secondShim = second.shims.find((s) => s.path === shimPath);
+    assert.equal(secondShim?.status, "already");
+    assert.equal(secondShim?.chmodRepaired, true);
+    assert.equal(fs.statSync(shimPath).mode & 0o777, 0o755, "already-patched shim should self-heal to 0o755");
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
