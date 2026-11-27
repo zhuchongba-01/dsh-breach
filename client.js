@@ -289,6 +289,25 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"ov.fullQuit": "彻底退出并换包",
 			"ov.adaptN": "项锚点待适配",
 			"ov.hostWarn": "宿主版本提示",
+			"ov.groupDetail": "补丁分组明细",
+			"ov.reapply": "重新应用",
+			"ov.view": "筛选查看",
+			"ov.hostVerified": "已验证",
+			"ov.hostUnverified": "未验证",
+			"tab.patches": "补丁",
+			"tab.prompt": "提示词",
+			"tab.settings": "设置",
+			"grp.compat": "兼容",
+			"grp.desc.prompt": "身份剥除 · 免责与审批句替换",
+			"grp.desc.code": "沙箱默认全开 · 审批与 hooks 旁路",
+			"grp.desc.tools": "终端谨慎词清理 · 外部内容放行",
+			"grp.desc.compat": "预设衔接 · OAuth 与无弹窗重启",
+			"set.sysTitle": "版本与宿主控制",
+			"set.sysHint": "需要彻底重载宿主进程、检查新版本或卸载并还原补丁时在此操作。",
+			"set.checkUpdate": "检查更新",
+			"set.restartHost": "重启宿主",
+			"set.ownEdit": "编辑名单",
+			"set.ownClose": "收起",
 			"ov.skippedHint": "跳过",
 			"ov.allApplied": "没有跳过项",
 			"ov.showDetail": "查看明细 ›",
@@ -567,6 +586,25 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"ov.fullQuit": "Quit fully and swap the package",
 			"ov.adaptN": "anchors to adapt",
 			"ov.hostWarn": "Host version notice",
+			"ov.groupDetail": "Patch groups",
+			"ov.reapply": "Re-apply",
+			"ov.view": "Filter",
+			"ov.hostVerified": "verified",
+			"ov.hostUnverified": "unverified",
+			"tab.patches": "Patches",
+			"tab.prompt": "Prompt",
+			"tab.settings": "Settings",
+			"grp.compat": "Compat",
+			"grp.desc.prompt": "Identity strip · disclaimer & approval",
+			"grp.desc.code": "Sandbox defaults · approval & hooks",
+			"grp.desc.tools": "Shell & web tool descriptions",
+			"grp.desc.compat": "Presets · OAuth & clean restart",
+			"set.sysTitle": "Version & host control",
+			"set.sysHint": "Check updates, restart the host process, or revert all patches and uninstall.",
+			"set.checkUpdate": "Check updates",
+			"set.restartHost": "Restart host",
+			"set.ownEdit": "Edit allowlist",
+			"set.ownClose": "Collapse",
 			"ov.skippedHint": "Skipped",
 			"ov.allApplied": "Nothing skipped",
 			"ov.showDetail": "Details ›",
@@ -812,70 +850,63 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 @media (max-width:640px){.dshp-metrics{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.dshp-btn,.dshp-bar>i{transition:none}.dshp-skel{animation:none}}
 
-.dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,620px);height:auto;max-height:var(--dshp-dock-h,72vh);min-width:380px;min-height:320px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,var(--dshp-paper,#1c1c1c)) 52%,transparent);backdrop-filter:blur(22px) saturate(1.35);-webkit-backdrop-filter:blur(22px) saturate(1.35);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 65%,transparent);border-radius:12px;box-shadow:0 18px 48px color-mix(in srgb,#66330f 20%,transparent),0 0 0 1px color-mix(in srgb,#fff 10%,transparent),inset 0 0 46px rgba(255,124,66,.16);pointer-events:auto;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));overflow:hidden}
+.dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,580px);height:auto;max-height:var(--dshp-dock-h,74vh);min-width:390px;min-height:280px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;border-radius:12px;pointer-events:auto;overflow:hidden;font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;text-shadow:none}
 .dshp-dock[data-open="0"]{display:none}
-.dshp-dock[data-theme="white"]{background:linear-gradient(135deg,color-mix(in srgb,#1783FF 7%,#FFFDFA),#FFFDFA 72%);border-color:#DCE8FA;--pool-a:#4E9BF7;--pool-b:#8FCEFF;--pool-c:#6FA9F2}
-.dshp-dock[data-theme="dusk"]{--pool-a:#5E93D2;--pool-b:#82B5E6;--pool-c:#5A8BC4}
-.dshp-field,.dshp-rim{position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;overflow:hidden}
-.dshp-field{opacity:.70;-webkit-mask:linear-gradient(rgb(0 0 0/.28) 0 0),linear-gradient(to right,#000,transparent 72px,transparent calc(100% - 72px),#000),linear-gradient(to bottom,#000,transparent 72px,transparent calc(100% - 72px),#000);mask:linear-gradient(rgb(0 0 0/.28) 0 0),linear-gradient(to right,#000,transparent 72px,transparent calc(100% - 72px),#000),linear-gradient(to bottom,#000,transparent 72px,transparent calc(100% - 72px),#000)}
-.dshp-rim{padding:1px;z-index:1;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.dshp-pool{position:absolute;left:50%;top:50%;width:max(96%,520px);aspect-ratio:1/1;margin:calc(max(96%,520px) * -1 / 2) 0 0 calc(max(96%,520px) / -2);border-radius:50%;background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 46%,transparent) 46%,color-mix(in srgb,var(--pool-color) 12%,transparent) 80%,transparent 100%)}
-.dshp-rim .dshp-pool{background:radial-gradient(closest-side,var(--pool-color) 0%,color-mix(in srgb,var(--pool-color) 70%,transparent) 48%,color-mix(in srgb,var(--pool-color) 22%,transparent) 82%,transparent 100%)}
-.dshp-pool[data-pool="a"]{--pool-color:var(--pool-a);translate:-19% 0;animation:dshp-pa-x 23s ease-in-out -6s infinite alternate,dshp-pa-y 9.5s ease-in-out -2s infinite alternate,dshp-pool-morph 14s ease-in-out -6s infinite alternate}
-.dshp-pool[data-pool="b"]{--pool-color:var(--pool-b);translate:20% 0;animation:dshp-pb-x 29s ease-in-out -19s infinite alternate,dshp-pb-y 12.5s ease-in-out -8s infinite alternate,dshp-pool-morph 17s ease-in-out -19s infinite alternate}
-.dshp-pool[data-pool="c"]{--pool-color:var(--pool-c);translate:37% 0;animation:dshp-pc-x 37s ease-in-out -11s infinite alternate,dshp-pc-y 8s ease-in-out -5s infinite alternate,dshp-pool-morph 21s ease-in-out -11s infinite alternate}
-@keyframes dshp-pa-x{from{translate:-100% 0}to{translate:62% 0}}
-@keyframes dshp-pa-y{from{transform:translateY(-46%)}to{transform:translateY(34%)}}
-@keyframes dshp-pb-x{from{translate:98% 0}to{translate:-58% 0}}
-@keyframes dshp-pb-y{from{transform:translateY(40%)}to{transform:translateY(-40%)}}
-@keyframes dshp-pc-x{from{translate:-30% 0}to{translate:104% 0}}
-@keyframes dshp-pc-y{from{transform:translateY(-38%)}to{transform:translateY(46%)}}
-@keyframes dshp-pool-morph{from{scale:1.2 .86}to{scale:.86 1.16}}
-@media (prefers-reduced-motion:reduce){.dshp-pool{animation:none!important}}
+/* 方案 B：深石墨撞色顶栏 + 云灰底壳 + 纯白内胆（与宿主纯白主界面清晰拉开明度差） */
+.dshp-dock[data-theme="white"]{
+  --dk-bg:#F1F4F9;--dk-head:#1B2230;--dk-head-ink:#F8FAFC;--dk-head-mute:#94A3B8;--dk-head-pill:rgba(255,255,255,.12);
+  --dk-card:#FFFFFF;--dk-bd:#94A3B8;--dk-sub-bd:#DCE3EE;--dk-ink:#0F172A;--dk-mute:#526277;--dk-faint:#64748B;
+  --dk-chip:#E2E8F0;--dk-chip-hover:#CBD5E1;--dk-primary:#2563EB;--dk-primary-hover:#1D4ED8;
+  --dk-ok:#16A34A;--dk-warn:#D97706;--dk-bad:#DC2626;--dshp-ink:#0F172A;--dshp-mute:#526277;
+  background:var(--dk-bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  border:1px solid var(--dk-bd)!important;color:var(--dk-ink)!important;
+  box-shadow:0 24px 52px -10px rgba(15,23,42,.26),0 6px 16px rgba(15,23,42,.10),0 0 0 1px rgba(15,23,42,.05)!important;
+}
+body[data-ds-dark-theme] .dshp-dock,.dshp-dock[data-theme="dusk"]{
+  --dk-bg:#161922;--dk-head:#0F1219;--dk-head-ink:#F1F5F9;--dk-head-mute:#94A3B8;--dk-head-pill:rgba(255,255,255,.09);
+  --dk-card:#202533;--dk-bd:#363E52;--dk-sub-bd:#2C3345;--dk-ink:#F1F5F9;--dk-mute:#94A3B8;--dk-faint:#7C879B;
+  --dk-chip:#2A3142;--dk-chip-hover:#353E54;--dk-primary:#3B82F6;--dk-primary-hover:#2563EB;
+  --dk-ok:#22C55E;--dk-warn:#F59E0B;--dk-bad:#EF4444;--dshp-ink:#F1F5F9;--dshp-mute:#94A3B8;
+  background:var(--dk-bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  border:1px solid var(--dk-bd)!important;color:var(--dk-ink)!important;
+  box-shadow:0 26px 58px -8px rgba(0,0,0,.56),0 8px 20px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
 .dshp-dock-head,.dshp-dock-body{position:relative;z-index:2}
-.dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 55%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#1c1c1c) 72%,transparent);color:var(--dsw-alias-label-primary,#f2f2f2);cursor:pointer;font:13px/1 inherit;box-shadow:0 8px 22px color-mix(in srgb,#000 28%,transparent);pointer-events:auto}
-.dshp-launch:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent)}
+.dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 45%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#1B2230) 88%,transparent);color:var(--dsw-alias-label-primary,#f2f2f2);cursor:pointer;font:13px/1 inherit;box-shadow:0 8px 22px rgba(15,23,42,.22);pointer-events:auto}
+.dshp-launch:hover{border-color:var(--dsw-alias-brand-primary,#2563EB)}
 .dshp-launch[data-open="1"],.dshp-launch[data-hide="1"]{display:none}
-.dshp-dock-head{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,var(--dshp-line,#555)) 55%,transparent);background:transparent;cursor:grab;user-select:none;touch-action:none;color:var(--dsw-alias-label-primary,var(--dshp-ink,#f2f2f2));border-radius:12px 12px 0 0}
-.dshp-dock-head:active{cursor:grabbing}
-.dshp-dock-head b{font-size:14px;font-weight:600;color:inherit;text-shadow:0 1px 0 color-mix(in srgb,#000 18%,transparent)}
-.dshp-dock-head button{cursor:pointer;color:inherit;background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,rgba(127,127,127,.18)) 55%,transparent)}
-.dshp-dock-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:transparent;border-radius:0 0 12px 12px}
-.dshp-dock-body .dshp-root{max-width:none;height:auto;max-height:100%;flex:1;min-height:0;overflow:auto;background:transparent!important;--dshp-bg:transparent;--dshp-paper:color-mix(in srgb,var(--dshp-ink) 7%,transparent);--dshp-fill:color-mix(in srgb,var(--dshp-ink) 6%,transparent);--dshp-line:color-mix(in srgb,var(--dshp-ink) 20%,transparent);--dshp-accent-soft:color-mix(in srgb,var(--dshp-accent) 22%,transparent)}.dshp-dock-body .dshp-panel,.dshp-dock-body .dshp-metric,.dshp-dock-body .dshp-group,.dshp-dock-body .dshp-editor,.dshp-dock-body .dshp-active,.dshp-dock-body .dshp-ask,.dshp-dock-body .dshp-create,.dshp-dock-body .dshp-table,.dshp-dock-body .dshp-cwd-list,.dshp-dock-body .dshp-cwd-item{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#f4f8fd) 74%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 32%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
-.dshp-dock-body .dshp-field,.dshp-dock-body .dshp-area{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 88%,transparent)!important;color:var(--dshp-ink)!important;border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#8a8478) 72%,transparent)!important}
-.dshp-dock-body select.dshp-field,.dshp-dock-body .dshp-field.dshp-ver{background:var(--dsw-alias-bg-layer-1,#fff)!important;color:var(--dshp-ink)!important;color-scheme:inherit}
-.dshp-dock[data-theme="white"] select.dshp-field option,.dshp-dock[data-theme="white"] .dshp-field.dshp-ver option{background:#fff;color:#16140f}
-.dshp-dock[data-theme="dusk"] select.dshp-field option,.dshp-dock[data-theme="dusk"] .dshp-field.dshp-ver option{background:#1b1d22;color:#f4f1ea}.dshp-dock-body .dshp-title,.dshp-dock-body .dshp-sub h4,.dshp-dock-body .dshp-group-h strong,.dshp-dock-body .dshp-metric b{font-family:inherit;font-weight:650;letter-spacing:0;color:var(--dshp-ink)!important;text-shadow:none}.dshp-dock-body .dshp-mute,.dshp-dock-body .dshp-kicker,.dshp-dock-body .dshp-metric span,.dshp-dock-body .dshp-group-h em,.dshp-dock-body .dshp-count,.dshp-dock-body .dshp-hint{color:var(--dshp-mute)!important;font-weight:500;text-shadow:none}
-.dshp-dock-body .rt-dock{position:relative;inset:auto;width:100%!important;height:100%;max-width:none!important;flex:1;min-height:0;min-width:0;display:flex!important;flex-direction:column;box-shadow:none;border:0;transform:none!important;opacity:1!important;pointer-events:auto!important;background:transparent!important}
-.dshp-dock-body .rt-grip{display:none!important}
-.dshp-dock-body .rt-embedded>.rt-head,.dshp-dock-body .rt-tabs,.dshp-dock-body .rt-foot{flex:none}
-.dshp-dock-body .rt-body{flex:1;min-height:0;overflow:hidden!important;background:transparent!important}
-.dshp-dock-body .rt-main{min-height:0;flex:1;overflow:hidden}
-.dshp-dock-body .rt-pane{min-height:0;overflow:auto!important}
-.dshp-dock-body .rt-embedded>.rt-head{padding:8px 12px}
-.dshp-dock-body .rt-embedded>.rt-head .rt-title{font-size:14px;letter-spacing:0}
-.dshp-dock-body .rt-tabs{gap:2px;padding:6px 10px 0;flex-wrap:wrap}
-.dshp-dock-body .rt-tab{border-radius:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:8px 9px 7px;background:transparent;font-size:14px}
-.dshp-dock-body .rt-tab.on{border-bottom-color:var(--dsw-alias-brand-primary,#748B6F);background:transparent;font-weight:650}
-.dshp-dock-body .rt-row:hover,.dshp-dock-body .rt-item:hover,.dshp-dock-body .rt-item.on,.dshp-dock-body .rt-seg:hover,.dshp-dock-body .rt-seg.on,.dshp-dock-body .rt-vrow:hover,.dshp-dock-body .rt-score-row:hover{background:var(--rt-surf-2)!important}
-body:not([data-ds-dark-theme]) .dshp-auth-modal{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fffcf7) 92%,transparent);color:var(--dsw-alias-label-primary,#1a1916);border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#c9c3b6) 80%,transparent);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3)}
-body:not([data-ds-dark-theme]) .dshp-auth-legal{background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,#f3f0e8) 90%,transparent);color:var(--dsw-alias-label-primary,#1a1916);border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#c9c3b6) 80%,transparent)}
-body:not([data-ds-dark-theme]) .dshp-auth-warn{background:color-mix(in srgb,#f5e6c8 88%,transparent);color:#6b4a10}
-body:not([data-ds-dark-theme]) .dshp-auth-ops button{border-color:var(--dsw-alias-border-l1,#c9c3b6);color:var(--dsw-alias-label-primary,#1a1916);background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 88%,transparent)}
-body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--dsw-alias-brand-primary,#748B6F);border-color:var(--dsw-alias-brand-primary,#748B6F);color:#fff}
+.dshp-dock .dshp-dock-head{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--dk-head)!important;color:var(--dk-head-ink)!important;border-bottom:1px solid rgba(255,255,255,.08);cursor:grab;user-select:none;touch-action:none;border-radius:11px 11px 0 0}
+.dshp-dock .dshp-dock-head:active{cursor:grabbing}
+.dshp-dock .dshp-dock-brand{display:inline-flex;align-items:center;gap:7px;min-width:0}
+.dshp-dock .dshp-dock-brand svg{width:15px;height:15px;color:#3B82F6;flex:none}
+.dshp-dock .dshp-dock-head b{font-size:13.5px;font-weight:650;letter-spacing:-.2px;color:var(--dk-head-ink)!important;text-shadow:none!important}
+.dshp-dock-ver{font-family:var(--dshp-mono,ui-monospace,Consolas,monospace);font-size:11px;font-weight:500;padding:1px 6px;border-radius:5px;background:var(--dk-head-pill);color:var(--dk-head-mute)!important;letter-spacing:.01em}
+.dshp-head-tabs{display:inline-flex;align-items:center;gap:2px;padding:2px;border-radius:8px;background:var(--dk-head-pill)}
+.dshp-head-tab{appearance:none;border:0!important;background:transparent!important;color:var(--dk-head-mute)!important;padding:3px 10px!important;border-radius:6px!important;font:500 11.5px/1.4 inherit!important;cursor:pointer;transition:background .14s,color .14s;white-space:nowrap}
+.dshp-head-tab:hover{color:var(--dk-head-ink)!important}
+.dshp-head-tab.on{background:var(--dk-card)!important;color:var(--dk-ink)!important;font-weight:650!important;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.dshp-head-close{appearance:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0!important;border:0!important;border-radius:6px!important;background:transparent!important;color:var(--dk-head-mute)!important;cursor:pointer;transition:background .14s,color .14s}
+.dshp-head-close:hover{background:rgba(255,255,255,.14)!important;color:var(--dk-head-ink)!important}
+.dshp-dock-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:var(--dk-bg);border-radius:0 0 11px 11px}
+.dshp-dock-body .dshp-root{max-width:none;height:auto;max-height:100%;flex:1;min-height:0;overflow:auto;padding:12px;gap:10px;background:transparent!important;color:var(--dk-ink)!important}
+body:not([data-ds-dark-theme]) .dshp-auth-modal{background:#FFFFFF;color:#0F172A;border-color:#CBD5E1;box-shadow:0 24px 52px rgba(15,23,42,.24)}
+body:not([data-ds-dark-theme]) .dshp-auth-legal{background:#F8FAFC;color:#0F172A;border-color:#E2E8F0}
+body:not([data-ds-dark-theme]) .dshp-auth-warn{background:#FEF3C7;color:#92400E}
+body:not([data-ds-dark-theme]) .dshp-auth-ops button{border-color:#CBD5E1;color:#0F172A;background:#FFFFFF}
+body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;border-color:#2563EB;color:#fff}
 .dshp-dock-resize,.dshp-dock-resize-l,.dshp-dock-resize-r,.dshp-dock-resize-b{position:absolute;z-index:60;pointer-events:auto;touch-action:none}
-.dshp-dock-resize{right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 46%,color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 75%,transparent) 46%);border-radius:0 0 12px 0;opacity:.95}
-.dshp-dock-resize-l{left:-2px;top:0;bottom:0;width:10px;cursor:ew-resize;background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent)}
-.dshp-dock-resize-l:hover,.dshp-dock-resize-r:hover{background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 42%,transparent)}
-.dshp-dock-resize-r{right:-2px;top:0;bottom:22px;width:10px;cursor:ew-resize;background:transparent}
-.dshp-dock-resize-b{left:10px;right:22px;bottom:-2px;height:10px;cursor:ns-resize;background:transparent}
-.dshp-dock-resize-b:hover{background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 35%,transparent)}
-.dshp-auth-mask{position:fixed;inset:0;z-index:10100;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:auto}
-.dshp-auth-modal{width:min(680px,100%);max-height:min(88vh,820px);display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid var(--dsw-alias-border-l1,#333);border-radius:12px;background:var(--dsw-alias-bg-layer-1,#1a1a1a);color:var(--dsw-alias-label-primary,#eee)}
-.dshp-update-notes{max-height:min(38vh,300px);overflow:auto;font-size:12.5px;line-height:1.6;padding:8px 10px;border-radius:8px;background:color-mix(in srgb,var(--dsw-alias-label-primary,#888) 7%,transparent);border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,#444) 55%,transparent);word-break:break-word}
-.dshp-auth-modal h2{margin:0;font-size:16px;font-weight:600}
-.dshp-auth-warn{padding:8px 10px;border-radius:8px;background:#3a2e18;color:#f0d48a;font-size:13px}
-.dshp-auth-legal{overflow:auto;height:300px;margin:0;padding:10px 12px;border:1px solid var(--dsw-alias-border-l1,#333);border-radius:8px;background:#121212;font-size:13px;line-height:1.55}
+.dshp-dock-resize{right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;background:transparent}
+.dshp-dock-resize::after{content:"";position:absolute;right:4px;bottom:4px;width:6px;height:6px;border-right:2px solid var(--dk-faint,#64748B);border-bottom:2px solid var(--dk-faint,#64748B);opacity:.45;border-radius:0 0 2px 0}
+.dshp-dock-resize:hover::after{opacity:.9}
+.dshp-dock-resize-l{left:0;top:38px;bottom:0;width:6px;cursor:ew-resize;background:transparent}
+.dshp-dock-resize-r{right:0;top:38px;bottom:16px;width:6px;cursor:ew-resize;background:transparent}
+.dshp-dock-resize-b{left:6px;right:16px;bottom:0;height:6px;cursor:ns-resize;background:transparent}
+.dshp-auth-mask{position:fixed;inset:0;z-index:10100;background:rgba(15,23,42,.52);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:auto}
+.dshp-auth-modal{width:min(640px,100%);max-height:min(88vh,820px);display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid #363E52;border-radius:12px;background:#1A1E29;color:#F1F5F9}
+.dshp-update-notes{max-height:min(38vh,300px);overflow:auto;font-size:12.5px;line-height:1.6;padding:10px 12px;border-radius:8px;background:rgba(127,127,127,.09);border:1px solid rgba(127,127,127,.22);word-break:break-word}
+.dshp-auth-modal h2{margin:0;font-size:16px;font-weight:650}
+.dshp-auth-warn{padding:8px 10px;border-radius:8px;background:#3a2e18;color:#f0d48a;font-size:12.5px}
+.dshp-auth-legal{overflow:auto;height:300px;margin:0;padding:10px 12px;border:1px solid #2C3345;border-radius:8px;background:#12151E;font-size:13px;line-height:1.55}
 .dshp-auth-legal h3{margin:14px 0 4px;font-size:13px}
 .dshp-auth-legal h3:first-child{margin-top:0}
 .dshp-auth-legal p{margin:0 0 8px}
@@ -883,58 +914,30 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 .dshp-auth-checks label{display:flex;gap:8px;align-items:flex-start}
 .dshp-auth-checks label.locked{opacity:.45}
 .dshp-auth-ops{display:flex;justify-content:flex-end;gap:8px}
-.dshp-auth-ops button,.dshp-dock-head button{appearance:none;border:1px solid var(--dsw-alias-border-l1,#444);background:transparent;color:inherit;border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}
-.dshp-auth-ops button.primary{background:#748B6F;border-color:#748B6F}
+.dshp-auth-ops button{appearance:none;border:1px solid #363E52;background:transparent;color:inherit;border-radius:8px;padding:6px 13px;cursor:pointer;font:500 12.5px/1.4 inherit}
+.dshp-auth-ops button.primary{background:#2563EB;border-color:#2563EB;color:#fff;font-weight:600}
 .dshp-auth-ops button:disabled{opacity:.45;cursor:default}
-.dshp-icon-btn{appearance:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 45%,transparent);border-radius:8px;background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:13px/1 inherit;white-space:nowrap;flex:0 0 auto}
-.dshp-icon-btn:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-icon-btn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 16%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 28%,transparent)}
-.dshp-hbtn{appearance:none;display:inline-flex;flex:0 0 auto;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 55%,transparent);background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:12px/1 inherit;padding:5px 10px;border-radius:8px;white-space:nowrap}
-.dshp-hbtn:hover{border-color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-hbtn.on{border-color:var(--dsw-alias-brand-primary,#748B6F);color:var(--dsw-alias-brand-primary,#748B6F);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 32%,transparent)}
+.dshp-icon-btn{appearance:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 45%,transparent);border-radius:8px;background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:13px/1 inherit;white-space:nowrap;flex:0 0 auto}
+.dshp-icon-btn:hover{border-color:var(--dsw-alias-brand-primary,#2563EB);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
+.dshp-icon-btn.on{border-color:var(--dsw-alias-brand-primary,#2563EB);color:var(--dsw-alias-brand-primary,#2563EB);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 16%,transparent)}
+.dshp-hbtn{appearance:none;display:inline-flex;flex:0 0 auto;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 55%,transparent);background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:12px/1 inherit;padding:5px 10px;border-radius:8px;white-space:nowrap}
 .dshp-live-dot{width:6px;height:6px;border-radius:999px;flex:none;background:var(--dshp-led,#22C55E);box-shadow:0 0 0 2px color-mix(in srgb,var(--dshp-led,#22C55E) 22%,transparent)}
 .dshp-hero-chip{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;align-self:center}
-/* 与宿主首屏 chip 同规格：min-height 28px / 13px 500 / line-height 20px / gap 4px / padding 0 8px；
-   字色在 label-primary 上留 12% 透明度（彩色背景自适应，不靠写死灰值），hover 回到全量。 */
 .dshp-hero-chip-btn{appearance:none;display:inline-flex;align-items:center;gap:4px;min-height:28px;padding:0 8px;border:0;border-radius:var(--dsw-radius-sm,7px);background:transparent;color:color-mix(in srgb,var(--dsw-alias-label-primary,currentColor) 88%,transparent);cursor:pointer;font-size:13px;font-weight:500;line-height:20px;white-space:nowrap;transition:background .15s,color .15s}
 .dshp-hero-chip-btn:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.1));color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-hero-chip-btn.on{color:var(--dshp-accent,#748B6F)}
+.dshp-hero-chip-btn.on{color:var(--dsw-alias-brand-primary,#2563EB)}
 .dshp-hero-chip-icon{width:16px;height:16px;flex:none;color:inherit}
-.dshp-hero-chip-btn.on .dshp-hero-chip-icon{color:var(--dshp-accent,#748B6F)}
-/* 装饰用下拉箭头：与宿主 chip 的 chevron 同尺寸，颜色比文字更淡。 */
+.dshp-hero-chip-btn.on .dshp-hero-chip-icon{color:var(--dsw-alias-brand-primary,#2563EB)}
 .dshp-hero-chip-chev{width:14px;height:14px;flex:none;display:inline-grid;place-items:center;color:var(--dsw-alias-label-tertiary,#8b8f95);pointer-events:none}
-.dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#4E8A4A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
-.dshp-update-pill:hover{background:#447A41}
+.dshp-update-pill{appearance:none;display:inline-flex;align-items:center;height:20px;padding:0 8px;border:0;border-radius:999px;background:#16A34A;color:#fff;font:11.5px/1 inherit;font-weight:600;letter-spacing:.2px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.dshp-update-pill:hover{background:#15803D}
 .dshp-update-pill:disabled{opacity:.65;cursor:default}
-.dshp-update-pill.is-bad{background:#9a3434}
+.dshp-update-pill.is-bad{background:#DC2626}
 .dshp-tab-chip{display:inline-flex;align-items:flex-end;flex:0 0 auto}
 .dshp-tab-btn{appearance:none;position:relative;border:none;background:transparent;cursor:pointer;padding:0 0 9px;font:500 13px/16px inherit;color:var(--dsw-alias-label-tertiary,currentColor);white-space:nowrap}
 .dshp-tab-btn:hover{color:var(--dsw-alias-label-primary,currentColor)}
-.dshp-tab-btn.on{color:var(--dsw-alias-brand-primary,#748B6F)}
-.dshp-tab-btn.on:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:var(--dsw-alias-brand-primary,#748B6F)}
-/* 玻璃跟随宿主颜色。字重和底的不透明度分开：壳透，字坐在更实的一层上。 */
-.dshp-dock{font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif;font-size:14px;line-height:1.6;font-weight:500;-webkit-font-smoothing:antialiased;text-shadow:none}
-.dshp-dock[data-theme="white"],.dshp-dock[data-theme="dusk"]{background:linear-gradient(165deg,color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 50%,transparent),color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 18%,transparent) 46%,color-mix(in srgb,var(--dsw-alias-bg-layer-2,#fff) 28%,transparent))!important;backdrop-filter:blur(26px) saturate(1.45)!important;-webkit-backdrop-filter:blur(26px) saturate(1.45)!important;color:var(--dshp-ink)!important;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 36%,transparent)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 42%,transparent),0 18px 44px color-mix(in srgb,#000 18%,transparent)!important}
-.dshp-dock[data-theme="dusk"]{--dshp-ink:var(--dsw-alias-label-primary,#f4f1ea);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#f4f1ea) 84%,var(--dsw-alias-label-secondary,#c9c3b8))}
-.dshp-dock[data-theme="white"]{--dshp-ink:var(--dsw-alias-label-primary,#16140f);--dshp-mute:color-mix(in srgb,var(--dsw-alias-label-primary,#16140f) 76%,var(--dsw-alias-label-secondary,#3c362e))}.dshp-dock .dshp-dock-head{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,transparent) 28%,transparent)!important;color:var(--dshp-ink)!important}.dshp-dock .dshp-dock-head,.dshp-dock .dshp-dock-head b,.dshp-dock .dshp-dock-head button{color:var(--dshp-ink)!important;text-shadow:none!important;font-weight:600}
-.dshp-dock-body .rt-dock{font-size:14px!important;line-height:1.6!important;font-weight:500!important;color:var(--dshp-ink)!important;--rt-ink:var(--dshp-ink);--rt-mute:var(--dshp-mute);--rt-surf:color-mix(in srgb,var(--dsw-alias-bg-layer-2,var(--dsw-alias-bg-layer-1,#fff)) 40%,transparent);--rt-surf-2:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 62%,transparent);--rt-line:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 30%,transparent)}
-.dshp-dock-body .rt-title,.dshp-dock-body .rt-tab,.dshp-dock-body .rt-tab.on,.dshp-dock-body .rt-card,.dshp-dock-body .rt-card h4,.dshp-dock-body .rt-row,.dshp-dock-body .rt-vrow,.dshp-dock-body .rt-kv,.dshp-dock-body .rt-kv b,.dshp-dock-body .rt-kv span,.dshp-dock-body .rt-mono,.dshp-dock-body .rt-empty,.dshp-dock-body .rt-foot,.dshp-dock-body .rt-tag,.dshp-dock-body .rt-item,.dshp-dock-body .rt-item-name,.dshp-dock-body .rt-item-desc,.dshp-dock-body .rt-sec-sub,.dshp-dock-body .rt-kb-sub,.dshp-dock-body .rt-seg-cidr,.dshp-dock-body .rt-seg-meta,.dshp-dock-body .rt-section,.dshp-dock-body .rt-note,.dshp-dock-body .rt-hint{color:var(--dshp-ink)!important;text-shadow:none!important;opacity:1!important}
-.dshp-dock-body .rt-tab,.dshp-dock-body .rt-foot,.dshp-dock-body .rt-empty,.dshp-dock-body .rt-item-desc,.dshp-dock-body .rt-kb-sub,.dshp-dock-body .rt-kv span,.dshp-dock-body .rt-tag,.dshp-dock-body .rt-sec-sub{color:var(--dshp-mute)!important}
-.dshp-dock-body .rt-card,.dshp-dock-body .rt-pane,.dshp-dock-body .rt-side,.dshp-dock-body .rt-table,.dshp-dock-body .rt-toolbar,.dshp-dock-body .rt-embedded>.rt-head,.dshp-dock-body .rt-tabs{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 72%,transparent)!important;border-color:color-mix(in srgb,var(--dsw-alias-brand-primary,#748B6F) 28%,transparent)!important;color:var(--dshp-ink)!important;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 26%,transparent)!important;backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3)}
-.dshp-dock-body .rt-btn,.dshp-dock-body .rt-input,.dshp-dock-body .rt-eng-select,.dshp-dock-body textarea.rt-input{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 90%,transparent)!important;color:var(--dshp-ink)!important;border-color:color-mix(in srgb,var(--dsw-alias-border-l1,#888) 70%,transparent)!important}
-.dshp-dock-body .rt-btn-primary{background:var(--dsw-alias-brand-primary,#748B6F)!important;border-color:var(--dsw-alias-brand-primary,#748B6F)!important;color:#fff!important}
-.dshp-dock[data-theme="white"] .dshp-dock-body .rt-eng-select option,.dshp-dock[data-theme="white"] .dshp-dock-body .rt-input option{background:#fff;color:#16140f}
-.dshp-dock[data-theme="dusk"] .dshp-dock-body .rt-eng-select option,.dshp-dock[data-theme="dusk"] .dshp-dock-body .rt-input option{background:#1b1d22;color:#f4f1ea}
-.dshp-dock-body .rt-err{font-weight:650}
-.dshp-dock[data-theme="white"] .dshp-dock-body .rt-err{color:#9a3434!important}
-.dshp-dock[data-theme="dusk"] .dshp-dock-body .rt-err{color:#f0b4b4!important}
-.dshp-dock-body .rt-rep-http,.dshp-dock-body pre{background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#fff) 84%,transparent)!important;color:var(--dshp-ink)!important;border:1px solid color-mix(in srgb,var(--dsw-alias-border-l1,#888) 60%,transparent)!important}
-/* [dsh-breach] 面板外壳改实心暖米，去掉毛玻璃。
-   注意：上面 .dshp-dock[data-theme=...] 那条也带 !important 且权重更高，
-   所以这里必须用同样带 data-theme 的选择器，并放在它之后，才能压过。 */
-.dshp-dock[data-theme="white"]{background:#FFFFFF!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #E7DFD0!important;box-shadow:0 18px 48px rgba(60,48,30,.16),0 2px 8px rgba(60,48,30,.06)!important}
-.dshp-dock[data-theme="dusk"]{background:#211F1C!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #332F29!important;box-shadow:0 18px 48px rgba(0,0,0,.45)!important}
-.dshp-dock-ver{font-size:10.5px;font-weight:500;color:var(--dshp-mute,#6b6862);opacity:.75;letter-spacing:.02em}
+.dshp-tab-btn.on{color:var(--dsw-alias-brand-primary,#2563EB)}
+.dshp-tab-btn.on:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:var(--dsw-alias-brand-primary,#2563EB)}
 /* [dsh-breach] 明细面板（新设计） */
 .dshp-dt{margin-top:14px;padding-top:12px;border-top:1px solid var(--cd-line-soft)}
 .dshp-dt-head{display:flex;align-items:center;gap:7px;margin-bottom:10px}
@@ -1377,90 +1380,89 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 			return detectHostTheme();
 		}
 
-		/* ── 概览面板（P 方案 · 暖米） ─────────────────────────────────────
-		   只做展示与两个动作：状态灯 / 四个指标 / 四行分组进度 / 明细开关。
-		   应用与还原来回复用同一套接口，所有数据来自 /dsh-breach/status。 */
+		/* ── 方案 B 面板主体样式（云灰底托 + 纯白卡片内胆 + 高对比状态指示） ───────── */
 		const OVERVIEW_CSS = `
-.dshp-ov{padding:0;--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-track:#EDF3FA;--ov-ink:#16202E;--ov-mute:#6B6862;--ov-faint:#7C8B9E;--ov-green:#4F8F6B;--ov-red:#BE7A72;--ov-card:transparent;--ov-chip:#EFF4FC;--ov-hair:#E7EFFA;--ov-shadow:none}
-body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-track:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149;--ov-card:transparent;--ov-chip:#2C2925;--ov-hair:#33302B;--ov-shadow:none}
-.dshp-ov-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:12px 2px;margin-bottom:0;background:transparent;border-bottom:1px solid var(--ov-hair);border-radius:0;box-shadow:none}
-.dshp-ov-bigwrap{display:flex;align-items:center;gap:9px}
-.dshp-ov-big{font-size:22px;font-weight:700;letter-spacing:-.4px;line-height:1.15;color:var(--ov-green);transition:color .25s;font-variant-numeric:tabular-nums}
-.dshp-ov.is-bad .dshp-ov-big{color:var(--ov-red)}
-.dshp-ov-sub{font-size:11.5px;color:var(--ov-faint);margin-top:4px;font-variant-numeric:tabular-nums}
-.dshp-ov-hint{font-size:11px;color:var(--ov-faint);margin-top:6px;line-height:1.6}
-.dshp-ov-livebad{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 10px;border-radius:9px;background:rgba(220,60,60,.12);border:1px solid rgba(220,60,60,.45);color:var(--dshp-bad, #d33);font:600 11.5px/1.45 var(--ds-font-sans,system-ui,sans-serif)}
-.dshp-ov-livebad .txt{flex:1;min-width:0}
-.dshp-ov-livebad-btn{appearance:none;flex:none;border:0;background:var(--dshp-bad, #d33);color:#fff;padding:4px 10px;border-radius:7px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer}
-.dshp-ov-warn{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 10px;border-radius:9px;background:rgba(200,140,20,.12);border:1px solid rgba(200,140,20,.45);color:#a9781a;font:600 11.5px/1.45 var(--ds-font-sans,system-ui,sans-serif)}
-.dshp-ov-warn .txt{flex:1;min-width:0}
-.dshp-ov-acts{display:flex;gap:6px;flex:none;margin-left:auto}
-.dshp-ov-btn{appearance:none;border:0;background:var(--ov-chip);color:var(--ov-ink);padding:5px 12px;border-radius:8px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer;transition:background .15s,color .15s}
-.dshp-ov-btn:hover:not(:disabled){background:var(--ov-line)}
-.dshp-ov-btn:disabled{opacity:.5;cursor:default}
-.dshp-ov-btn.primary{background:#0A6FE6;color:#fff}
-.dshp-ov-btn.primary:hover:not(:disabled){opacity:.92;background:#0862CC}
-.dshp-ov-stats{display:flex;align-items:center;gap:13px;font-size:11.5px;color:var(--ov-faint);flex-wrap:wrap}
-.dshp-ov-stats .st{display:inline-flex;align-items:center;gap:5px}
-.dshp-ov-stats .st b{font-weight:650;color:var(--ov-ink);font-variant-numeric:tabular-nums}
-.dshp-ov-stats .p{width:6px;height:6px;border-radius:999px;background:var(--ov-green);flex:none}
-.dshp-ov-stats .sk .p{background:#C98A2E}
-.dshp-ov-stats .bad .p{background:#BE7A72}
-.dshp-ov-stats .bad b{color:var(--ov-red)}
-.dshp-ov-rows{background:transparent;border-radius:0;box-shadow:none;padding:0 2px}
-.dshp-ov-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px;border-top:1px solid var(--ov-hair);cursor:pointer}
-.dshp-ov-row:first-child{border-top:0}
-.dshp-ov-row .nm{width:54px;flex:none;font-weight:600;color:var(--ov-ink)}
-.dshp-ov-row .bar{flex:1;height:5px;border-radius:999px;background:var(--ov-track);overflow:hidden;display:flex}
-.dshp-ov-row .bar i{display:block;height:100%;transition:width .3s;background:var(--ov-green)}
-.dshp-ov-row .bar i.sk{background:#C98A2E}
-.dshp-ov-row .bar i.bad{background:#BE7A72}
-.dshp-ov-row .dshp-ov-caret{width:14px;flex:none;color:var(--ov-faint);font-size:12px;line-height:1;transition:transform .14s}
-.dshp-ov-row.open .dshp-ov-caret{transform:rotate(90deg)}
-.dshp-ov-bar{display:flex;justify-content:flex-end;gap:4px;padding:8px 2px 2px}
-.dshp-ov-chip{appearance:none;border:0;background:transparent;color:var(--ov-faint);font:11.5px/1.7 inherit;font-family:inherit;padding:1px 9px;border-radius:999px;cursor:pointer}
-.dshp-ov-chip.on{background:var(--ov-chip);color:var(--ov-ink);font-weight:600}
-.dshp-ov-item>.dshp-ov-row{border-top:0}
-.dshp-ov-item+.dshp-ov-item>.dshp-ov-row{border-top:1px solid var(--ov-hair)}
-.dshp-ov-list{padding:2px 0 10px 24px}
-.dshp-ov-patch{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px}
-.dshp-ov-dot{width:6px;height:6px;border-radius:99px;background:#4F8F6B;flex:none}
-.dshp-ov-dot.skip{background:#C9A45E}
-.dshp-ov-dot.bad{background:#BE7A72}
-.dshp-ov-pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ov-ink)}
-.dshp-ov-pst{flex:none;font-size:11.5px;color:var(--ov-faint)}
-.dshp-ov-pst.skip{color:#B08637}
-.dshp-ov-pst.bad{color:#B4746C}
-.dshp-ov-empty{padding:6px 0;font-size:12px;color:var(--ov-faint)}
-.dshp-ov-row .v{width:50px;flex:none;text-align:right;font-size:11px;color:var(--ov-faint);font-variant-numeric:tabular-nums}
-.dshp-ov-led{width:6px;height:6px;border-radius:999px;background:var(--dshp-led,#22C55E);box-shadow:0 0 0 2px color-mix(in srgb,var(--dshp-led,#22C55E) 18%,transparent);flex:none;transition:all .25s}
-.dshp-ov.is-bad .dshp-ov-led:not(.mini){background:#E5484D;box-shadow:0 0 0 2px rgba(229,72,77,.18)}
-.dshp-ov-led.mini{width:5px;height:5px;box-shadow:none}
-.dshp-ov-row.bad .dshp-ov-led.mini{background:#E5484D}
-.dshp-ov-note{font-size:11.5px;color:var(--ov-red);padding:0 0 10px}
-.dshp-ov-note.is-ok{color:var(--ov-mute)}
-.dshp-ov-detail{display:none}
-.dshp-ov-detail[data-open="1"]{display:block}
-/* 明细区：把原有区块的视觉语言拉回概览这套（暖米、圆角、小字号标题） */
-.dshp-ov-detail{--ov-panel:#FFFFFF;--ov-cell:#F5F9FE;--ov-cell-bd:#E4EDF7;--ov-line:#EDF3FA;--ov-ink:#1F1E1C;--ov-mute:#6B6862;--ov-faint:#A29E95;--ov-green:#748B6F;--ov-red:#C0392B}
-body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-detail{--ov-panel:#211F1C;--ov-cell:#26231F;--ov-cell-bd:#332F29;--ov-line:#332F29;--ov-ink:#EFEBE2;--ov-mute:#9A948A;--ov-faint:#7A756B;--ov-green:#8FB389;--ov-red:#F85149}
-.dshp-ov-detail .dshp-panel{background:var(--ov-cell);border:1px solid var(--ov-cell-bd);border-radius:12px;padding:14px 16px 12px}
-.dshp-ov-detail .dshp-head{gap:8px;margin-bottom:10px}
-.dshp-ov-detail .dshp-title{font-size:14px;font-weight:650;letter-spacing:-.1px;line-height:1.4}
-.dshp-ov-detail .dshp-pill{font-size:10.5px;padding:1px 7px;border-radius:999px}
-.dshp-ov-detail .dshp-metrics{gap:8px;margin-top:10px}
-.dshp-ov-detail .dshp-metric{background:var(--ov-panel);border:1px solid var(--ov-cell-bd);border-radius:10px;padding:10px 12px}
-.dshp-ov-detail .dshp-metric b{font-size:17px;font-weight:640;letter-spacing:-.4px}
-.dshp-ov-detail .dshp-metric span{font-size:10.5px}
-.dshp-ov-detail .dshp-rel{border-radius:10px}
+.dshp-b-pane{display:flex;flex-direction:column;gap:10px}
+.dshp-b-card{background:var(--dk-card,#FFFFFF);border:1px solid var(--dk-sub-bd,#DCE3EE);border-radius:10px;padding:11px 13px;color:var(--dk-ink,#0F172A)}
+.dshp-b-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:600;line-height:1.45}
+.dshp-b-banner.bad{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.38);color:var(--dk-bad,#DC2626)}
+.dshp-b-banner.warn{background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.38);color:var(--dk-warn,#D97706)}
+.dshp-b-banner .txt{flex:1;min-width:0}
+.dshp-b-banner-btn{appearance:none;flex:none;border:0;border-radius:6px;padding:4px 10px;font:600 11.5px/1.4 inherit;cursor:pointer;white-space:nowrap}
+.dshp-b-banner.bad .dshp-b-banner-btn{background:var(--dk-bad,#DC2626);color:#fff}
+.dshp-b-banner.warn .dshp-b-banner-btn{background:transparent;border:1px solid currentColor;color:inherit}
+.dshp-b-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.dshp-b-sum-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.dshp-b-dot{width:10px;height:10px;border-radius:999px;flex:none;background:var(--dk-ok,#16A34A);box-shadow:0 0 0 3px rgba(22,163,74,.18)}
+.dshp-b-dot.warn{background:var(--dk-warn,#D97706);box-shadow:0 0 0 3px rgba(217,119,6,.20)}
+.dshp-b-dot.bad{background:var(--dk-bad,#DC2626);box-shadow:0 0 0 3px rgba(220,38,38,.20)}
+.dshp-b-sum-main{min-width:0}
+.dshp-b-sum-line{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.dshp-b-big{font-size:15.5px;font-weight:700;letter-spacing:-.2px;color:var(--dk-ink,#0F172A)}
+.dshp-b-big.bad{color:var(--dk-bad,#DC2626)}
+.dshp-b-counts{font-size:11.5px;color:var(--dk-mute,#526277);font-variant-numeric:tabular-nums}
+.dshp-b-counts b{font-weight:650;color:var(--dk-ink,#0F172A)}
+.dshp-b-counts b.bad{color:var(--dk-bad,#DC2626)}
+.dshp-b-sub{font-size:11px;color:var(--dk-faint,#64748B);margin-top:2px;font-variant-numeric:tabular-nums}
+.dshp-b-acts{display:flex;align-items:center;gap:6px;flex:none}
+.dshp-b-btn{appearance:none;border:1px solid transparent;border-radius:7px;padding:5px 11px;font:600 12px/1.4 inherit;cursor:pointer;background:var(--dk-chip,#E2E8F0);color:var(--dk-ink,#0F172A);transition:background .14s,opacity .14s;white-space:nowrap}
+.dshp-b-btn:hover:not(:disabled){background:var(--dk-chip-hover,#CBD5E1)}
+.dshp-b-btn:disabled{opacity:.5;cursor:default}
+.dshp-b-btn.primary{background:var(--dk-primary,#2563EB);color:#fff}
+.dshp-b-btn.primary:hover:not(:disabled){background:var(--dk-primary-hover,#1D4ED8)}
+.dshp-b-btn.danger{background:transparent;border-color:rgba(220,38,38,.45);color:var(--dk-bad,#DC2626)}
+.dshp-b-btn.danger:hover:not(:disabled){background:rgba(220,38,38,.10)}
+.dshp-b-note{font-size:11.5px;padding:7px 10px;border-radius:8px;background:var(--dk-card,#FFFFFF);border:1px solid var(--dk-sub-bd,#DCE3EE);color:var(--dk-mute,#526277)}
+.dshp-b-note.bad{color:var(--dk-bad,#DC2626);border-color:rgba(220,38,38,.35)}
+.dshp-b-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 2px 0}
+.dshp-b-bar-title{font-size:11.5px;font-weight:600;color:var(--dk-mute,#526277)}
+.dshp-b-chips{display:inline-flex;align-items:center;gap:3px}
+.dshp-b-chip{appearance:none;border:0;background:transparent;color:var(--dk-faint,#64748B);padding:2px 9px;border-radius:999px;font:500 11.5px/1.5 inherit;cursor:pointer;font-variant-numeric:tabular-nums}
+.dshp-b-chip:hover{color:var(--dk-ink,#0F172A)}
+.dshp-b-chip.on{background:var(--dk-card,#FFFFFF);color:var(--dk-ink,#0F172A);font-weight:650;box-shadow:0 1px 2px rgba(15,23,42,.08);border:1px solid var(--dk-sub-bd,#DCE3EE)}
+.dshp-b-groups{display:flex;flex-direction:column;gap:6px}
+.dshp-b-group{background:var(--dk-card,#FFFFFF);border:1px solid var(--dk-sub-bd,#DCE3EE);border-radius:9px;overflow:hidden}
+.dshp-b-ghead{width:100%;appearance:none;border:0;background:transparent;color:var(--dk-ink,#0F172A);display:flex;align-items:center;gap:9px;padding:8px 11px;text-align:left;font:inherit;cursor:pointer}
+.dshp-b-ghead:hover{background:rgba(127,127,127,.04)}
+.dshp-b-chev{width:14px;height:14px;flex:none;color:var(--dk-faint,#64748B);transition:transform .16s ease}
+.dshp-b-group.is-open .dshp-b-chev{transform:rotate(90deg)}
+.dshp-b-gname{font-size:12.5px;font-weight:650;width:58px;flex:none}
+.dshp-b-gdesc{font-size:11.5px;color:var(--dk-mute,#526277);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dshp-b-prog{width:64px;height:5px;border-radius:999px;background:var(--dk-chip,#E2E8F0);overflow:hidden;display:flex;flex:none}
+.dshp-b-prog i{display:block;height:100%;background:var(--dk-ok,#16A34A);transition:width .25s}
+.dshp-b-prog i.sk{background:var(--dk-warn,#D97706)}
+.dshp-b-prog i.bad{background:var(--dk-bad,#DC2626)}
+.dshp-b-gnum{width:44px;flex:none;text-align:right;font-family:var(--dshp-mono,ui-monospace,Consolas,monospace);font-size:11px;color:var(--dk-mute,#526277);font-variant-numeric:tabular-nums}
+.dshp-b-glist{padding:6px 11px 8px;background:var(--dk-bg,#F1F4F9);border-top:1px solid var(--dk-sub-bd,#DCE3EE);display:flex;flex-direction:column;gap:4px}
+.dshp-b-prow{display:flex;align-items:center;gap:7px;font-size:11.5px;padding:2px 0}
+.dshp-b-pdot{width:6px;height:6px;border-radius:999px;flex:none;background:var(--dk-ok,#16A34A)}
+.dshp-b-pdot.skip{background:var(--dk-warn,#D97706)}
+.dshp-b-pdot.bad{background:var(--dk-bad,#DC2626)}
+.dshp-b-pid{font-family:var(--dshp-mono,ui-monospace,Consolas,monospace);font-size:11px;color:var(--dk-faint,#64748B);flex:none;min-width:34px}
+.dshp-b-pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dk-ink,#0F172A)}
+.dshp-b-pst{flex:none;font-size:11px;color:var(--dk-ok,#16A34A);font-weight:500}
+.dshp-b-pst.skip{color:var(--dk-warn,#D97706)}
+.dshp-b-pst.bad{color:var(--dk-bad,#DC2626)}
+.dshp-b-empty{padding:14px 8px;text-align:center;font-size:12px;color:var(--dk-faint,#64748B)}
+.dshp-b-area{width:100%;min-height:210px;resize:vertical;box-sizing:border-box;border:1px solid var(--dk-sub-bd,#DCE3EE);border-radius:8px;background:var(--dk-bg,#F1F4F9);color:var(--dk-ink,#0F172A);padding:9px 11px;font:12px/1.6 var(--dshp-mono,ui-monospace,SFMono-Regular,Consolas,monospace);outline:none}
+.dshp-b-area:focus{border-color:var(--dk-primary,#2563EB)}
+.dshp-b-tag{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(22,163,74,.12);color:var(--dk-ok,#16A34A)}
+.dshp-b-set-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dshp-b-set-title{font-size:12.5px;font-weight:650;color:var(--dk-ink,#0F172A)}
+.dshp-b-set-hint{font-size:11.5px;color:var(--dk-mute,#526277);margin-top:3px;line-height:1.5}
 `;
 
+		const GROUP_META = {
+			"提示词": { labelKey: "group.prompt", descKey: "grp.desc.prompt" },
+			"代码": { labelKey: "group.code", descKey: "grp.desc.code" },
+			"工具": { labelKey: "group.tools", descKey: "grp.desc.tools" },
+			"兼容": { labelKey: "grp.compat", descKey: "grp.desc.compat" },
+		};
+
 		function OverviewSection(props) {
-			const tr = (k) => (typeof translate === "function" ? translate(k) : k);
-			/* 后端各处用的字段名不统一，全部认一遍：
-			   apply  → restarting / restart_after_apply / unpacked_asar / needs_full_quit
-			   status → boot_full_quit
-			   revert → note 里提到重启 */
+			const tr = (k, p) => (typeof translate === "function" ? translate(k, p) : k);
+			const st = props.status;
+			const load = props.onReload;
 			const needsRestart = (d) => {
 				if (!d) return false;
 				if (d.boot_full_quit || d.restart_after_apply || d.needs_full_quit) return true;
@@ -1468,21 +1470,10 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				if (typeof d.note === "string" && /重启|restart/i.test(d.note)) return true;
 				return false;
 			};
-			const [st, setSt] = useState(null);
 			const [busy, setBusy] = useState("");
 			const [note, setNote] = useState("");
 			const [askRestart, setAskRestart] = useState(false);
 			const suppressRestart = useRef(false);
-
-			const load = useCallback(() => {
-				apiJson("/dsh-breach/status").then((d) => { if (d && d.ok) setSt(d); }).catch(() => {});
-			}, []);
-
-			useEffect(() => {
-				load();
-				const timer = window.setInterval(load, 15000);
-				return () => window.clearInterval(timer);
-			}, [load]);
 
 			const [openG, setOpenG] = useState({});
 			const [filter, setFilter] = useState("all");
@@ -1495,23 +1486,19 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			const pending = (st && st.patches_pending) || 0;
 			const total = (st && st.patches_total) || 0;
 
-			/* 还原只撤文件补丁，撤不掉运行时注入的提示词段。
-			   分开统计，避免「还原后还剩 N 项」看起来像没还原干净。 */
-			const isDoneState = (s) => s === "applied" || s === "already";
 			let promptAlive = 0;
 			let codeApplied = 0;
 			for (const p of patches) {
-				if (!isDoneState(p.status)) continue;
+				if (!isDone(p.status)) continue;
 				if (p.layer === "提示词") promptAlive += 1;
 				else codeApplied += 1;
 			}
 
-			// 按 layer 归组；「0.2.0 兼容」「0.1.5 兼容」并成一行「兼容」
 			const ORDER = ["提示词", "代码", "工具", "兼容"];
 			const bucket = {};
 			const bucketList = {};
 			for (const p of patches) {
-				let key = p.layer || "其他";
+				let key = p.layer || "兼容";
 				if (key.indexOf("兼容") !== -1) key = "兼容";
 				if (!bucket[key]) bucket[key] = { total: 0, done: 0, bad: 0 };
 				bucket[key].total += 1;
@@ -1554,15 +1541,12 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 					if (!d || !d.ok) {
 						setNote((action === "apply" ? "应用失败：" : "还原失败：") + ((d && d.error) || "未知错误"));
 					} else if (action === "apply") {
-						// 只有「应用」才引导重启。
-						// 「还原」不能弹重启：重启前的 ensureHostClean() 会检测补丁缺失并自动
-						// applyPatchesAllHosts() 补齐，等于把刚撤销的补丁又打回去。
 						if (needsRestart(d) && !suppressRestart.current) setAskRestart(true);
 					} else {
 						const n = typeof d.reverted === "number" ? d.reverted : 0;
 						setNote("已撤销 " + n + " 项补丁。重启后才会完全还原；想恢复请再点「应用」。");
 					}
-					load();
+					if (typeof load === "function") load();
 				}).catch((e) => {
 					setNote((action === "apply" ? "应用失败：" : "还原失败：") + (e && e.message ? e.message : e));
 				}).finally(() => setBusy(""));
@@ -1576,14 +1560,11 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 					onRestart: () => {
 						suppressRestart.current = true;
 						setAskRestart(false);
-						restartDsh(setNote, function () {}, tr, "desktop");
+						restartDsh(setNote, function () {}, tr, hostSurfaceOf(st));
 					},
 				});
 			}
 
-			/* 状态灯三态（照设计稿：灯在面板头，标题只留字色）
-			   绿 = 已全部生效/跳过、无失败、无待应用
-			   红 = 有失败 / 还没应用 / 已还原 / 还有待应用项 */
 			const state = !st
 				? "loading"
 				: bad.length
@@ -1593,14 +1574,13 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 						: pending > 0
 							? "pending"
 							: "ok";
-			const red = state === "fail" || state === "idle" || state === "pending" || Boolean(st && st.live === false);
-			// 补丁全绿但宿主还在读 app.asar：等于一行都没跑。红条压过一切别的状态。
 			const liveBad = Boolean(st && st.live === false);
 			const adaptN = (st && st.adapt_pending) || 0;
 			const hostWarn = (st && st.host_warn) || "";
-			const warnText = adaptN > 0
-				? adaptN + " " + tr("ov.adaptN")
-				: hostWarn;
+			const warnText = adaptN > 0 ? adaptN + " " + tr("ov.adaptN") : hostWarn;
+			const isBadState = state === "fail" || state === "idle" || liveBad;
+			const isWarnState = !isBadState && (state === "pending" || adaptN > 0);
+			const dotCls = "dshp-b-dot" + (isBadState ? " bad" : isWarnState ? " warn" : "");
 			const bigText = state === "fail"
 				? bad.length + " " + tr("ov.failN")
 				: state === "idle"
@@ -1611,128 +1591,145 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 							? tr("ov.loading")
 							: tr("ov.ok");
 
-			return h("div", { className: "dshp-ov" + (red ? " is-bad" : "") },
+			const surfLabel = st ? tr("surface." + (st.surface || "desktop")) : "";
+			const hostVerPart = st && st.host_version
+				? "DSH " + st.host_version + " (" + (st.host_range === "verified" ? tr("ov.hostVerified") : tr("ov.hostUnverified")) + ")"
+				: "";
+			const bakPart = st ? (st.has_backup ? tr("metric.bak.yes") : tr("metric.bak.no")) : "";
+			const subParts = [hostVerPart, surfLabel, bakPart].filter(Boolean);
+
+			return h("div", { className: "dshp-b-pane" },
 				liveBad
-					? h("div", { className: "dshp-ov-livebad" },
+					? h("div", { className: "dshp-b-banner bad" },
 						h("span", { className: "txt" }, tr("ov.liveBad")),
 						h("button", {
 							type: "button",
-							className: "dshp-ov-livebad-btn",
+							className: "dshp-b-banner-btn",
 							disabled: Boolean(busy),
 							onClick: () => restartDsh(setNote, () => {}, tr, "desktop"),
 						}, tr("ov.fullQuit")),
 					)
 					: null,
 				warnText
-					? h("div", { className: "dshp-ov-warn" },
+					? h("div", { className: "dshp-b-banner warn" },
 						h("span", { className: "txt" }, warnText),
 						adaptN > 0
 							? h("button", {
 								type: "button",
-								className: "dshp-ov-livebad-btn",
+								className: "dshp-b-banner-btn",
 								onClick: () => setFilter("skip"),
-							}, "查看")
+							}, tr("ov.view"))
 							: null,
 					)
 					: null,
-				h("div", { className: "dshp-ov-top" },
-					h("div", { style: { flex: 1, minWidth: 0 } },
-						h("div", { className: "dshp-ov-bigwrap" },
-							h("span", { className: "dshp-ov-big" }, bigText),
-						),
-						h("div", { className: "dshp-ov-sub" },
-							total ? (rows.length + " 个分组 · " + total + " 项补丁") : tr("ov.loading")),
-						promptAlive > 0 && codeApplied === 0
-							? h("div", { className: "dshp-ov-hint" },
-								"代码补丁已全部撤销；" + promptAlive + " 项提示词仍在生效（运行时注入，不受还原影响）")
-							: null,
-					),
-					h("div", { className: "dshp-ov-stats" },
-					h("span", { className: "st ok" }, h("i", { className: "p" }), h("b", null, String(applied)), " " + tr("ov.applied")),
-					h("span", { className: "st sk" }, h("i", { className: "p" }), h("b", null, String(skipped)), " " + tr("ov.skipped")),
-					h("span", { className: "st bad" }, h("i", { className: "p" }), h("b", null, String(bad.length)), " " + tr("ov.failed")),
-					bad.length || pending ? h("span", { className: "st" }, h("i", { className: "p" }), h("b", null, String(pending)), " " + tr("ov.pending")) : null,
-				),
-				h("div", { className: "dshp-ov-acts" },
-						h("button", { type: "button", className: "dshp-ov-btn", disabled: !!busy, onClick: () => runAction("revert") }, tr("btn.revert")),
-						h("button", { type: "button", className: "dshp-ov-btn primary", disabled: !!busy, onClick: () => runAction("apply") }, busy === "apply" ? tr("btn.apply.busy") : tr("btn.apply")),
-					),
-				),
-				note ? h("div", { className: "dshp-ov-note" + (/失败|错误/.test(note) ? "" : " is-ok") }, note) : null,
-				h("div", { className: "dshp-ov-bar" },
-					[["all", "全部"], ["bad", "失败"], ["skip", "跳过"]].map(([f, txt]) =>
-						h("button", {
-							key: f, type: "button",
-							className: "dshp-ov-chip" + (filter === f ? " on" : ""),
-							onClick: () => setFilter(f),
-						}, txt)),
-				),
-				h("div", { className: "dshp-ov-rows" },
-					filter !== "all" && !rows.some((r) => (bucketList[r.key] || []).some(passFilter))
-						? h("div", { className: "dshp-ov-empty" }, filter === "bad" ? "无失败补丁" : "无跳过补丁")
-						: rows.filter((r) => filter === "all" || (bucketList[r.key] || []).some(passFilter)).map((r) => {
-						const pct = (n) => (r.total ? (n / r.total) * 100 : 0);
-						const sk = Math.max(0, r.total - r.done - r.bad);
-						const open = filter !== "all" ? true : !!openG[r.key];
-						const list = filter !== "all" ? (bucketList[r.key] || []).filter(passFilter) : (bucketList[r.key] || []);
-						const toggle = () => setOpenG((o) => ({ ...o, [r.key]: !open }));
-						return h("div", { key: r.key, className: "dshp-ov-item" + (open ? " open" : "") },
-							h("div", {
-								className: "dshp-ov-row",
-								onClick: toggle,
-								role: "button",
-								tabIndex: 0,
-								"aria-expanded": open ? "true" : "false",
-								onKeyDown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } },
-								title: open ? "收起本组补丁" : "展开本组补丁",
-							},
-								h("span", { className: "dshp-ov-caret" }, "\u25B8"),
-								h("span", { className: "nm" }, r.key),
-								h("span", { className: "bar" },
-									h("i", { style: { width: pct(r.done) + "%" } }),
-									sk ? h("i", { className: "sk", style: { width: pct(sk) + "%" } }) : null,
-									r.bad ? h("i", { className: "bad", style: { width: pct(r.bad) + "%" } }) : null,
+				h("div", { className: "dshp-b-card" },
+					h("div", { className: "dshp-b-summary" },
+						h("div", { className: "dshp-b-sum-left" },
+							h("span", { className: dotCls }),
+							h("div", { className: "dshp-b-sum-main" },
+								h("div", { className: "dshp-b-sum-line" },
+									h("span", { className: "dshp-b-big" + (isBadState ? " bad" : "") }, bigText),
+									st ? h("span", { className: "dshp-b-counts" },
+										h("b", null, String(applied)), " " + tr("ov.applied") + " · ",
+										h("b", null, String(skipped)), " " + tr("ov.skipped") + " · ",
+										h("b", { className: bad.length ? "bad" : "" }, String(bad.length)), " " + tr("ov.failed"),
+									) : null,
 								),
-								h("span", { className: "v" }, r.done + " / " + r.total),
+								subParts.length ? h("div", { className: "dshp-b-sub" }, subParts.join(" · ")) : null,
+								promptAlive > 0 && codeApplied === 0
+									? h("div", { className: "dshp-b-sub" },
+										"代码补丁已撤销；" + promptAlive + " 项提示词仍在运行期生效")
+									: null,
 							),
-							open ? h("div", { className: "dshp-ov-list" },
-								list.length
-									? list.map((p) => {
-										const s = p.status;
-										return h("div", { key: p.id, className: "dshp-ov-patch" },
-											h("span", { className: "dshp-ov-dot" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") }),
-											h("span", { className: "dshp-ov-pname", title: p.title || ("#" + p.id) }, p.title || ("#" + p.id)),
-											h("span", { className: "dshp-ov-pst" + (isBad(s) ? " bad" : isDone(s) ? "" : " skip") },
-												isBad(s) ? "失败" : isDone(s) ? "已应用" : (s === "missing_file" ? "未安装" : "跳过")),
-										);
-									})
-									: h("div", { className: "dshp-ov-empty" }, "无匹配项"),
-							) : null,
-						);
-					}),
+						),
+						h("div", { className: "dshp-b-acts" },
+							h("button", { type: "button", className: "dshp-b-btn", disabled: !!busy, onClick: () => runAction("revert") }, tr("btn.revert")),
+							h("button", { type: "button", className: "dshp-b-btn primary", disabled: !!busy, onClick: () => runAction("apply") },
+								busy === "apply" ? tr("btn.apply.busy") : (applied > 0 ? tr("ov.reapply") : tr("btn.apply"))),
+						),
+					),
 				),
-			);
-		}
-
-		/* ── 提示词 / 规则集 / Skill：新设计的三个卡片，替代原来的三块旧界面 ── */
-		function Card(props) {
-			return h("div", { className: "dshp-cd" + (props.plain ? " plain" : "") },
-				h("div", { className: "dshp-cd-head" },
-					h("span", { className: "dshp-cd-name" }, props.name),
-					props.meta ? h("span", { className: "dshp-cd-meta" }, props.meta) : null,
-					h("span", { style: { flex: 1 } }),
-					props.right || null,
+				note ? h("div", { className: "dshp-b-note" + (/失败|错误|fail|error/i.test(note) ? " bad" : "") }, note) : null,
+				h("div", { className: "dshp-b-bar" },
+					h("span", { className: "dshp-b-bar-title" }, tr("ov.groupDetail") + (total ? " (" + total + ")" : "")),
+					h("div", { className: "dshp-b-chips" },
+						[
+							["all", tr("ov.applied") === "Applied" ? "All" : "全部"],
+							["skip", tr("ov.skipped") + (skipped ? " " + skipped : "")],
+							["bad", tr("ov.failed") + (bad.length ? " " + bad.length : "")],
+						].map(([f, txt]) =>
+							h("button", {
+								key: f,
+								type: "button",
+								className: "dshp-b-chip" + (filter === f ? " on" : ""),
+								onClick: () => setFilter(f),
+							}, txt)),
+					),
 				),
-				props.children,
+				h("div", { className: "dshp-b-groups" },
+					filter !== "all" && !rows.some((r) => (bucketList[r.key] || []).some(passFilter))
+						? h("div", { className: "dshp-b-card dshp-b-empty" }, filter === "bad" ? "无失败补丁" : "无跳过补丁")
+						: rows.filter((r) => filter === "all" || (bucketList[r.key] || []).some(passFilter)).map((r) => {
+							const pct = (n) => (r.total ? (n / r.total) * 100 : 0);
+							const sk = Math.max(0, r.total - r.done - r.bad);
+							const open = filter !== "all" ? true : !!openG[r.key];
+							const list = filter !== "all" ? (bucketList[r.key] || []).filter(passFilter) : (bucketList[r.key] || []);
+							const toggle = () => setOpenG((o) => ({ ...o, [r.key]: !open }));
+							const meta = GROUP_META[r.key] || { labelKey: "", descKey: "" };
+							const groupName = meta.labelKey ? tr(meta.labelKey) : r.key;
+							const groupDesc = meta.descKey ? tr(meta.descKey) : "";
+							return h("div", { key: r.key, className: "dshp-b-group" + (open ? " is-open" : "") },
+								h("button", {
+									type: "button",
+									className: "dshp-b-ghead",
+									onClick: toggle,
+									"aria-expanded": open ? "true" : "false",
+								},
+									h("svg", { className: "dshp-b-chev", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round", strokeLinejoin: "round" },
+										h("path", { d: "m9 18 6-6-6-6" }),
+									),
+									h("span", { className: "dshp-b-gname" }, groupName),
+									h("span", { className: "dshp-b-gdesc" }, groupDesc),
+									h("span", { className: "dshp-b-prog" },
+										h("i", { style: { width: pct(r.done) + "%" } }),
+										sk ? h("i", { className: "sk", style: { width: pct(sk) + "%" } }) : null,
+										r.bad ? h("i", { className: "bad", style: { width: pct(r.bad) + "%" } }) : null,
+									),
+									h("span", { className: "dshp-b-gnum" }, r.done + "/" + r.total),
+								),
+								open ? h("div", { className: "dshp-b-glist" },
+									list.length
+										? list.map((p) => {
+											const s = p.status;
+											const kindCls = isBad(s) ? " bad" : isDone(s) ? "" : " skip";
+											const stText = isBad(s)
+												? tr("ov.failed")
+												: isDone(s)
+													? tr("status.applied")
+													: s === "pending"
+														? tr("status.pending")
+														: tr("status.skipped");
+											return h("div", { key: p.id, className: "dshp-b-prow" },
+												h("span", { className: "dshp-b-pdot" + kindCls }),
+												h("span", { className: "dshp-b-pid" }, patchIdLabel(p)),
+												h("span", { className: "dshp-b-pname", title: patchTitle(tr, st, p) }, patchTitle(tr, st, p)),
+												h("span", { className: "dshp-b-pst" + kindCls }, stText),
+											);
+										})
+										: h("div", { className: "dshp-b-empty" }, "—"),
+								) : null,
+							);
+						}),
+				),
 			);
 		}
 
 		function PromptCard() {
+			const tr = (k, p) => (typeof translate === "function" ? translate(k, p) : k);
 			const [data, setData] = useState(null);
 			const [text, setText] = useState("");
 			const [busy, setBusy] = useState(false);
 			const [note, setNote] = useState("");
-			const [open, setOpen] = useState(false);
 
 			const load = useCallback(() => {
 				apiJson("/dsh-breach/override").then((d) => {
@@ -1758,54 +1755,253 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 				}).catch((e) => setNote("保存失败：" + e.message)).finally(() => setBusy(false));
 			};
 
-			const save = () => writeContent(text, "已保存");
+			const save = () => writeContent(text, tr("saved.override"));
 
-			// 与旧版一致：填入内置默认稿后立即写盘
 			const restore = () => {
 				const def = (data && data.defaultContent) || "";
 				if (!def) { setNote("没有可恢复的默认稿"); return; }
 				if (!window.confirm("把提示词恢复成内置默认稿并写入宿主文件？当前的修改会丢失。")) return;
 				setText(def);
-				writeContent(def, "已恢复默认提示词");
+				writeContent(def, tr("saved.restoreInject"));
 			};
 
 			const savedText = (data && typeof data.content === "string") ? data.content : "";
 			const dirty = !!data && text !== savedText;
+			const statusMeta = data
+				? (data.customized ? "已自定义" : "内置默认") + " · " + (text || "").length + " 字"
+				: tr("ov.loading");
 
-			const meta = data
-				? (data.customized ? "已自定义" : "使用默认") + " · " + (data.content || "").length + " 字"
-				: "读取中…";
-
-			return h(Card, {
-				name: "提示词",
-				meta: meta,
-				right: h("button", { type: "button", className: "dshp-cd-btn", onClick: () => setOpen((v) => !v) },
-					open ? "收起" : "编辑"),
-			},
-				open ? h("div", { className: "dshp-cd-body" },
+			return h("div", { className: "dshp-b-pane" },
+				h("div", { className: "dshp-b-card", style: { display: "flex", flexDirection: "column", gap: "9px" } },
+					h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", flexWrap: "wrap" } },
+						h("div", { style: { display: "flex", alignItems: "center", gap: "8px", minWidth: 0 } },
+							h("span", { className: "dshp-b-tag" }, "● " + statusMeta),
+							data && data.path
+								? h("span", { style: { fontSize: "11px", color: "var(--dk-faint)", fontFamily: "var(--dshp-mono,monospace)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: data.path }, "prompt-inject.md")
+								: null,
+						),
+						h("button", { type: "button", className: "dshp-b-btn", disabled: busy, onClick: restore }, tr("btn.restoreInject")),
+					),
 					h("textarea", {
-						className: "dshp-cd-area",
+						className: "dshp-b-area",
 						value: text,
 						spellCheck: false,
 						onChange: (e) => setText(e.target.value),
 					}),
-					dirty
-						? h("div", { className: "dshp-cd-dirty" }, "有未保存的修改，点「保存」才会写进宿主文件")
-						: null,
-					h("div", { className: "dshp-cd-acts" },
-						h("button", { type: "button", className: "dshp-cd-btn", disabled: busy, onClick: restore }, "恢复默认"),
-						h("span", { style: { flex: 1 } }),
-						note ? h("span", { className: "dshp-cd-note" }, note) : null,
-						h("button", { type: "button", className: "dshp-cd-btn primary", disabled: busy || !dirty, onClick: save },
-							busy ? "保存中…" : "保存"),
+					h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", flexWrap: "wrap" } },
+						h("span", { style: { fontSize: "11.5px", color: dirty ? "var(--dk-warn)" : "var(--dk-mute)" } },
+							dirty ? "有未保存的修改，点「保存」后下一轮对话生效" : (note || "保存后下一轮对话立即生效，无需重启宿主")),
+						h("button", { type: "button", className: "dshp-b-btn primary", disabled: busy || !dirty, onClick: save },
+							busy ? tr("btn.apply.busy") : tr("btn.saveInject")),
 					),
-				) : null,
+				),
+			);
+		}
+
+		function SettingsTab(props) {
+			const tr = (k, p) => (typeof translate === "function" ? translate(k, p) : k);
+			const st = props.status;
+			const onReload = props.onReload;
+			const [hooksBypass, setHooksBypass] = useState(st ? st.hooks_deny_bypass !== false : true);
+			const [hooksBusy, setHooksBusy] = useState(false);
+			const [hooksNote, setHooksNote] = useState("");
+
+			const [ownOpen, setOwnOpen] = useState(false);
+			const [ownText, setOwnText] = useState("");
+			const [ownBusy, setOwnBusy] = useState(false);
+			const [ownNote, setOwnNote] = useState("");
+
+			const [sysBusy, setSysBusy] = useState(false);
+			const [sysNote, setSysNote] = useState("");
+			const [updInfo, setUpdInfo] = useState(null);
+			const [updOpen, setUpdOpen] = useState(false);
+			const [updErr, setUpdErr] = useState("");
+
+			useEffect(() => {
+				apiJson("/dsh-breach/hooks-deny")
+					.then((d) => { if (d && d.ok) setHooksBypass(d.hooksDenyBypass !== false); })
+					.catch(() => {});
+				apiJson("/dsh-breach/own-servers")
+					.then((d) => { if (d && d.ok && typeof d.content === "string") setOwnText(d.content); })
+					.catch(() => {});
+			}, []);
+
+			const toggleHooks = () => {
+				if (hooksBusy) return;
+				const next = !hooksBypass;
+				setHooksBypass(next);
+				setHooksBusy(true);
+				setHooksNote("");
+				apiJson("/dsh-breach/hooks-deny", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ hooksDenyBypass: next }),
+				}).then((d) => {
+					if (d && d.ok) {
+						setHooksBypass(d.hooksDenyBypass === true);
+						setHooksNote(tr("saved.hooksDeny"));
+						if (typeof onReload === "function") onReload();
+					}
+				}).catch((e) => setHooksNote(tr("err.save", { error: e.message }))).finally(() => setHooksBusy(false));
+			};
+
+			const saveOwn = () => {
+				if (ownBusy) return;
+				setOwnBusy(true);
+				setOwnNote("");
+				apiJson("/dsh-breach/own-servers", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ content: ownText }),
+				}).then((d) => {
+					if (d && d.ok) {
+						if (typeof d.content === "string") setOwnText(d.content);
+						setOwnNote(d.dropped ? tr("saved.own.dropped", { n: d.dropped }) : tr("saved.own"));
+					}
+				}).catch((e) => setOwnNote(tr("err.save", { error: e.message }))).finally(() => setOwnBusy(false));
+			};
+
+			const checkUpd = () => {
+				if (sysBusy) return;
+				setSysBusy(true);
+				setSysNote(tr("update.checking"));
+				apiJson("/dsh-breach/update").then((d) => {
+					if (d && d.ok) {
+						setUpdInfo(d);
+						if (d.hasUpdate) {
+							setSysNote("");
+							setUpdOpen(true);
+						} else {
+							setSysNote(tr("update.latest", { version: d.localVersion || (st && st.plugin_version) || "" }));
+						}
+					}
+				}).catch((e) => setSysNote(tr("update.fail", { error: e.message }))).finally(() => setSysBusy(false));
+			};
+
+			const confirmUpd = () => {
+				setSysBusy(true);
+				setUpdErr("");
+				apiJson("/dsh-breach/update", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ op: "apply" }),
+				}).then((d) => {
+					if (!d || !d.ok) throw new Error((d && d.error) || "failed");
+					setUpdOpen(false);
+					setSysNote(tr("update.done", { version: d.remoteVersion || d.localVersion || "" }));
+					if (typeof onReload === "function") onReload();
+				}).catch((e) => setUpdErr(String((e && e.message) || e))).finally(() => setSysBusy(false));
+			};
+
+			const doUninstall = () => {
+				if (sysBusy) return;
+				if (!window.confirm(tr("uninstall.body"))) return;
+				setSysBusy(true);
+				setSysNote(tr("uninstall.applying"));
+				apiJson("/dsh-breach/uninstall", {
+					method: "POST",
+					headers: { "content-type": "application/json" },
+					body: "{}",
+				}).then((d) => {
+					if (d && d.ok) setSysNote(hostText(tr, "uninstall.done", hostSurfaceOf(st)));
+					else setSysNote(tr("uninstall.fail", { error: (d && d.error) || "" }));
+				}).catch((e) => setSysNote(tr("uninstall.fail", { error: e.message }))).finally(() => setSysBusy(false));
+			};
+
+			return h("div", { className: "dshp-b-pane" },
+				h("div", { className: "dshp-b-card" },
+					h("div", { className: "dshp-b-set-row" },
+						h("div", { style: { minWidth: 0, flex: 1 } },
+							h("div", { className: "dshp-b-set-title" }, tr("hooksDeny.bypass")),
+							h("div", { className: "dshp-b-set-hint" }, tr("hooksDeny.hint")),
+							hooksNote ? h("div", { style: { fontSize: "11px", color: "var(--dk-ok)", marginTop: "4px" } }, hooksNote) : null,
+						),
+						h("button", {
+							type: "button",
+							role: "switch",
+							"aria-checked": hooksBypass ? "true" : "false",
+							className: "dshp-sw" + (hooksBypass ? " on" : ""),
+							disabled: hooksBusy,
+							onClick: toggleHooks,
+						}, h("i", null)),
+					),
+				),
+				h("div", { className: "dshp-b-card", style: { display: "flex", flexDirection: "column", gap: "8px" } },
+					h("div", { className: "dshp-b-set-row" },
+						h("div", { style: { minWidth: 0, flex: 1 } },
+							h("div", { className: "dshp-b-set-title" }, tr("own.title")),
+							h("div", { className: "dshp-b-set-hint" }, "放行自有测试机域名或 IP（$DSH_HOME/net-scope-allow.txt）"),
+						),
+						h("button", { type: "button", className: "dshp-b-btn", onClick: () => setOwnOpen((v) => !v) },
+							ownOpen ? tr("set.ownClose") : tr("set.ownEdit")),
+					),
+					ownOpen ? h("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } },
+						h("textarea", {
+							className: "dshp-b-area",
+							style: { minHeight: "100px" },
+							placeholder: "example.com\n192.168.1.10",
+							value: ownText,
+							spellCheck: false,
+							onChange: (e) => setOwnText(e.target.value),
+						}),
+						h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" } },
+							h("span", { style: { fontSize: "11px", color: "var(--dk-mute)" } }, ownNote || tr("own.hint")),
+							h("button", { type: "button", className: "dshp-b-btn primary", disabled: ownBusy, onClick: saveOwn }, tr("own.save")),
+						),
+					) : null,
+				),
+				h("div", { className: "dshp-b-card", style: { display: "flex", flexDirection: "column", gap: "9px" } },
+					h("div", { className: "dshp-b-set-row" },
+						h("div", { style: { minWidth: 0, flex: 1 } },
+							h("div", { className: "dshp-b-set-title" }, tr("set.sysTitle")),
+							h("div", { className: "dshp-b-set-hint" }, tr("set.sysHint")),
+						),
+					),
+					h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", flexWrap: "wrap" } },
+						h("div", { style: { display: "flex", gap: "6px", flexWrap: "wrap" } },
+							h("button", { type: "button", className: "dshp-b-btn", disabled: sysBusy, onClick: checkUpd }, tr("set.checkUpdate")),
+							h("button", {
+								type: "button",
+								className: "dshp-b-btn",
+								disabled: sysBusy,
+								onClick: () => restartDsh(setSysNote, setSysBusy, tr, hostSurfaceOf(st)),
+							}, tr("set.restartHost")),
+						),
+						h("button", { type: "button", className: "dshp-b-btn danger", disabled: sysBusy, onClick: doUninstall }, tr("btn.uninstall")),
+					),
+					sysNote ? h("div", { style: { fontSize: "11.5px", color: /失败|错误|fail|error/i.test(sysNote) ? "var(--dk-bad)" : "var(--dk-mute)" } }, sysNote) : null,
+				),
+				updOpen && updInfo ? h(UpdateDialog, {
+					info: updInfo,
+					busy: sysBusy,
+					err: updErr,
+					t: tr,
+					onClose: () => { if (!sysBusy) { setUpdErr(""); setUpdOpen(false); } },
+					onConfirm: confirmUpd,
+				}) : null,
 			);
 		}
 
 		function SettingsRoot(props) {
 			const t = typeof props.t === "function" ? props.t : ((key) => key);
+			const activeTab = props.tab === "prompt" || props.tab === "settings" ? props.tab : "patches";
 			const [theme, setTheme] = useState(readTheme);
+			const [st, setSt] = useState(null);
+			const loadStatus = useCallback(() => {
+				apiJson("/dsh-breach/status").then((d) => {
+					if (d && d.ok) {
+						setSt(d);
+						if (props.onVersion && d.plugin_version) props.onVersion(String(d.plugin_version));
+					}
+				}).catch(() => {});
+			}, [props.onVersion]);
+
+			useEffect(() => {
+				loadStatus();
+				const timer = window.setInterval(loadStatus, 15000);
+				return () => window.clearInterval(timer);
+			}, [loadStatus]);
+
 			useEffect(() => {
 				let cancelled = false;
 				let timer = 0;
@@ -1839,8 +2035,11 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 			return h("div", { className: "dshp-root", "data-theme": theme },
 				h("style", null, HAPPY_CSS),
 				h("style", null, OVERVIEW_CSS),
-				h(OverviewSection, null),
-				h(PromptCard, null),
+				activeTab === "prompt"
+					? h(PromptCard, null)
+					: activeTab === "settings"
+						? h(SettingsTab, { status: st, onReload: loadStatus })
+						: h(OverviewSection, { status: st, onReload: loadStatus }),
 			);
 		}
 
@@ -2648,8 +2847,8 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				window.addEventListener("mousemove", move);
 				window.addEventListener("mouseup", up);
 			};
-			// 演练台已移除：内容区固定为清洗。
-			const body = h(SettingsRoot, { t });
+			const activeTab = st.tab === "prompt" || st.tab === "settings" ? st.tab : "patches";
+			const body = h(SettingsRoot, { t, tab: activeTab, onVersion: setVer });
 			const panel = h("div", {
 				className: "dshp-dock",
 				"data-theme": dockTheme === "white" ? "white" : "dusk",
@@ -2664,23 +2863,47 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 					maxHeight: geom.h + "px",
 				},
 			},
-				h("div", { className: "dshp-field", "aria-hidden": "true" },
-					h("i", { className: "dshp-pool", "data-pool": "a" }),
-					h("i", { className: "dshp-pool", "data-pool": "b" }),
-					h("i", { className: "dshp-pool", "data-pool": "c" }),
-				),
-				h("div", { className: "dshp-rim", "aria-hidden": "true" },
-					h("i", { className: "dshp-pool", "data-pool": "a" }),
-					h("i", { className: "dshp-pool", "data-pool": "b" }),
-					h("i", { className: "dshp-pool", "data-pool": "c" }),
-				),
 				h("div", { className: "dshp-dock-head", onMouseDown: startDrag, title: "按住拖动面板" },
-					h("b", null, "dsh-breach"),
-					h("span", { className: "dshp-dock-ver" }, ver || "—"),
+					h("div", { className: "dshp-dock-brand" },
+						h("svg", { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" },
+							h("path", { d: "M12 22s8-4 8-10V5.5L12 2.5 4 5.5V12c0 6 8 10 8 10Z" }),
+							h("path", { d: "m8.8 11.9 2.2 2.2 4.2-4.4" }),
+						),
+						h("b", null, "dsh-breach"),
+						h("span", { className: "dshp-dock-ver" }, ver || "—"),
+					),
 					h("span", { style: { flex: 1 } }),
-					h("button", { type: "button", onClick: () => setDock({ open: false, authOpen: false, tab: "clean", pending: "tab" }) }, t("dock.close")),
+					h("div", { className: "dshp-head-tabs", role: "tablist" },
+						[
+							["patches", t("tab.patches")],
+							["prompt", t("tab.prompt")],
+							["settings", t("tab.settings")],
+						].map(([id, label]) => h("button", {
+							key: id,
+							type: "button",
+							role: "tab",
+							"aria-selected": activeTab === id ? "true" : "false",
+							className: "dshp-head-tab" + (activeTab === id ? " on" : ""),
+							onClick: () => setDock({ tab: id, authOpen: false }),
+						}, label)),
+					),
+					h("button", {
+						type: "button",
+						className: "dshp-head-close",
+						title: t("dock.close"),
+						"aria-label": t("dock.close"),
+						onClick: () => setDock({ open: false, authOpen: false, tab: st.tab || "patches", pending: "tab" }),
+					},
+						h("svg", { viewBox: "0 0 24 24", width: 15, height: 15, fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round" },
+							h("path", { d: "M18 6 6 18M6 6l12 12" }),
+						),
+					),
 				),
 				h("div", { className: "dshp-dock-body" }, body),
+				h("div", { className: "dshp-dock-resize-l", onMouseDown: startResizeLeft }),
+				h("div", { className: "dshp-dock-resize-r", onMouseDown: startResizeRight }),
+				h("div", { className: "dshp-dock-resize-b", onMouseDown: startResizeBottom }),
+				h("div", { className: "dshp-dock-resize", onMouseDown: startResize, title: "拖动调整面板大小" }),
 			);
 			let portal = null;
 			try {

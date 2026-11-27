@@ -254,3 +254,68 @@ test("web routes /dsh-breach/status works in ESM and blocks cross-origin / form-
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
+
+test("client.js loads cleanly in ModuleLoader with Scheme B tokens and no legacy pool blobs", async () => {
+  const src = fs.readFileSync(path.join(ROOT, "client.js"), "utf8");
+  assert.equal(src.includes("dshp-pool"), false, "legacy animated blue blobs must be removed");
+  assert.equal(src.includes("#1B2230"), true, "Scheme B dark graphite header token should exist");
+  assert.equal(src.includes("#F1F4F9"), true, "Scheme B slate tray token should exist");
+
+  let captured = null;
+  const prevWin = globalThis.window;
+  globalThis.window = {
+    __ModuleLoader__: {
+      load(entry) {
+        captured = entry;
+      },
+    },
+    location: { origin: "http://127.0.0.1:43120", port: "43120", hostname: "127.0.0.1", href: "http://127.0.0.1:43120/" },
+    localStorage: { getItem: () => null, setItem: () => {} },
+    addEventListener() {},
+    removeEventListener() {},
+    setInterval: () => 1,
+    clearInterval() {},
+    setTimeout: () => 1,
+    clearTimeout() {},
+  };
+  try {
+    const fn = new Function(src);
+    fn();
+    assert.ok(captured && typeof captured.factory === "function", "ModuleLoader.load should capture factory");
+    const mockReact = {
+      createElement: (type, props, ...children) => ({ type, props, children }),
+      useState: (init) => [typeof init === "function" ? init() : init, () => {}],
+      useEffect: () => {},
+      useCallback: (cb) => cb,
+      useRef: (v) => ({ current: v }),
+      Fragment: Symbol("Fragment"),
+      Component: class { constructor(p) { this.props = p; } },
+    };
+    const mod = captured.factory((id) => (id === "react" ? mockReact : {}));
+    assert.equal(mod.name, "dsh-breach");
+    assert.deepEqual(mod.inject, ["slots", "locale"]);
+    assert.equal(typeof mod.apply, "function");
+
+    let locales = null;
+    mod.apply({
+      effect: (cb) => cb(),
+      locale: {
+        register(_ns, dict) { locales = dict; },
+        bind() { return (k) => k; },
+      },
+      slots: {
+        inject(_slot, cb) { cb(); },
+        register() {},
+      },
+    });
+    assert.ok(locales?.zh && locales?.en, "zh and en dictionaries should be registered");
+    for (const key of ["tab.patches", "tab.prompt", "tab.settings", "ov.groupDetail", "set.sysTitle"]) {
+      assert.ok(locales.zh[key], `missing zh key ${key}`);
+      assert.ok(locales.en[key], `missing en key ${key}`);
+    }
+  } finally {
+    if (prevWin === undefined) delete globalThis.window;
+    else globalThis.window = prevWin;
+  }
+});
+
