@@ -185,6 +185,10 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"warn.noInject": "官方始终用默认提示词。启用规则集时只用规则集；未启用时用去掉 CTF 的默认提示词，再接规则操作。两边都空会提示必须添加。",
 			"need.prompt": "提示词和规则集都是空的，必须先添加提示词，或启用一条有内容的规则集。",
 			"btn.restoreInject": "恢复默认",
+			"restore.title": "恢复默认提示词",
+			"restore.body": "把提示词恢复成内置默认稿并立即写入宿主文件？当前输入框里的修改会被覆盖。",
+			"restore.confirm": "确认恢复",
+			"restore.cancel": "取消",
 			"saved.restoreInject": "已恢复默认提示词",
 			"skip": "跳过",
 			"unknown": "未知",
@@ -482,6 +486,10 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"warn.noInject": "Official mode always uses the default prompt. With a rule set active, only the rule set is used; otherwise the default prompt without the CTF section, followed by the rule steps. If both are empty you will be asked to add a prompt.",
 			"need.prompt": "Both the prompt and the rule set are empty. Add a prompt, or enable a rule that has content.",
 			"btn.restoreInject": "Reset default",
+			"restore.title": "Restore default prompt",
+			"restore.body": "Reset the prompt to the built-in default and write it to the host file now? Current edits will be overwritten.",
+			"restore.confirm": "Restore",
+			"restore.cancel": "Cancel",
 			"saved.restoreInject": "Default prompt restored",
 			"skip": "Skipped",
 			"unknown": "Unknown",
@@ -798,21 +806,6 @@ body[data-ds-dark-theme] .dshp-root,.dshp-root[data-theme="dusk"]{--cd-bg:#26231
 .dshp-modal h4{margin:0 0 8px;font-family:var(--dshp-display);font-size:18px;font-weight:500}
 .dshp-modal p{margin:0 0 16px;font-size:13.5px;line-height:1.55}
 .dshp-modal-ops{display:flex;justify-content:flex-end;gap:8px}
-.dshp-restart-mask{position:fixed;inset:0;z-index:12000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(38,32,24,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);font-family:var(--dshp-sans,system-ui,sans-serif)}
-.dshp-restart-card{width:min(408px,100%);box-sizing:border-box;padding:22px 22px 18px;border-radius:14px;background:#FFFFFF;color:#1F1E1C;border:1px solid #E4EDF7;box-shadow:0 20px 54px rgba(60,48,30,.22),0 2px 8px rgba(60,48,30,.06)}
-.dshp-restart-card h4{margin:0 0 9px;font-family:inherit;font-size:16px;font-weight:660;letter-spacing:-.2px;line-height:1.4;color:#1F1E1C}
-.dshp-restart-card p{margin:0 0 18px;font-size:13px;font-weight:400;line-height:1.7;color:#6B6862}
-.dshp-restart-card .dshp-modal-ops{display:flex;justify-content:flex-end;gap:9px}
-.dshp-restart-card .dshp-btn{min-width:0;min-height:32px;padding:0 15px;border-radius:8px;font-size:12.5px;font-weight:550;font-family:inherit;color:#3A3833;background:#FFFFFF;border:1px solid #E7DFD0;cursor:pointer;transition:background .15s}
-.dshp-restart-card .dshp-btn:hover{background:#F5F9FE}
-.dshp-restart-card .dshp-btn-primary,.dshp-restart-card .dshp-btn-primary:hover:not(:disabled){color:#FFFFFF;background:#D05663;border-color:#D05663;font-weight:600}
-.dshp-restart-card .dshp-btn-primary:hover:not(:disabled){background:#BC4754}
-body[data-ds-dark-theme] .dshp-restart-card,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card{background:#211F1C;color:#EFEBE2;border-color:#332F29;box-shadow:0 20px 54px rgba(0,0,0,.5)}
-body[data-ds-dark-theme] .dshp-restart-card h4,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card h4{color:#EFEBE2}
-body[data-ds-dark-theme] .dshp-restart-card p,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card p{color:#9A948A}
-body[data-ds-dark-theme] .dshp-restart-card .dshp-btn,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card .dshp-btn{color:#DDD8CD;background:#26231F;border-color:#332F29}
-body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary:hover:not(:disabled),.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card .dshp-btn-primary,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card .dshp-btn-primary:hover:not(:disabled){color:#2A1215;background:#D05663;border-color:#D05663}
-body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary:hover:not(:disabled),.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card .dshp-btn-primary,.dshp-restart-mask[data-theme="dusk"] .dshp-restart-card .dshp-btn-primary:hover:not(:disabled){color:#fff;background:#D05663;border-color:#D05663}
 .dshp-notice{font-size:12.5px;line-height:1.4}
 .dshp-notice.is-ok{color:var(--dshp-ok)}
 .dshp-notice.is-bad{color:var(--dshp-bad)}
@@ -852,28 +845,33 @@ body[data-ds-dark-theme] .dshp-restart-card .dshp-btn-primary,body[data-ds-dark-
 
 .dshp-dock{position:fixed;top:12px;right:12px;z-index:10050;display:flex;flex-direction:column;width:var(--dshp-dock-w,580px);height:auto;max-height:var(--dshp-dock-h,74vh);min-width:390px;min-height:280px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;border-radius:12px;pointer-events:auto;overflow:hidden;font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;text-shadow:none}
 .dshp-dock[data-open="0"]{display:none}
-/* 方案 B：深石墨撞色顶栏 + 云灰底壳 + 纯白内胆（与宿主纯白主界面清晰拉开明度差） */
-.dshp-dock[data-theme="white"]{
+/* 方案 B：深石墨撞色顶栏 + 云灰底壳 + 纯白内胆（主面板、弹窗、菜单统一令牌） */
+.dshp-dock[data-theme="white"],.dshp-b-mask[data-theme="white"],.dshp-rewind-menu[data-theme="white"]{
   --dk-bg:#F1F4F9;--dk-head:#1B2230;--dk-head-ink:#F8FAFC;--dk-head-mute:#94A3B8;--dk-head-pill:rgba(255,255,255,.12);
   --dk-card:#FFFFFF;--dk-bd:#94A3B8;--dk-sub-bd:#DCE3EE;--dk-ink:#0F172A;--dk-mute:#526277;--dk-faint:#64748B;
   --dk-chip:#E2E8F0;--dk-chip-hover:#CBD5E1;--dk-primary:#2563EB;--dk-primary-hover:#1D4ED8;
   --dk-ok:#16A34A;--dk-warn:#D97706;--dk-bad:#DC2626;--dshp-ink:#0F172A;--dshp-mute:#526277;
+}
+body[data-ds-dark-theme] .dshp-dock,.dshp-dock[data-theme="dusk"],body[data-ds-dark-theme] .dshp-b-mask,.dshp-b-mask[data-theme="dusk"],body[data-ds-dark-theme] .dshp-rewind-menu,.dshp-rewind-menu[data-theme="dusk"]{
+  --dk-bg:#161922;--dk-head:#0F1219;--dk-head-ink:#F1F5F9;--dk-head-mute:#94A3B8;--dk-head-pill:rgba(255,255,255,.09);
+  --dk-card:#202533;--dk-bd:#363E52;--dk-sub-bd:#2C3345;--dk-ink:#F1F5F9;--dk-mute:#94A3B8;--dk-faint:#7C879B;
+  --dk-chip:#2A3142;--dk-chip-hover:#353E54;--dk-primary:#3B82F6;--dk-primary-hover:#2563EB;
+  --dk-ok:#22C55E;--dk-warn:#F59E0B;--dk-bad:#EF4444;--dshp-ink:#F1F5F9;--dshp-mute:#94A3B8;
+}
+.dshp-dock[data-theme="white"]{
   background:var(--dk-bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
   border:1px solid var(--dk-bd)!important;color:var(--dk-ink)!important;
   box-shadow:0 24px 52px -10px rgba(15,23,42,.26),0 6px 16px rgba(15,23,42,.10),0 0 0 1px rgba(15,23,42,.05)!important;
 }
 body[data-ds-dark-theme] .dshp-dock,.dshp-dock[data-theme="dusk"]{
-  --dk-bg:#161922;--dk-head:#0F1219;--dk-head-ink:#F1F5F9;--dk-head-mute:#94A3B8;--dk-head-pill:rgba(255,255,255,.09);
-  --dk-card:#202533;--dk-bd:#363E52;--dk-sub-bd:#2C3345;--dk-ink:#F1F5F9;--dk-mute:#94A3B8;--dk-faint:#7C879B;
-  --dk-chip:#2A3142;--dk-chip-hover:#353E54;--dk-primary:#3B82F6;--dk-primary-hover:#2563EB;
-  --dk-ok:#22C55E;--dk-warn:#F59E0B;--dk-bad:#EF4444;--dshp-ink:#F1F5F9;--dshp-mute:#94A3B8;
   background:var(--dk-bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
   border:1px solid var(--dk-bd)!important;color:var(--dk-ink)!important;
   box-shadow:0 26px 58px -8px rgba(0,0,0,.56),0 8px 20px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.06)!important;
 }
 .dshp-dock-head,.dshp-dock-body{position:relative;z-index:2}
-.dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 45%,transparent);border-radius:999px;background:color-mix(in srgb,var(--dsw-alias-bg-layer-1,#1B2230) 88%,transparent);color:var(--dsw-alias-label-primary,#f2f2f2);cursor:pointer;font:13px/1 inherit;box-shadow:0 8px 22px rgba(15,23,42,.22);pointer-events:auto}
-.dshp-launch:hover{border-color:var(--dsw-alias-brand-primary,#2563EB)}
+.dshp-launch{position:fixed;right:16px;bottom:16px;z-index:10040;appearance:none;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border:1px solid #334155;border-radius:999px;background:#1B2230;color:#F8FAFC;cursor:pointer;font:600 12.5px/1 "Segoe UI","Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;box-shadow:0 12px 28px rgba(15,23,42,.32),0 2px 6px rgba(15,23,42,.16);pointer-events:auto;transition:transform .14s,border-color .14s,background .14s}
+.dshp-launch svg{width:14px;height:14px;color:#3B82F6;flex:none}
+.dshp-launch:hover{background:#232C3D;border-color:#3B82F6;transform:translateY(-1px)}
 .dshp-launch[data-open="1"],.dshp-launch[data-hide="1"]{display:none}
 .dshp-dock .dshp-dock-head{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--dk-head)!important;color:var(--dk-head-ink)!important;border-bottom:1px solid rgba(255,255,255,.08);cursor:grab;user-select:none;touch-action:none;border-radius:11px 11px 0 0}
 .dshp-dock .dshp-dock-head:active{cursor:grabbing}
@@ -889,11 +887,6 @@ body[data-ds-dark-theme] .dshp-dock,.dshp-dock[data-theme="dusk"]{
 .dshp-head-close:hover{background:rgba(255,255,255,.14)!important;color:var(--dk-head-ink)!important}
 .dshp-dock-body{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:var(--dk-bg);border-radius:0 0 11px 11px}
 .dshp-dock-body .dshp-root{max-width:none;height:auto;max-height:100%;flex:1;min-height:0;overflow:auto;padding:12px;gap:10px;background:transparent!important;color:var(--dk-ink)!important}
-body:not([data-ds-dark-theme]) .dshp-auth-modal{background:#FFFFFF;color:#0F172A;border-color:#CBD5E1;box-shadow:0 24px 52px rgba(15,23,42,.24)}
-body:not([data-ds-dark-theme]) .dshp-auth-legal{background:#F8FAFC;color:#0F172A;border-color:#E2E8F0}
-body:not([data-ds-dark-theme]) .dshp-auth-warn{background:#FEF3C7;color:#92400E}
-body:not([data-ds-dark-theme]) .dshp-auth-ops button{border-color:#CBD5E1;color:#0F172A;background:#FFFFFF}
-body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;border-color:#2563EB;color:#fff}
 .dshp-dock-resize,.dshp-dock-resize-l,.dshp-dock-resize-r,.dshp-dock-resize-b{position:absolute;z-index:60;pointer-events:auto;touch-action:none}
 .dshp-dock-resize{right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;background:transparent}
 .dshp-dock-resize::after{content:"";position:absolute;right:4px;bottom:4px;width:6px;height:6px;border-right:2px solid var(--dk-faint,#64748B);border-bottom:2px solid var(--dk-faint,#64748B);opacity:.45;border-radius:0 0 2px 0}
@@ -901,22 +894,35 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 .dshp-dock-resize-l{left:0;top:38px;bottom:0;width:6px;cursor:ew-resize;background:transparent}
 .dshp-dock-resize-r{right:0;top:38px;bottom:16px;width:6px;cursor:ew-resize;background:transparent}
 .dshp-dock-resize-b{left:6px;right:16px;bottom:0;height:6px;cursor:ns-resize;background:transparent}
-.dshp-auth-mask{position:fixed;inset:0;z-index:10100;background:rgba(15,23,42,.52);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:auto}
-.dshp-auth-modal{width:min(640px,100%);max-height:min(88vh,820px);display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid #363E52;border-radius:12px;background:#1A1E29;color:#F1F5F9}
-.dshp-update-notes{max-height:min(38vh,300px);overflow:auto;font-size:12.5px;line-height:1.6;padding:10px 12px;border-radius:8px;background:rgba(127,127,127,.09);border:1px solid rgba(127,127,127,.22);word-break:break-word}
-.dshp-auth-modal h2{margin:0;font-size:16px;font-weight:650}
-.dshp-auth-warn{padding:8px 10px;border-radius:8px;background:#3a2e18;color:#f0d48a;font-size:12.5px}
-.dshp-auth-legal{overflow:auto;height:300px;margin:0;padding:10px 12px;border:1px solid #2C3345;border-radius:8px;background:#12151E;font-size:13px;line-height:1.55}
-.dshp-auth-legal h3{margin:14px 0 4px;font-size:13px}
-.dshp-auth-legal h3:first-child{margin-top:0}
-.dshp-auth-legal p{margin:0 0 8px}
-.dshp-auth-checks{display:flex;flex-direction:column;gap:8px;font-size:13px}
-.dshp-auth-checks label{display:flex;gap:8px;align-items:flex-start}
-.dshp-auth-checks label.locked{opacity:.45}
-.dshp-auth-ops{display:flex;justify-content:flex-end;gap:8px}
-.dshp-auth-ops button{appearance:none;border:1px solid #363E52;background:transparent;color:inherit;border-radius:8px;padding:6px 13px;cursor:pointer;font:500 12.5px/1.4 inherit}
-.dshp-auth-ops button.primary{background:#2563EB;border-color:#2563EB;color:#fff;font-weight:600}
-.dshp-auth-ops button:disabled{opacity:.45;cursor:default}
+/* 方案 B 通用模态弹窗（更新确认 / 用户须知 / 重启确认 / 危险操作确认） */
+.dshp-b-mask{position:fixed;inset:0;z-index:12000;background:rgba(15,23,42,.50);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;pointer-events:auto;font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif;font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.dshp-b-dialog{width:min(520px,94vw);max-height:min(84vh,720px);display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:var(--dk-bg,#F1F4F9);color:var(--dk-ink,#0F172A);border:1px solid var(--dk-bd,#94A3B8);box-shadow:0 26px 58px -10px rgba(15,23,42,.34),0 8px 20px rgba(15,23,42,.16)}
+body[data-ds-dark-theme] .dshp-b-dialog,.dshp-b-mask[data-theme="dusk"] .dshp-b-dialog{box-shadow:0 28px 62px -8px rgba(0,0,0,.64),0 10px 24px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06)}
+.dshp-b-dialog.sm{width:min(420px,94vw)}
+.dshp-b-dialog.lg{width:min(560px,94vw)}
+.dshp-b-dlg-head{display:flex;align-items:center;gap:8px;padding:10px 13px;background:var(--dk-head,#1B2230);color:var(--dk-head-ink,#F8FAFC);border-bottom:1px solid rgba(255,255,255,.08);user-select:none}
+.dshp-b-dlg-head svg.brand{width:15px;height:15px;color:#3B82F6;flex:none}
+.dshp-b-dlg-title{font-size:13.5px;font-weight:650;letter-spacing:-.2px;color:var(--dk-head-ink,#F8FAFC);margin:0}
+.dshp-b-dlg-pill{font-family:var(--dshp-mono,ui-monospace,Consolas,monospace);font-size:11px;font-weight:600;padding:1.5px 7px;border-radius:5px;background:var(--dk-head-pill,rgba(255,255,255,.12));color:#93C5FD;letter-spacing:.01em}
+.dshp-b-dlg-body{padding:12px 13px;display:flex;flex-direction:column;gap:10px;overflow:auto;min-height:0;background:var(--dk-bg,#F1F4F9)}
+.dshp-b-dlg-lead{font-size:12px;color:var(--dk-mute,#526277);line-height:1.5;margin:0}
+.dshp-b-scroll{max-height:min(42vh,310px);overflow:auto;padding:11px 13px;border-radius:10px;background:var(--dk-card,#FFFFFF);border:1px solid var(--dk-sub-bd,#DCE3EE);color:var(--dk-ink,#0F172A);font-size:12.5px;line-height:1.65;word-break:break-word}
+.dshp-b-scroll h3{margin:12px 0 4px;font-size:12.5px;font-weight:700;color:var(--dk-ink,#0F172A)}
+.dshp-b-scroll h3:first-child{margin-top:0}
+.dshp-b-scroll p{margin:0 0 7px;color:var(--dk-ink,#0F172A)}
+.dshp-b-scroll p:last-child{margin-bottom:0}
+.dshp-b-scroll a{color:var(--dk-primary,#2563EB);text-decoration:none;font-weight:500}
+.dshp-b-scroll a:hover{text-decoration:underline}
+.dshp-b-notes-h2{font-size:13px;font-weight:700;color:var(--dk-ink,#0F172A);margin:0 0 6px;padding-bottom:6px;border-bottom:1px solid var(--dk-sub-bd,#DCE3EE)}
+.dshp-b-notes-h3{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;background:rgba(37,99,235,.12);color:var(--dk-primary,#2563EB);margin:8px 0 4px}
+.dshp-b-notes-li{position:relative;padding-left:13px;margin:3px 0;color:var(--dk-ink,#0F172A);font-size:12.5px;line-height:1.62}
+.dshp-b-notes-li::before{content:"";position:absolute;left:2px;top:8px;width:4.5px;height:4.5px;border-radius:999px;background:var(--dk-primary,#2563EB)}
+.dshp-b-code{font-family:var(--dshp-mono,ui-monospace,Consolas,monospace);font-size:11.5px;padding:1px 5px;margin:0 1px;border-radius:4px;background:var(--dk-bg,#F1F4F9);border:1px solid var(--dk-sub-bd,#DCE3EE);color:var(--dk-ink,#0F172A)}
+.dshp-b-check{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;border-radius:9px;background:var(--dk-card,#FFFFFF);border:1px solid var(--dk-sub-bd,#DCE3EE);font-size:12px;color:var(--dk-ink,#0F172A);cursor:pointer;user-select:none}
+.dshp-b-check input{margin:2.5px 0 0;accent-color:var(--dk-primary,#2563EB);cursor:pointer}
+.dshp-b-dlg-foot{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:9px 13px;background:var(--dk-card,#FFFFFF);border-top:1px solid var(--dk-sub-bd,#DCE3EE)}
+.dshp-b-btn.danger-solid{background:var(--dk-bad,#DC2626);border-color:var(--dk-bad,#DC2626);color:#fff}
+.dshp-b-btn.danger-solid:hover:not(:disabled){opacity:.9}
 .dshp-icon-btn{appearance:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:1px solid color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 45%,transparent);border-radius:8px;background:transparent;color:var(--dsw-alias-label-secondary,currentColor);cursor:pointer;font:13px/1 inherit;white-space:nowrap;flex:0 0 auto}
 .dshp-icon-btn:hover{border-color:var(--dsw-alias-brand-primary,#2563EB);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 12%,transparent);color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-icon-btn.on{border-color:var(--dsw-alias-brand-primary,#2563EB);color:var(--dsw-alias-brand-primary,#2563EB);background:color-mix(in srgb,var(--dsw-alias-brand-primary,#2563EB) 16%,transparent)}
@@ -1057,54 +1063,6 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 			return "bad";
 		}
 
-		function noticeNode(notice) {
-			if (!notice || notice.kind === "idle") return null;
-			const text = safeText(notice.text, "");
-			if (!text) return null;
-			return h("span", { className: "dshp-notice " + (notice.kind === "error" ? "is-bad" : "is-ok") }, text);
-		}
-
-		function Btn(props) {
-			const { kind, tiny, children, className, type, ...rest } = props;
-			const cls = ["dshp-btn", kind ? "dshp-btn-" + kind : "dshp-btn-ghost", tiny ? "dshp-btn-tiny" : "", className || ""].filter(Boolean).join(" ");
-			return h("button", Object.assign({ type: type || "button", className: cls }, rest), children);
-		}
-
-		function Pill({ value, label }) {
-			const t = useT();
-			return h("span", { className: "dshp-pill is-" + statusKind(value) }, label || statusLabel(value, t));
-		}
-
-		const LAYER_GROUP = {
-			"提示词": "prompt",
-			"代码": "code",
-			"工具": "tools",
-			"0.1.5 兼容": "compat",
-			"0.2.0 兼容": "dsh20",
-		};
-		const GROUP_ORDER = ["prompt", "code", "tools", "compat", "dsh20"];
-
-		function patchRowsOf(state) {
-			if (!state || !state.ai_base) return [];
-			const fromList = Array.isArray(state.patches) ? state.patches : null;
-			const rows = fromList
-				? fromList.map((p) => ({
-					id: Number(p.id),
-					ids: Array.isArray(p.ids) && p.ids.length ? p.ids.map(Number) : [Number(p.id)],
-					st: p.status || "missing_file",
-					layer: p.layer || "",
-					title: p.title || "",
-				}))
-				: Object.keys(state.patch_status || {}).map((id) => ({
-					id: Number(id),
-					ids: [Number(id)],
-					st: state.patch_status[id],
-					layer: "",
-					title: "",
-				}));
-			return rows.filter((r) => r.st && r.st !== "na" && Number.isFinite(r.id));
-		}
-
 		function patchIdLabel(r) {
 			const ids = Array.isArray(r.ids) && r.ids.length ? r.ids : [r.id];
 			return ids.map((id) => "#" + id).join("/");
@@ -1121,136 +1079,85 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 			return name || key;
 		}
 
-		function tallyPatches(rows) {
-			const out = { applied: 0, pending: 0, unmatched: 0, skipped: 0, total: 0 };
-			for (const row of rows || []) {
-				out.total += 1;
-				if (row.st === "applied" || row.st === "already") out.applied += 1;
-				else if (row.st === "pending") out.pending += 1;
-				else if (row.st === "unmatched") out.unmatched += 1;
-				else out.skipped += 1;
-			}
-			return out;
+		function ensureBreachStyles() {
+			try {
+				if (typeof document === "undefined" || !document.head) return;
+				let uiTag = document.querySelector('style[data-dsh-breach-ui="1"]');
+				const fullCss = HAPPY_CSS + "\n" + OVERVIEW_CSS;
+				if (!uiTag) {
+					uiTag = document.createElement("style");
+					uiTag.setAttribute("data-dsh-breach-ui", "1");
+					uiTag.textContent = fullCss;
+					document.head.append(uiTag);
+				} else if (uiTag.textContent !== fullCss) {
+					uiTag.textContent = fullCss;
+				}
+			} catch { /* ignore */ }
 		}
 
-		function PatchGroups({ state }) {
-			const t = useT();
-			const [open, setOpen] = useState({});
-			if (!state || !state.patch_status) return h("div", { className: "dshp-skel", style: { height: 120 } });
-			const located = !!state.ai_base;
-			if (!located) return null;
-			const grouped = new Map();
-			for (const row of patchRowsOf(state)) {
-				const key = LAYER_GROUP[row.layer] || "code";
-				if (!grouped.has(key)) grouped.set(key, []);
-				grouped.get(key).push(row);
-			}
-			return GROUP_ORDER.filter((key) => grouped.has(key)).map((key) => {
-				const rows = grouped.get(key).slice().sort((a, b) => a.id - b.id);
-				if (!rows.length) return null;
-				const tally = tallyPatches(rows);
-				const notes = [];
-				if (tally.pending) notes.push(t("metric.pendingShort", { n: tally.pending }));
-				if (tally.unmatched) notes.push(t("metric.unmatchedShort", { n: tally.unmatched }));
-				if (tally.skipped) notes.push(t("metric.skipShort", { n: tally.skipped }));
-				const expanded = !!open[key];
-				return h("div", { key: key, className: "dshp-group" },
-					h("button", {
-						type: "button",
-						className: "dshp-group-h",
-						"aria-expanded": expanded ? "true" : "false",
-						onClick: () => setOpen((prev) => Object.assign({}, prev, { [key]: !prev[key] })),
-					},
-						h("strong", null, t("group." + key)),
-						h("span", { className: "dshp-count" }, tally.applied + "/" + tally.total + (notes.length ? " · " + notes.join(" · ") : "")),
-					),
-					expanded ? h("table", { className: "dshp-table" },
-						h("thead", null, h("tr", null,
-							h("th", null, "#"),
-							h("th", null, t("table.patch")),
-							h("th", null, t("table.status")),
-						)),
-						h("tbody", null, rows.map((r) => h("tr", { key: r.ids ? r.ids.join("-") : r.id },
-							h("td", { className: "dshp-id" }, patchIdLabel(r)),
-							h("td", null, patchTitle(t, state, r)),
-							h("td", null, h(Pill, { value: r.st })),
-						))),
-					) : null,
-				);
-			});
-		}
-
-		function HooksDenySection({ onSaved }) {
-			const t = useT();
-			const [cfg, setCfg] = useState(null);
-			const [notice, setNotice] = useState({ kind: "idle", text: "" });
-			const [busy, setBusy] = useState(false);
-
-			useEffect(() => {
-				apiJson("/dsh-breach/hooks-deny")
-					.then((d) => { if (d && d.ok) setCfg({ hooksDenyBypass: d.hooksDenyBypass !== false }); })
-					.catch(() => {});
-			}, []);
-
-			const save = (hooksDenyBypass) => {
-				if (!cfg || busy) return;
-				setCfg({ hooksDenyBypass });
-				setBusy(true);
-				apiJson("/dsh-breach/hooks-deny", {
-					method: "POST",
-					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ hooksDenyBypass }),
-				})
-					.then((d) => {
-						if (d && d.ok) {
-							setCfg({ hooksDenyBypass: d.hooksDenyBypass === true });
-							setNotice({ kind: "ok", text: t("saved.hooksDeny") });
-							if (typeof onSaved === "function") onSaved();
-						} else {
-							setNotice({ kind: "error", text: t("err.save", { error: (d && d.error) || "" }) });
-						}
-					})
-					.catch((e) => setNotice({ kind: "error", text: t("err.save", { error: e.message }) }))
-					.finally(() => setBusy(false));
-			};
-
-			if (!cfg) return null;
-			return h("div", { className: "dshp-cr", style: { marginTop: 12 } },
-				h("div", { className: "dshp-sub" },
-					h("h4", null, t("hooksDeny.title")),
-					noticeNode(notice),
-				),
-				h("p", { className: "dshp-hint", style: { margin: "0 0 4px", color: "var(--dshp-mute)", fontSize: 12 } }, t("hooksDeny.hint")),
-				h("div", { className: "dshp-cr-row" },
-					h("label", null,
-						h("input", {
-							type: "checkbox",
-							checked: cfg.hooksDenyBypass === true,
-							disabled: busy,
-							onChange: (e) => save(e.target.checked),
-						}),
-						t("hooksDeny.bypass"),
-					),
-				),
+		function BrandShieldIcon(cls) {
+			return h("svg", {
+				className: cls || "brand",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: 2.2,
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": "true",
+			},
+				h("path", { d: "M12 22s8-4 8-10V5.5L12 2.5 4 5.5V12c0 6 8 10 8 10Z" }),
+				h("path", { d: "m8.8 11.9 2.2 2.2 4.2-4.4" }),
 			);
 		}
 
-		function RestartAsk(props) {
+		/** 方案 B 统一模态弹窗壳：深石墨顶栏 + 云灰底壳 + 纯白内容卡 + 底栏操作区。 */
+		function SchemeBDialog(props) {
+			const [dlgTheme, setDlgTheme] = useState(detectHostTheme);
+			useEffect(() => {
+				ensureBreachStyles();
+				const sync = () => setDlgTheme(detectHostTheme());
+				sync();
+				let obs = null;
+				try {
+					if (typeof MutationObserver !== "undefined" && typeof document !== "undefined") {
+						obs = new MutationObserver(sync);
+						if (document.body) obs.observe(document.body, { attributes: true, attributeFilter: ["data-ds-dark-theme", "class", "style"] });
+						if (document.documentElement) obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-ds-dark-theme", "class", "style"] });
+					}
+				} catch { /* ignore */ }
+				return () => { try { obs?.disconnect(); } catch { /* ignore */ } };
+			}, []);
+			const theme = (props.theme || dlgTheme) === "dusk" ? "dusk" : "white";
+			const canClose = typeof props.onClose === "function" && !props.busy;
+			const sizeCls = props.size === "sm" ? " sm" : props.size === "lg" ? " lg" : "";
 			const node = h("div", {
-				className: "dshp-restart-mask",
-				"data-theme": props.theme === "dusk" ? "dusk" : "white",
+				className: "dshp-b-mask",
+				"data-theme": theme,
 				role: "dialog",
 				"aria-modal": "true",
-				"aria-labelledby": "dshp-restart-title",
-				onClick: (e) => { if (e.target === e.currentTarget && props.onLater) props.onLater(); },
+				onClick: (e) => { if (e.target === e.currentTarget && canClose) props.onClose(); },
 			},
-				h("div", { className: "dshp-restart-card" },
-					h("h4", { id: "dshp-restart-title" }, props.t("restart.ask.title")),
-					h("p", null, props.t("restart.ask.body")),
-					h("div", { className: "dshp-modal-ops" },
-						h(Btn, { onClick: props.onLater }, props.t("restart.notNow")),
-						h(Btn, { kind: "primary", onClick: props.onRestart }, props.t("restart.now")),
+				h("div", { className: "dshp-b-dialog" + sizeCls },
+					h("div", { className: "dshp-b-dlg-head" },
+						BrandShieldIcon("brand"),
+						h("h3", { className: "dshp-b-dlg-title" }, safeText(props.title, "")),
+						props.badge ? h("span", { className: "dshp-b-dlg-pill" }, safeText(props.badge, "")) : null,
+						h("span", { style: { flex: 1 } }),
+						props.onClose ? h("button", {
+							type: "button",
+							className: "dshp-head-close",
+							disabled: Boolean(props.busy),
+							onClick: () => { if (canClose) props.onClose(); },
+							"aria-label": "Close",
+						},
+							h("svg", { viewBox: "0 0 24 24", width: 14, height: 14, fill: "none", stroke: "currentColor", strokeWidth: 2.2, strokeLinecap: "round" },
+								h("path", { d: "M18 6 6 18M6 6l12 12" }),
+							),
+						) : null,
 					),
+					h("div", { className: "dshp-b-dlg-body" }, props.children),
+					props.footer ? h("div", { className: "dshp-b-dlg-foot" }, props.footer) : null,
 				),
 			);
 			try {
@@ -1260,6 +1167,22 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 				}
 			} catch { /* host 可能没暴露 react-dom */ }
 			return node;
+		}
+
+		function RestartAsk(props) {
+			return h(SchemeBDialog, {
+				size: "sm",
+				theme: props.theme,
+				title: props.t("restart.ask.title"),
+				badge: "dsh-breach",
+				onClose: props.onLater,
+				footer: [
+					h("button", { key: "later", type: "button", className: "dshp-b-btn", onClick: props.onLater }, props.t("restart.notNow")),
+					h("button", { key: "now", type: "button", className: "dshp-b-btn primary", onClick: props.onRestart }, props.t("restart.now")),
+				],
+			},
+				h("div", { className: "dshp-b-card", style: { fontSize: "12.5px", lineHeight: 1.65 } }, props.t("restart.ask.body")),
+			);
 		}
 
 		function reopenAfterRestart() {
@@ -1552,19 +1475,6 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 				}).finally(() => setBusy(""));
 			};
 
-			if (askRestart) {
-				return h(RestartAsk, {
-					t: tr,
-					theme: detectHostTheme(),
-					onLater: () => { suppressRestart.current = true; setAskRestart(false); },
-					onRestart: () => {
-						suppressRestart.current = true;
-						setAskRestart(false);
-						restartDsh(setNote, function () {}, tr, hostSurfaceOf(st));
-					},
-				});
-			}
-
 			const state = !st
 				? "loading"
 				: bad.length
@@ -1721,6 +1631,16 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 							);
 						}),
 				),
+				askRestart ? h(RestartAsk, {
+					t: tr,
+					theme: detectHostTheme(),
+					onLater: () => { suppressRestart.current = true; setAskRestart(false); },
+					onRestart: () => {
+						suppressRestart.current = true;
+						setAskRestart(false);
+						restartDsh(setNote, function () {}, tr, hostSurfaceOf(st));
+					},
+				}) : null,
 			);
 		}
 
@@ -1730,6 +1650,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 			const [text, setText] = useState("");
 			const [busy, setBusy] = useState(false);
 			const [note, setNote] = useState("");
+			const [restoreOpen, setRestoreOpen] = useState(false);
 
 			const load = useCallback(() => {
 				apiJson("/dsh-breach/override").then((d) => {
@@ -1760,7 +1681,13 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 			const restore = () => {
 				const def = (data && data.defaultContent) || "";
 				if (!def) { setNote("没有可恢复的默认稿"); return; }
-				if (!window.confirm("把提示词恢复成内置默认稿并写入宿主文件？当前的修改会丢失。")) return;
+				setRestoreOpen(true);
+			};
+
+			const confirmRestore = () => {
+				const def = (data && data.defaultContent) || "";
+				setRestoreOpen(false);
+				if (!def) return;
 				setText(def);
 				writeContent(def, tr("saved.restoreInject"));
 			};
@@ -1795,6 +1722,19 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 							busy ? tr("btn.apply.busy") : tr("btn.saveInject")),
 					),
 				),
+				restoreOpen ? h(SchemeBDialog, {
+					size: "sm",
+					title: tr("restore.title"),
+					badge: "prompt-inject.md",
+					busy,
+					onClose: () => setRestoreOpen(false),
+					footer: [
+						h("button", { key: "cancel", type: "button", className: "dshp-b-btn", disabled: busy, onClick: () => setRestoreOpen(false) }, tr("restore.cancel")),
+						h("button", { key: "ok", type: "button", className: "dshp-b-btn primary", disabled: busy, onClick: confirmRestore }, tr("restore.confirm")),
+					],
+				},
+					h("div", { className: "dshp-b-card", style: { fontSize: "12.5px", lineHeight: 1.65 } }, tr("restore.body")),
+				) : null,
 			);
 		}
 
@@ -1816,6 +1756,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 			const [updInfo, setUpdInfo] = useState(null);
 			const [updOpen, setUpdOpen] = useState(false);
 			const [updErr, setUpdErr] = useState("");
+			const [uninstOpen, setUninstOpen] = useState(false);
 
 			useEffect(() => {
 				apiJson("/dsh-breach/hooks-deny")
@@ -1895,7 +1836,12 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 
 			const doUninstall = () => {
 				if (sysBusy) return;
-				if (!window.confirm(tr("uninstall.body"))) return;
+				setUninstOpen(true);
+			};
+
+			const confirmUninstall = () => {
+				if (sysBusy) return;
+				setUninstOpen(false);
 				setSysBusy(true);
 				setSysNote(tr("uninstall.applying"));
 				apiJson("/dsh-breach/uninstall", {
@@ -1979,6 +1925,19 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 					onClose: () => { if (!sysBusy) { setUpdErr(""); setUpdOpen(false); } },
 					onConfirm: confirmUpd,
 				}) : null,
+				uninstOpen ? h(SchemeBDialog, {
+					size: "sm",
+					title: tr("uninstall.title"),
+					badge: "dsh-breach",
+					busy: sysBusy,
+					onClose: () => setUninstOpen(false),
+					footer: [
+						h("button", { key: "cancel", type: "button", className: "dshp-b-btn", disabled: sysBusy, onClick: () => setUninstOpen(false) }, tr("uninstall.cancel")),
+						h("button", { key: "ok", type: "button", className: "dshp-b-btn danger-solid", disabled: sysBusy, onClick: confirmUninstall }, tr("uninstall.confirm")),
+					],
+				},
+					h("div", { className: "dshp-b-card", style: { fontSize: "12.5px", lineHeight: 1.65 } }, tr("uninstall.body")),
+				) : null,
 			);
 		}
 
@@ -2049,13 +2008,15 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:#2563EB;
 .dshp-rewind:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,currentColor)}
 .dshp-rewind:disabled{opacity:.4;cursor:default}
 .dshp-rewind svg{display:block}
-.dshp-rewind-menu{position:fixed;z-index:2147483000;box-sizing:border-box;min-width:220px;padding:4px;border:0;border-radius:12px;background:var(--dsw-specific-menu,#fff);color:var(--dsw-alias-label-primary,#1a1a1a);--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);box-shadow:var(--dsw-elevation-prominent,0 8px 24px rgba(0,0,0,.16));transform:translateY(-100%)}
-body[data-ds-dark-theme] .dshp-rewind-menu{background:var(--dsw-specific-menu,#32312d);color:var(--dsw-alias-label-primary,#e6e2db);--dsw-elevation-stroke-color:var(--dsw-alias-border-l1,#3f3d38);box-shadow:var(--dsw-elevation-prominent,0 10px 28px rgba(0,0,0,.45))}
-.dshp-rewind-item{display:flex;flex-direction:column;gap:2px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;cursor:pointer;font:12px/1.3 var(--ds-font-sans,system-ui,sans-serif)}
-.dshp-rewind-item:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12))}
-.dshp-rewind-item b{font-size:13px;font-weight:600;color:var(--dsw-alias-label-primary,inherit)}
-.dshp-rewind-item span{color:var(--dsw-alias-label-tertiary,#9a958c);font-size:11px}
-body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tertiary,#a8a39a)}
+.dshp-rewind-menu{position:fixed;z-index:2147483000;box-sizing:border-box;width:272px;border-radius:11px;overflow:hidden;background:var(--dk-bg,#F1F4F9);color:var(--dk-ink,#0F172A);border:1px solid var(--dk-bd,#94A3B8);box-shadow:0 20px 44px -8px rgba(15,23,42,.28),0 4px 12px rgba(15,23,42,.12);transform:translateY(-100%);font-family:"Segoe UI","Microsoft YaHei UI","PingFang SC","Noto Sans SC",system-ui,sans-serif}
+body[data-ds-dark-theme] .dshp-rewind-menu,.dshp-rewind-menu[data-theme="dusk"]{background:var(--dk-bg,#161922);color:var(--dk-ink,#F1F5F9);border-color:var(--dk-bd,#363E52);box-shadow:0 22px 48px -6px rgba(0,0,0,.58),0 6px 16px rgba(0,0,0,.32)}
+.dshp-rewind-head{display:flex;align-items:center;gap:6px;padding:7px 11px;background:var(--dk-head,#1B2230);color:var(--dk-head-ink,#F8FAFC);font-size:11.5px;font-weight:650;letter-spacing:-.1px;border-bottom:1px solid rgba(255,255,255,.08)}
+.dshp-rewind-head svg{width:13px;height:13px;color:#3B82F6;flex:none}
+.dshp-rewind-body{display:flex;flex-direction:column;gap:6px;padding:7px}
+.dshp-rewind-item{display:flex;flex-direction:column;gap:3px;width:100%;padding:8px 10px;border:1px solid var(--dk-sub-bd,#DCE3EE);border-radius:8px;background:var(--dk-card,#FFFFFF);color:var(--dk-ink,#0F172A);text-align:left;cursor:pointer;font:12px/1.4 inherit;transition:border-color .14s,box-shadow .14s,background .14s}
+.dshp-rewind-item:hover{border-color:var(--dk-primary,#2563EB);box-shadow:0 2px 8px rgba(37,99,235,.14)}
+.dshp-rewind-item b{font-size:12.5px;font-weight:650;color:var(--dk-ink,#0F172A)}
+.dshp-rewind-item span{color:var(--dk-mute,#526277);font-size:11px;line-height:1.45}
 `;
 		const DRAFT_KEY = "dshp-rewind-draft:";
 		const ARM_KEY = "dshp-rewind-arm:";
@@ -2358,29 +2319,41 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 
 
 		function rewindMenuNode(t, menuPos, menuRef, runRewind) {
+			ensureBreachStyles();
+			const theme = detectHostTheme() === "dusk" ? "dusk" : "white";
 			const menu = h("div", {
 				className: "dshp-rewind-menu",
+				"data-theme": theme,
 				role: "menu",
 				ref: menuRef,
 				style: menuPos ? { left: menuPos.left + "px", top: menuPos.top + "px" } : { left: "8px", bottom: "48px", transform: "none" },
 			},
-				h("button", {
-					type: "button",
-					className: "dshp-rewind-item",
-					onMouseDown: (e) => { e.preventDefault(); e.stopPropagation(); },
-					onClick: (e) => { e.preventDefault(); e.stopPropagation(); runRewind("once"); },
-				},
-					h("b", null, rewindText(t, "rewind.once", "回退上一步")),
-					h("span", null, rewindText(t, "rewind.once.hint", "撤回最后一步已进行的对话，新会话接上之前的上下文；那句回到输入框再发送")),
+				h("style", null, REWIND_CSS),
+				h("div", { className: "dshp-rewind-head" },
+					h("svg", { viewBox: "0 0 16 16", width: "13", height: "13", "aria-hidden": true },
+						h("path", { fill: "currentColor", d: "M7.2 3.2 3.4 7l3.8 3.8V8.6c2.8 0 4.7.7 5.9 2.3-.2-2.8-1.9-5.2-5.9-5.6V3.2z" }),
+					),
+					h("span", null, rewindText(t, "rewind.label", "回退")),
 				),
-				h("button", {
-					type: "button",
-					className: "dshp-rewind-item",
-					onMouseDown: (e) => { e.preventDefault(); e.stopPropagation(); },
-					onClick: (e) => { e.preventDefault(); e.stopPropagation(); runRewind("round"); },
-				},
-					h("b", null, rewindText(t, "rewind.round", "回退上一轮")),
-					h("span", null, rewindText(t, "rewind.round.hint", "撤回上一整轮（含子代理）已进行的对话，新会话接上之前的上下文；那句回到输入框再发送")),
+				h("div", { className: "dshp-rewind-body" },
+					h("button", {
+						type: "button",
+						className: "dshp-rewind-item",
+						onMouseDown: (e) => { e.preventDefault(); e.stopPropagation(); },
+						onClick: (e) => { e.preventDefault(); e.stopPropagation(); runRewind("once"); },
+					},
+						h("b", null, rewindText(t, "rewind.once", "回退上一步")),
+						h("span", null, rewindText(t, "rewind.once.hint", "撤回最后一步已进行的对话，新会话接上之前的上下文；那句回到输入框再发送")),
+					),
+					h("button", {
+						type: "button",
+						className: "dshp-rewind-item",
+						onMouseDown: (e) => { e.preventDefault(); e.stopPropagation(); },
+						onClick: (e) => { e.preventDefault(); e.stopPropagation(); runRewind("round"); },
+					},
+						h("b", null, rewindText(t, "rewind.round", "回退上一轮")),
+						h("span", null, rewindText(t, "rewind.round.hint", "撤回上一整轮（含子代理）已进行的对话，新会话接上之前的上下文；那句回到输入框再发送")),
+					),
 				),
 			);
 			try {
@@ -2440,7 +2413,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				this.setState({
 					menu: !this.state.menu,
 					notice: "",
-					menuPos: rect ? { left: Math.max(8, rect.right - 228), top: Math.max(8, rect.top - 8) } : null,
+					menuPos: rect ? { left: Math.max(8, rect.right - 272), top: Math.max(8, rect.top - 8) } : null,
 				});
 			}
 			render() {
@@ -2532,7 +2505,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				const rect = wrapRef.current?.getBoundingClientRect?.();
 				if (rect) {
 					setMenuPos({
-						left: Math.max(8, rect.right - 228),
+						left: Math.max(8, rect.right - 272),
 						top: Math.max(8, rect.top - 8),
 					});
 				}
@@ -2662,57 +2635,52 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 			const [checked, setChecked] = useState(false);
 			if (!open) return null;
 			const repo = safeText(t("welcome.repo"), "");
-			const node = h("div", { className: "dshp-auth-mask", role: "dialog", "aria-modal": "true" },
-				h("div", { className: "dshp-auth-modal", style: { width: "min(560px,100%)" } },
-					h("h2", null, t("welcome.title")),
-					h("div", { className: "muted", style: { color: "var(--dsw-alias-label-secondary,#999)", fontSize: 12 } }, t("welcome.lead")),
-					h("div", { className: "dshp-auth-warn" }, t("welcome.warn")),
-					h("div", { className: "dshp-auth-legal", style: { height: "auto", maxHeight: 280 } },
-						h("p", null, t("welcome.body")),
-						h("p", null,
-							h("a", {
-								href: repo,
-								target: "_blank",
-								rel: "noopener noreferrer",
-								style: { color: "var(--dsw-alias-label-brand, #748B6F)", wordBreak: "break-all" },
-							}, repo),
-						),
-						h("h3", null, t("welcome.bans")),
-						h("p", null, t("welcome.ban1")),
-						h("p", null, t("welcome.ban2")),
-						h("p", null, t("welcome.ban3")),
-					),
-					h("div", { className: "dshp-auth-checks" },
-						h("label", null,
-							h("input", {
-								type: "checkbox",
-								checked: checked,
-								onChange: (e) => setChecked(!!(e && e.target && e.target.checked)),
-							}),
-							h("span", null, t("welcome.check")),
-						),
-					),
-					h("div", { className: "dshp-auth-ops" },
-						h("button", {
-							type: "button",
-							className: "primary",
-							disabled: !checked,
-							onClick: () => {
-								if (!checked) return;
-								writeWelcomeAck();
-								setOpen(false);
-							},
-						}, t("welcome.ok")),
-					),
+			return h(SchemeBDialog, {
+				size: "lg",
+				title: t("welcome.title"),
+				badge: "dsh-breach",
+				footer: [
+					h("button", {
+						key: "ok",
+						type: "button",
+						className: "dshp-b-btn primary",
+						disabled: !checked,
+						onClick: () => {
+							if (!checked) return;
+							writeWelcomeAck();
+							setOpen(false);
+						},
+					}, t("welcome.ok")),
+				],
+			},
+				h("p", { className: "dshp-b-dlg-lead" }, t("welcome.lead")),
+				h("div", { className: "dshp-b-banner warn" },
+					h("span", { className: "txt" }, t("welcome.warn")),
+				),
+				h("div", { className: "dshp-b-scroll" },
+					h("p", null, t("welcome.body")),
+					repo ? h("p", null,
+						h("a", {
+							href: repo,
+							target: "_blank",
+							rel: "noopener noreferrer",
+							style: { wordBreak: "break-all" },
+						}, repo),
+					) : null,
+					h("h3", null, t("welcome.bans")),
+					h("div", { className: "dshp-b-notes-li" }, t("welcome.ban1")),
+					h("div", { className: "dshp-b-notes-li" }, t("welcome.ban2")),
+					h("div", { className: "dshp-b-notes-li" }, t("welcome.ban3")),
+				),
+				h("label", { className: "dshp-b-check" },
+					h("input", {
+						type: "checkbox",
+						checked: checked,
+						onChange: (e) => setChecked(!!(e && e.target && e.target.checked)),
+					}),
+					h("span", null, t("welcome.check")),
 				),
 			);
-			try {
-				const rd = require("react-dom");
-				if (rd && typeof rd.createPortal === "function" && typeof document !== "undefined" && document.body) {
-					return rd.createPortal(node, document.body);
-				}
-			} catch { /* ignore */ }
-			return node;
 		}
 
 		function HappyDock() {
@@ -2739,13 +2707,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				return () => { obs.disconnect(); window.clearInterval(timer); };
 			}, []);
 			useEffect(() => {
-				let uiTag = document.querySelector('style[data-dsh-breach-ui="1"]');
-				if (!uiTag) {
-					uiTag = document.createElement("style");
-					uiTag.setAttribute("data-dsh-breach-ui", "1");
-					uiTag.textContent = HAPPY_CSS;
-					document.head.append(uiTag);
-				}
+				ensureBreachStyles();
 				const styleTag = document.createElement("style");
 				styleTag.setAttribute("data-dsh-breach-drill", "1");
 				styleTag.style.display = "none";
@@ -2960,58 +2922,69 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 				"data-testid": "dsh-breach-launch",
 				title: t("dock.newSession"),
 				onClick: () => toggleDock(),
-			}, t("dock.newSession"));
+			},
+				BrandShieldIcon(""),
+				t("dock.newSession"),
+			);
 		}
 
-		/** 首页胶囊旁的「更新」小胶囊：只有真有新版本才出现，点一下走现成的 /update 安装 + 重启链路。 */
-		/** 把 CHANGELOG.md 的纯文本渲染成轻量块：标题加粗、`-` 变圆点、空行留白。 */
+		/** 行内反引号 `code` 与 **加粗** 转为精致行内元素。 */
+		function renderInlineMarkdown(text) {
+			const parts = String(text || "").split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
+			return parts.map((seg, idx) => {
+				if (seg.length >= 2 && seg.startsWith("`") && seg.endsWith("`")) {
+					return h("code", { key: idx, className: "dshp-b-code" }, seg.slice(1, -1));
+				}
+				if (seg.length >= 4 && seg.startsWith("**") && seg.endsWith("**")) {
+					return h("b", { key: idx }, seg.slice(2, -2));
+				}
+				return seg;
+			});
+		}
+
+		/** 把 CHANGELOG.md 的纯文本渲染成方案 B 卡片块：版本标题、分类徽章、圆点列表与行内代码胶囊。 */
 		function renderUpdateNotes(text) {
 			const lines = String(text || "").split(/\r?\n/);
 			return lines.map((line, index) => {
 				const s = line.trim();
-				if (!s) return h("div", { key: index, style: { height: 6 } });
-				if (/^#{1,4}\s/.test(s)) {
-					return h("div", { key: index, style: { fontWeight: 600, marginTop: 8, marginBottom: 2 } }, s.replace(/^#{1,4}\s+/, ""));
+				if (!s) return h("div", { key: index, style: { height: 4 } });
+				if (/^#{1,2}\s/.test(s)) {
+					return h("div", { key: index, className: "dshp-b-notes-h2" }, renderInlineMarkdown(s.replace(/^#{1,2}\s+/, "")));
+				}
+				if (/^#{3,4}\s/.test(s)) {
+					return h("div", { key: index }, h("span", { className: "dshp-b-notes-h3" }, s.replace(/^#{3,4}\s+/, "")));
 				}
 				if (/^[-*]\s/.test(s)) {
-					return h("div", { key: index, style: { paddingLeft: 14, textIndent: -10 } }, "• " + s.replace(/^[-*]\s+/, ""));
+					return h("div", { key: index, className: "dshp-b-notes-li" }, renderInlineMarkdown(s.replace(/^[-*]\s+/, "")));
 				}
-				return h("div", { key: index }, s);
+				return h("div", { key: index, style: { fontSize: "12.5px" } }, renderInlineMarkdown(s));
 			});
 		}
 
-		/** 更新确认弹窗：展示版本跨度与更新内容，用户自己决定更不更。 */
+		/** 更新确认弹窗（方案 B）：深石墨顶栏 + 版本胶囊 + 纯白更新说明内卡 + 蓝主色更新按钮。 */
 		function UpdateDialog(props) {
 			const t = props.t;
 			const info = props.info || {};
 			const notes = typeof info.notes === "string" ? info.notes.trim() : "";
 			const from = safeText(info.localVersion, "");
 			const to = safeText(info.remoteVersion, "");
-			const node = h("div", { className: "dshp-auth-mask", role: "dialog", "aria-modal": "true" },
-				h("div", { className: "dshp-auth-modal", style: { width: "min(520px,92vw)", maxHeight: "min(76vh,620px)", gap: 8, padding: 14 } },
-					h("h2", { style: { margin: "0 0 6px" } }, t("updDialog.title")),
-					h("div", { className: "muted", style: { fontSize: 12, marginBottom: 12 } },
-						from && to && from !== to
-							? t("updDialog.version") + " " + from + " → " + to
-							: t("updDialog.version") + " " + (to || from || "")),
-					notes
-						? h("div", { className: "dshp-update-notes" }, renderUpdateNotes(notes))
-						: h("div", { className: "muted", style: { fontSize: 13 } }, t("updDialog.noNotes")),
-					props.err ? h("div", { className: "dshp-notice is-bad", style: { marginTop: 10 } }, props.err) : null,
-					h("div", { className: "dshp-auth-ops", style: { display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 16 } },
-						h("button", { type: "button", disabled: props.busy, onClick: props.onClose }, t("updDialog.later")),
-						h("button", { type: "button", className: "primary", disabled: props.busy, onClick: props.onConfirm },
-							props.busy ? t("updDialog.updating") : t("updDialog.now")),
-					),
-				),
+			const badge = from && to && from !== to ? (from + " → " + to) : (to || from || "update");
+			return h(SchemeBDialog, {
+				title: t("updDialog.title"),
+				badge,
+				busy: props.busy,
+				onClose: props.onClose,
+				footer: [
+					h("button", { key: "later", type: "button", className: "dshp-b-btn", disabled: props.busy, onClick: props.onClose }, t("updDialog.later")),
+					h("button", { key: "now", type: "button", className: "dshp-b-btn primary", disabled: props.busy, onClick: props.onConfirm },
+						props.busy ? t("updDialog.updating") : t("updDialog.now")),
+				],
+			},
+				notes
+					? h("div", { className: "dshp-b-scroll" }, renderUpdateNotes(notes))
+					: h("div", { className: "dshp-b-card", style: { fontSize: "12.5px", color: "var(--dk-mute)" } }, t("updDialog.noNotes")),
+				props.err ? h("div", { className: "dshp-b-note bad" }, safeText(props.err, "")) : null,
 			);
-			try {
-				const rd = require("react-dom");
-				if (rd && typeof rd.createPortal === "function" && typeof document !== "undefined" && document.body) {
-					return rd.createPortal(node, document.body);
-				}
-			} catch { /* ignore */ }
-			return node;
 		}
 
 		function HeroUpdatePill() {
@@ -3248,6 +3221,7 @@ body[data-ds-dark-theme] .dshp-rewind-item span{color:var(--dsw-alias-label-tert
 		}
 
 		function apply(ctx) {
+			ctx.effect(() => { ensureBreachStyles(); }, "dsh-breach: global styles");
 			ctx.effect(() => ctx.locale.register(NS, { zh, en }), "dsh-breach: dictionaries");
 			const bound = ctx.locale.bind(NS);
 			// 统一收敛：DSH 0.2.2 起 locale 返回值可能是 {kind, text} 之类的对象，

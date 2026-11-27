@@ -146,7 +146,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1
 <!-- compat:begin -->
 | 项 | 值 | 状态 |
 |---|---|---|
-| 宿主 `0.2.2-rc.5` · desktop | 81 项结算，69 生效 / 1 跳过 · 5 项本机不适用 | 已验证 |
+| 宿主 `0.2.2-rc.5` · web | 81 项结算，69 生效 / 1 跳过 · 5 项本机不适用 | 已验证 |
 > 由 `node scripts/gen-compat.mjs` 生成，别手改数字。
 <!-- compat:end -->
 

@@ -14,6 +14,7 @@ import {
   textCarriesInject,
 } from "../lib/identity.js";
 import { apply as applyPlugin, startupHealReasons } from "../lib/index.js";
+import { extractLatestChangelogSection } from "../lib/update.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -255,9 +256,14 @@ test("web routes /dsh-breach/status works in ESM and blocks cross-origin / form-
   }
 });
 
-test("client.js loads cleanly in ModuleLoader with Scheme B tokens and no legacy pool blobs", async () => {
+test("client.js loads cleanly in ModuleLoader with Scheme B tokens and no legacy modals", async () => {
   const src = fs.readFileSync(path.join(ROOT, "client.js"), "utf8");
   assert.equal(src.includes("dshp-pool"), false, "legacy animated blue blobs must be removed");
+  assert.equal(src.includes("dshp-auth-modal"), false, "legacy auth/update modal class must be removed");
+  assert.equal(src.includes("dshp-restart-card"), false, "legacy beige/pink restart modal class must be removed");
+  assert.equal(src.includes("window.confirm("), false, "native browser confirm must be replaced by SchemeBDialog");
+  assert.equal(src.includes("dshp-b-dialog"), true, "Scheme B unified dialog class should exist");
+  assert.equal(src.includes("dshp-b-code"), true, "Scheme B inline code capsule class should exist");
   assert.equal(src.includes("#1B2230"), true, "Scheme B dark graphite header token should exist");
   assert.equal(src.includes("#F1F4F9"), true, "Scheme B slate tray token should exist");
 
@@ -309,7 +315,15 @@ test("client.js loads cleanly in ModuleLoader with Scheme B tokens and no legacy
       },
     });
     assert.ok(locales?.zh && locales?.en, "zh and en dictionaries should be registered");
-    for (const key of ["tab.patches", "tab.prompt", "tab.settings", "ov.groupDetail", "set.sysTitle"]) {
+    for (const key of [
+      "tab.patches",
+      "tab.prompt",
+      "tab.settings",
+      "ov.groupDetail",
+      "set.sysTitle",
+      "restore.title",
+      "restore.confirm",
+    ]) {
       assert.ok(locales.zh[key], `missing zh key ${key}`);
       assert.ok(locales.en[key], `missing en key ${key}`);
     }
@@ -317,5 +331,28 @@ test("client.js loads cleanly in ModuleLoader with Scheme B tokens and no legacy
     if (prevWin === undefined) delete globalThis.window;
     else globalThis.window = prevWin;
   }
+});
+
+test("extractLatestChangelogSection selects target or latest version section cleanly", () => {
+  const sample = [
+    "# 更新日志",
+    "",
+    "## 1.3.7 — 前端控制面板重制为方案 B",
+    "### 界面与交互",
+    "- 采用 `#1B2230` 深石墨撞色顶栏。",
+    "",
+    "## 1.3.6 — 修复安装脚本报错",
+    "### 修复",
+    "- 修复 `install.ps1` 缺少 UTF-8 BOM。",
+    "",
+  ].join("\n");
+
+  const latest = extractLatestChangelogSection(sample);
+  assert.ok(latest.startsWith("## 1.3.7"), "default should pick top-most release section");
+  assert.equal(latest.includes("1.3.6"), false, "should not include older release sections");
+
+  const targeted = extractLatestChangelogSection(sample, "v1.3.6");
+  assert.ok(targeted.startsWith("## 1.3.6"), "targetVersion should match specific release heading");
+  assert.equal(targeted.includes("1.3.7"), false);
 });
 
