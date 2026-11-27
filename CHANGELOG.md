@@ -3,6 +3,25 @@
 > 更新弹窗只显示**最新一个版本**的说明，历史版本留在下面备查。
 > 想改文案直接改这个文件，不用动代码。
 
+## 1.3.5 — 补丁真的生效了、注入只剩一份
+
+### 修复
+
+- 补丁全绿但宿主仍读 `app.asar` 时不再算成功：apply 收尾加活体校验，写 `applied.json` 的 `live` 字段，不生效就返回需要彻底退出换包，面板顶出红条。
+- 三处会让重启静默失败的出口（清洗自检不过、inflight 判定、unpacked 分支）改成结构化返回，带着分支名和具体宿主文件往上报，不再只说「已取消重启」。
+- 系统提示里的注入出现两份：改 injection 只折唯一一个 persona 段，比较前按换行归一 + trim，另加段内折叠兜底；`anchorApplied` 不再是恒 false 的桩。
+- `hostFs` 缺 `readSync` / `closeSync` 导致每次 shim 检查都留一个文件描述符、并把文本脚本误判成二进制（issue #2）。
+- 重启不再弹「host stopped」：有 runtime 时先让宿主自己 exit 0，helper 只等进程消失再拉起。
+
+### 变更
+
+- 日志从 `%TEMP%` 搬到 `$DSH_HOME/dsh-breach/logs/desktop.log`，补 `sealed.*` / `swap.*` / `http.restart` 事件与退出分支。
+- 启动自愈：宿主版本变化、仍然 sealed、宿主 marker 数低于记录，任一成立就自动重打并提示重启；同状态二次启动不再重复打扰。
+- 版本号从代码里移走，改成 `lib/host-range.json` 表；未知版本只 warn 不阻断，`install.ps1` 也读同一份表。
+- 锚点对不上的 required 补丁进「待适配」并挂黄条，不再把整次应用判失败；有 pending 也照常重启。
+- README 的兼容数字改由 `node scripts/gen-compat.mjs` 生成，不再手填。
+- `.gitattributes` 锁 LF；桌面面无 shim 时状态行直说「桌面面不提供 dsh 命令」，不挂 ✗；目标文件不存在的补丁计入「本机不适用」，不占分母。
+
 ## 1.3.4 — 用户须知去掉红队表述
 
 ### 变更
