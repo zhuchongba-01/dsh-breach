@@ -285,6 +285,10 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"ov.failN": "项失败",
 			"ov.pendingN": "项待应用",
 			"ov.notApplied": "未应用",
+			"ov.liveBad": "补丁未生效：宿主仍在读 app.asar",
+			"ov.fullQuit": "彻底退出并换包",
+			"ov.adaptN": "项锚点待适配",
+			"ov.hostWarn": "宿主版本提示",
 			"ov.skippedHint": "跳过",
 			"ov.allApplied": "没有跳过项",
 			"ov.showDetail": "查看明细 ›",
@@ -559,6 +563,10 @@ window.__ModuleLoader__.load({ id: "dsh-breach", factory: (require) => {
 			"ov.failN": "failed",
 			"ov.pendingN": "to apply",
 			"ov.notApplied": "Not applied",
+			"ov.liveBad": "Patches not live: the host still reads app.asar",
+			"ov.fullQuit": "Quit fully and swap the package",
+			"ov.adaptN": "anchors to adapt",
+			"ov.hostWarn": "Host version notice",
 			"ov.skippedHint": "Skipped",
 			"ov.allApplied": "Nothing skipped",
 			"ov.showDetail": "Details ›",
@@ -1381,6 +1389,11 @@ body[data-ds-dark-theme] .dshp-ov,.dshp-root[data-theme="dusk"] .dshp-ov{--ov-pa
 .dshp-ov.is-bad .dshp-ov-big{color:var(--ov-red)}
 .dshp-ov-sub{font-size:11.5px;color:var(--ov-faint);margin-top:4px;font-variant-numeric:tabular-nums}
 .dshp-ov-hint{font-size:11px;color:var(--ov-faint);margin-top:6px;line-height:1.6}
+.dshp-ov-livebad{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 10px;border-radius:9px;background:rgba(220,60,60,.12);border:1px solid rgba(220,60,60,.45);color:var(--dshp-bad, #d33);font:600 11.5px/1.45 var(--ds-font-sans,system-ui,sans-serif)}
+.dshp-ov-livebad .txt{flex:1;min-width:0}
+.dshp-ov-livebad-btn{appearance:none;flex:none;border:0;background:var(--dshp-bad, #d33);color:#fff;padding:4px 10px;border-radius:7px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer}
+.dshp-ov-warn{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 10px;border-radius:9px;background:rgba(200,140,20,.12);border:1px solid rgba(200,140,20,.45);color:#a9781a;font:600 11.5px/1.45 var(--ds-font-sans,system-ui,sans-serif)}
+.dshp-ov-warn .txt{flex:1;min-width:0}
 .dshp-ov-acts{display:flex;gap:6px;flex:none;margin-left:auto}
 .dshp-ov-btn{appearance:none;border:0;background:var(--ov-chip);color:var(--ov-ink);padding:5px 12px;border-radius:8px;font:600 11.5px/1.5 var(--ds-font-sans,system-ui,sans-serif);cursor:pointer;transition:background .15s,color .15s}
 .dshp-ov-btn:hover:not(:disabled){background:var(--ov-line)}
@@ -1580,7 +1593,14 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 						: pending > 0
 							? "pending"
 							: "ok";
-			const red = state === "fail" || state === "idle" || state === "pending";
+			const red = state === "fail" || state === "idle" || state === "pending" || Boolean(st && st.live === false);
+			// 补丁全绿但宿主还在读 app.asar：等于一行都没跑。红条压过一切别的状态。
+			const liveBad = Boolean(st && st.live === false);
+			const adaptN = (st && st.adapt_pending) || 0;
+			const hostWarn = (st && st.host_warn) || "";
+			const warnText = adaptN > 0
+				? adaptN + " " + tr("ov.adaptN")
+				: hostWarn;
 			const bigText = state === "fail"
 				? bad.length + " " + tr("ov.failN")
 				: state === "idle"
@@ -1592,6 +1612,29 @@ body[data-ds-dark-theme] .dshp-ov-detail,.dshp-root[data-theme="dusk"] .dshp-ov-
 							: tr("ov.ok");
 
 			return h("div", { className: "dshp-ov" + (red ? " is-bad" : "") },
+				liveBad
+					? h("div", { className: "dshp-ov-livebad" },
+						h("span", { className: "txt" }, tr("ov.liveBad")),
+						h("button", {
+							type: "button",
+							className: "dshp-ov-livebad-btn",
+							disabled: Boolean(busy),
+							onClick: () => restartDsh(setNote, () => {}, tr, "desktop"),
+						}, tr("ov.fullQuit")),
+					)
+					: null,
+				warnText
+					? h("div", { className: "dshp-ov-warn" },
+						h("span", { className: "txt" }, warnText),
+						adaptN > 0
+							? h("button", {
+								type: "button",
+								className: "dshp-ov-livebad-btn",
+								onClick: () => setFilter("skip"),
+							}, "查看")
+							: null,
+					)
+					: null,
 				h("div", { className: "dshp-ov-top" },
 					h("div", { style: { flex: 1, minWidth: 0 } },
 						h("div", { className: "dshp-ov-bigwrap" },

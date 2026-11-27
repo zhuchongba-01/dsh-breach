@@ -29,6 +29,8 @@
     "bin",
     "scripts",
     "client.js",
+    "install.ps1",
+    "uninstall.ps1",
     "locale",
     "detail.zh.md",
     "detail.en.md",
@@ -39,7 +41,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "embed-prompt": "node scripts/embed-default-prompt.mjs"
+    "embed-prompt": "node scripts/embed-default-prompt.mjs",
+    "gen-compat": "node scripts/gen-compat.mjs"
   },
   "keywords": [
     "dsh",
@@ -80,5 +83,21 @@
   "engines": {
     "node": ">=18"
   },
-  "dshTarget": "0.2.1-rc.5"
+  "files": [
+    "lib",
+    "!lib/default-prompt-inject.*",
+    "bin",
+    "scripts",
+    "client.js",
+    "install.ps1",
+    "uninstall.ps1",
+    "locale",
+    "detail.zh.md",
+    "detail.en.md",
+    "docs",
+    "README.md",
+    "README.en.md",
+    "cordis.patch.yml",
+    "CHANGELOG.md"
+  ]
 }

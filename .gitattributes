@@ -1,0 +1,4 @@
+# 补丁 pattern 里全是 \n，CRLF 检出会静默失配。锁 LF。
+* text=auto eol=lf
+*.ps1 text eol=lf
+*.png binary

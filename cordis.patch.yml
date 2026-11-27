@@ -38,6 +38,7 @@
       name: 'dsh-breach'
       inject: [systemPrompt, tools]
       config:
+        # 保持生效；重启放在回合之间，别在跑工具时重启
         enabled: true
         autoApplyOnStart: false
         autoUpdateOnStart: false

@@ -11,6 +11,15 @@
 https://github.com/zhuchongba-01/dsh-breach
 ```
 
+不想手改 `package.json` 的用仓库里的脚本——先 `-DryRun` 看计划，确认无误再去掉它：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File install.ps1 -DryRun
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+脚本先做全只读 preflight（profile 能否解析、有没有链接路径、宿主版本多少），全部通过才动文件；每个 profile 留 `.bak-install-<随机token>` 备份，写完回读校验，任一步失败自动回滚已写的那几个。卸载用 `uninstall.ps1`，默认保留 `.dsh\dsh-breach` 数据目录。
+
 > [!NOTE]
 > **为什么只能走 GitHub**：`dsh-breach` 按正常流程发布时被 npm 的供应链自动扫描拦下（`1.2.7` 没有进入 registry，npm 上只剩一个 `0.0.0-stage` 空壳占位包）。所以界面里只填 `dsh-breach`，DSH 会把它当成 npm 包名去查源，命中的就是这个空壳，报「这个包没有声明组合包，无法作为插件安装」。
 
@@ -155,7 +164,7 @@ http://127.0.0.1:<DSH 端口>/dsh-breach/status
 
 把 `@deepseek-ai/*` 宿主源码里的特定字符串替换掉。
 
-- **定义 86 条**（id 1..92，中间有空号），运行时按宿主版本**结算**成若干项——`0.2.2-rc.1` 上结算为 **70 项**。
+- **定义 86 条**（id 1..92，中间有空号），运行时按宿主版本**结算**成若干项；实际结算/生效条数看下方「兼容」表，那张表是自动生成的，别手填。
 - 每条补丁有唯一 id；改动前写 `.dshhappy.bak` 备份，记录在 `$DSH_HOME/dsh-breach/applied.json`。
 - 宿主升级后可重放（reapply），也可整批回滚；不认识的宿主版本跳过，不硬改。
 
@@ -217,11 +226,12 @@ License: MIT
 Install: https://github.com/zhuchongba-01/dsh-breach
 ```
 
+<!-- compat:begin -->
 | 项 | 值 | 状态 |
 |---|---|---|
-| 宿主 `0.2.2-rc.1` · desktop | 70 项结算，70 生效 / 0 跳过 | 已验证 |
-| 宿主 `0.2.1-rc.5` · desktop | 72 项结算，71 生效 / 1 跳过 | 已验证 |
-| 其它宿主版本 | — | 未验证（会自行跳过不认识的写法） |
+| 宿主 `0.2.2-rc.5` · desktop | 81 项结算，69 生效 / 1 跳过 · 5 项本机不适用 | 已验证 |
+> 由 `node scripts/gen-compat.mjs` 生成，别手改数字。
+<!-- compat:end -->
 | Node | ≥ 18 | — |
 | `@deepseek-ai/cordis` | `^4.0.1`（peer） | — |
 

@@ -1,0 +1,5 @@
+{
+  "_comment": "宿主版本兼容表。代码和 install.ps1 都读这一份，别在两处手写版本号。verified 之外的版本只 warn，不阻断。",
+  "verified": ["0.2.2-rc.5", "0.2.2-rc.1", "0.2.1-rc.5"],
+  "knownBroken": []
+}
