@@ -1,6 +1,6 @@
 {
   "name": "dsh-breach",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "DeepSeek Harness dsh-breach 插件，不同模型可换不同提示词；默认提示词面向国模「小码酱」。Jailbreak for every model — swap prompts per model.",
   "license": "MIT",
   "repository": {
@@ -42,7 +42,8 @@
   ],
   "scripts": {
     "embed-prompt": "node scripts/embed-default-prompt.mjs",
-    "gen-compat": "node scripts/gen-compat.mjs"
+    "gen-compat": "node scripts/gen-compat.mjs",
+    "test": "node --test tests/*.test.mjs"
   },
   "keywords": [
     "dsh",
@@ -82,22 +83,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "files": [
-    "lib",
-    "!lib/default-prompt-inject.*",
-    "bin",
-    "scripts",
-    "client.js",
-    "install.ps1",
-    "uninstall.ps1",
-    "locale",
-    "detail.zh.md",
-    "detail.en.md",
-    "docs",
-    "README.md",
-    "README.en.md",
-    "cordis.patch.yml",
-    "CHANGELOG.md"
-  ]
+  }
 }

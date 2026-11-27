@@ -1,4 +1,4 @@
-<#
+﻿<#
   dsh-breach 安装器。
 
   把本目录登记进每个含 package.json 的 DSH profile：dependencies 一条 + bundles 一条，
@@ -140,7 +140,7 @@ if ($hostVersion) {
     Write-Host "[install] 宿主版本：$hostVersion"
     # 版本白名单只在 lib/host-range.json 里维护一份，这里不写死任何版本号。
     $rangeTable = $null
-    $rangePath = Join-Path $PSScriptRoot 'lib\host-range.json'
+    $rangePath = Join-Path $source 'lib\host-range.json'
     if (Test-Path -LiteralPath $rangePath) {
         try { $rangeTable = Get-Content -LiteralPath $rangePath -Raw -Encoding UTF8 | ConvertFrom-Json } catch {}
     }
@@ -206,15 +206,29 @@ catch {
 }
 
 Write-Host "[install] 已登记 $($plans.Count) 个 profile，备份后缀 .bak-install-$token"
-$next = @(
-    ''
-    '下一步：'
-    '  1. 重启 dsh —— node_modules 那条已经建好，不跑 pnpm 也加载得起来'
-    '  2. 建议补跑一次 pnpm install，让 lockfile 跟上（会把链接换成等价形式）：'
-    '       $pnpm = Get-ChildItem "$env:USERPROFILE\.dsh" -Recurse -Filter pnpm.cjs -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like ''*dependencies\pnpm\bin\*'' } | Select-Object -First 1'
-    '       node $pnpm.FullName install'
-    '  3. 会话标题旁 dsh-breach → 清洗 → 应用'
-    ''
-    '回滚：删掉 profile 里 dependencies/bundles 那两条，再跑一次 pnpm install。'
-)
+if ($Mode -eq 'link') {
+    $next = @(
+        ''
+        '下一步：'
+        '  1. 重启 dsh —— node_modules 那条已经建好，不跑 pnpm 也加载得起来'
+        '  2. 建议补跑一次 pnpm install，让 lockfile 跟上（会把链接换成等价形式）：'
+        '       $pnpm = Get-ChildItem "$env:USERPROFILE\.dsh" -Recurse -Filter pnpm.cjs -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like ''*dependencies\pnpm\bin\*'' } | Select-Object -First 1'
+        '       node $pnpm.FullName install'
+        '  3. 会话标题旁 dsh-breach → 清洗 → 应用'
+        ''
+        '回滚：删掉 profile 里 dependencies/bundles 那两条，再跑一次 pnpm install。'
+    )
+} else {
+    $next = @(
+        ''
+        '下一步：'
+        '  1. 在每个 profile 目录下执行 pnpm install 拉取归档包：'
+        '       $pnpm = Get-ChildItem "$env:USERPROFILE\.dsh" -Recurse -Filter pnpm.cjs -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like ''*dependencies\pnpm\bin\*'' } | Select-Object -First 1'
+        '       node $pnpm.FullName install'
+        '  2. 重启 dsh'
+        '  3. 会话标题旁 dsh-breach → 清洗 → 应用'
+        ''
+        '回滚：删掉 profile 里 dependencies/bundles 那两条，再跑一次 pnpm install。'
+    )
+}
 Write-Host ($next -join [Environment]::NewLine)

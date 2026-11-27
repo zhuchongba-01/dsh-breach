@@ -1,7 +1,7 @@
 > [!IMPORTANT]
 > **Install from GitHub source only — this package is not on npm.**
 >
-> **Only DSH `0.2.1-rc.5` and `0.2.2-rc.1` are verified** (tested on desktop). Update DSH first, then the plugin — not the other way round. Older hosts need the matching older plugin; other versions are unverified — shapes the plugin does not know are skipped, never forced.
+> **Only DSH `0.2.1-rc.5`, `0.2.2-rc.1` and `0.2.2-rc.5` are verified** (tested on desktop; see `lib/host-range.json`). Update DSH first, then the plugin — not the other way round. Older hosts need the matching older plugin; other versions are unverified — shapes the plugin does not know are skipped, never forced.
 
 ### Install
 
